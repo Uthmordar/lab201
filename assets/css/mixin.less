@@ -1,0 +1,48 @@
+.transition(@spec : all; @time : 1s; @ease : ease-in; @delay : 0s){
+	transition : @spec @time;
+	transition-timing-function : @ease;
+	transition-delay : @delay;
+	-moz-transition : @spec @time;
+	-moz-transition-timing-function : @ease;
+	-moz-transition-delay : @delay;
+	-webkit-transition : @spec @time;
+	-webkit-transition-timing-function : @ease;
+	-webkit-transition-delay : @delay;
+	-moz-transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+	-o-transform-style: preserve-3d;
+	-ms-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	-moz-perspective: 500px;
+}
+
+.font_face(@path : ''; @name : ''; @weight : normal){
+	@eot : '.eot';
+	@iefix : '.eot?#iefix';
+	@woff : '.woff';
+	@svg : '.svg#';
+	@ttf : '.ttf';
+	@font-face {
+		font-family: @name;
+		src: url("@{path}@{eot}");
+		src: url("@{path}@{iefix}") format('embedded-opentype'), 
+		url("@{path}@{woff}") format('woff'), 
+		url("@{path}@{svg}@{name}") format('svg'), 
+		url("@{path}@{ttf}") format('truetype');
+		font-weight: @weight;
+		font-style: @weight;
+	}
+}
+
+.animation(@name; @duration : 2s; @iteration : infinite; @timing : linear; @direction : alternate){
+	animation-name : @name;
+	animation-duration : @duration;
+	animation-iteration-count: @iteration;
+	animation-timing-function : @timing;
+	animation-direction : @direction;
+	-webkit-animation-name : @name;
+	-webkit-animation-duration : @duration;
+	-webkit-animation-iteration-count: @iteration;
+	-webkit-animation-timing-function : @timing;
+	-webkit-animation-direction : @direction;
+}
