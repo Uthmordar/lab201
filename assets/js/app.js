@@ -33,12 +33,23 @@
     ];
     var fondTab=[$('#bg_1'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7')];
     var lampsTab=[
+<<<<<<< HEAD
         {el: $('#lamp_1'), state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8}
     ];
     var user=[{el: $('#user'), alive: 1}];
     var app={
         // Application Constructor
         initialize: function() {
+=======
+        {el: $('#lamp_1'), state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0}
+    ];
+    var user=[{el: $('#user'), alive: 1, width: 0, height: 0}];
+    var $scene,sceneX,sceneY;
+    var app={
+        // Application Constructor
+        initialize: function(scene) {
+            this.setScene(scene);
+>>>>>>> gh-pages
             window.requestAnimFrame = (function(){
             return  window.requestAnimationFrame       ||
                     window.webkitRequestAnimationFrame ||
@@ -52,8 +63,24 @@
             this.windows.initialize(1, windowsTab);
             this.lamps.initialize(0, lampsTab);
             this.fond.initialize(fondTab);
+<<<<<<< HEAD
             this.user.initialize(user);
             this.controller.initialize();
+=======
+            this.user.initialize(user, $scene);
+            this.controller.initialize();
+        },
+        getScene: function(){
+            return $scene;
+        },
+        setScene: function(scene){
+            $scene=scene;
+            sceneX=scene.offset().left;
+            sceneY=scene.offset().top;
+        },
+        getSceneOffset: function(){
+            return {x: sceneX, y: sceneY};
+>>>>>>> gh-pages
         }
     };
     ctx.app=app;

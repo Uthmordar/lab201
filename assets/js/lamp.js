@@ -21,12 +21,22 @@
             close store at 60fps
         */
         openLamps: function(){
+<<<<<<< HEAD
             if(data[0].state+1<data[0].nbStage){
                 requestAnimFrame(window.app.lamps.openLamps);
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
                 $(data[i].el).css('background-position-x', calc);
+=======
+            data[0].active=1;
+            if(data[0].state+1<data[0].nbStage){
+                requestAnimFrame(self.openLamps);
+            }
+            for(var i=0; i<data.length; i++){
+                calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
+                data[i].el.css('background-position-x', calc);
+>>>>>>> gh-pages
                 if(data[i].state<data[i].nbStage){
                     data[i].state+=1;
                 }
@@ -36,14 +46,24 @@
             close store with slow param
         */
         openLampsSlow: function(){
+<<<<<<< HEAD
             if(data[slower].state<data[slower].nbStage || data[slower].slow%data[slower].speed!=0){
                 requestAnimFrame(window.app.lamps.openLampsSlow);
+=======
+            data[0].active=1;
+            if(data[slower].state<data[slower].nbStage || data[slower].slow%data[slower].speed!=0){
+                requestAnimFrame(self.openLampsSlow);
+>>>>>>> gh-pages
             }
             for(var i=0; i<data.length; i++){
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
+<<<<<<< HEAD
                     $(data[i].el).css('background-position-x', calc);
+=======
+                    data[i].el.css('background-position-x', calc);
+>>>>>>> gh-pages
                     if(data[i].state<data[i].nbStage){
                         data[i].state+=1;
                     }
@@ -54,12 +74,22 @@
             open store at 60fps
         */
         closeLamps: function(){
+<<<<<<< HEAD
             if(data[0].state>1){
                 requestAnimFrame(window.app.lamps.closeLamps);
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap) * (data[i].state);
                 $(data[i].el).css('background-position-x', calc);
+=======
+            data[0].active=0;
+            if(data[0].state>1){
+                requestAnimFrame(self.closeLamps);
+            }
+            for(var i=0; i<data.length; i++){
+                calc=data[i].spriteStart-(data[i].elLength+data[i].gap) * (data[i].state);
+                data[i].el.css('background-position-x', calc);
+>>>>>>> gh-pages
                 if(data[i].state>0){
                     data[i].state-=1;
                 }
@@ -69,14 +99,24 @@
             open store with slow param
         */
         closeLampsSlow: function(){
+<<<<<<< HEAD
             if(data[slower].state>0 || data[slower].slow%data[slower].speed!=0){
                 requestAnimFrame(window.app.lamps.closeLampsSlow);
+=======
+            data[0].active=0;
+            if(data[slower].state>0 || data[slower].slow%data[slower].speed!=0){
+                requestAnimFrame(self.closeLampsSlow);
+>>>>>>> gh-pages
             }
             for(var i=0; i<data.length; i++){
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
+<<<<<<< HEAD
                     $(data[i].el).css('background-position-x', calc);
+=======
+                    data[i].el.css('background-position-x', calc);
+>>>>>>> gh-pages
                     if(data[i].state>0){
                         data[i].state-=1;
                     }
