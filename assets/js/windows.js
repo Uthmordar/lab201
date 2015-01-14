@@ -18,23 +18,23 @@
         bindEvents: function() {
             $('.call-to-action.close').on('click', function(e){
                 e.preventDefault();
-                requestAnimFrame(window.app.windows.closeWindow);
-                window.app.windows.closeWindow();
+                requestAnimFrame(self.closeWindow);
+                self.closeWindow();
             });
             $('.call-to-action-slow.close').on('click', function(e){
                 e.preventDefault();
-                requestAnimFrame(window.app.windows.closeWindowSlow);
-                window.app.windows.closeWindowSlow();
+                requestAnimFrame(self.closeWindowSlow);
+                self.closeWindowSlow();
             });
             $('.call-to-action.open').on('click', function(e){
                 e.preventDefault();
-                requestAnimFrame(window.app.windows.openWindow);
-                window.app.windows.openWindow();
+                requestAnimFrame(self.openWindow);
+                self.openWindow();
             });
             $('.call-to-action-slow.open').on('click', function(e){
                 e.preventDefault();
-                requestAnimFrame(window.app.windows.openWindowSlow);
-                window.app.windows.openWindowSlow();
+                requestAnimFrame(self.openWindowSlow);
+                self.openWindowSlow();
             });
         },
         /** 
@@ -42,11 +42,11 @@
         */
         closeWindow: function(){
             if(data[0].state+1<data[0].nbStage){
-                requestAnimFrame(window.app.windows.closeWindow);
+                requestAnimFrame(self.closeWindow);
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-                $(data[i].el).css('background-position-x', calc);
+                data[i].el.css('background-position-x', calc);
                 if(data[i].state<data[i].nbStage){
                     data[i].state+=1;
                 }
@@ -57,13 +57,13 @@
         */
         closeWindowSlow: function(){
             if(data[slower].state<data[slower].nbStage || data[slower].slow%data[slower].speed!=0){
-                requestAnimFrame(window.app.windows.closeWindowSlow);
+                requestAnimFrame(self.closeWindowSlow);
             }
             for(var i=0; i<data.length; i++){
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-                    $(data[i].el).css('background-position-x', calc);
+                    data[i].el.css('background-position-x', calc);
                     if(data[i].state<data[i].nbStage){
                         data[i].state+=1;
                     }
@@ -75,11 +75,11 @@
         */
         openWindow: function(){
             if(data[0].state>1){
-                requestAnimFrame(window.app.windows.openWindow);
+                requestAnimFrame(self.openWindow);
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap) * (data[i].state);
-                $(data[i].el).css('background-position-x', calc);
+                data[i].el.css('background-position-x', calc);
                 if(data[i].state>0){
                     data[i].state-=1;
                 }
@@ -90,13 +90,13 @@
         */
         openWindowSlow: function(){
             if(data[slower].state>0 || data[slower].slow%data[slower].speed!=0){
-                requestAnimFrame(window.app.windows.openWindowSlow);
+                requestAnimFrame(self.openWindowSlow);
             }
             for(var i=0; i<data.length; i++){
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-                    $(data[i].el).css('background-position-x', calc);
+                    data[i].el.css('background-position-x', calc);
                     if(data[i].state>0){
                         data[i].state-=1;
                     }

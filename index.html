@@ -47,12 +47,12 @@
         <input type="range" min="0" max="6" step="1" id="time_input" value="0"/>
         <div class="clear mbs"></div>
         <label for="time_input">Darkness</label>
-        <input type="range" min="0" max="0.18" step="0.03" id="darkness_input" value="0"/>
+        <input type="range" min="0" max="0.28" step="0.02" id="darkness_input" value="0"/>
         <div class="clear mbs"></div>
         <label for="user_input">User</label>
         <input type="button" id="user_input" value="Alive"/>
 
-        <div id="simulation-container">
+        <div id="simulation_container">
             <div class="window" id="window_1"></div>
             <div class="window" id="window_2"></div>
             <div class="lamp" id="lamp_1"></div>
@@ -68,7 +68,7 @@
     <script type="text/javascript" src="assets/js/controller.js"></script>
     <script type="text/javascript">
         $(function(){
-            app.initialize();
+            app.initialize($('#simulation_container'));
         });
     </script>
 </body>
