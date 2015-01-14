@@ -18,25 +18,6 @@
         bindEvents: function() {
             $('.call-to-action.close').on('click', function(e){
                 e.preventDefault();
-<<<<<<< HEAD
-                requestAnimFrame(window.app.windows.closeWindow);
-                window.app.windows.closeWindow();
-            });
-            $('.call-to-action-slow.close').on('click', function(e){
-                e.preventDefault();
-                requestAnimFrame(window.app.windows.closeWindowSlow);
-                window.app.windows.closeWindowSlow();
-            });
-            $('.call-to-action.open').on('click', function(e){
-                e.preventDefault();
-                requestAnimFrame(window.app.windows.openWindow);
-                window.app.windows.openWindow();
-            });
-            $('.call-to-action-slow.open').on('click', function(e){
-                e.preventDefault();
-                requestAnimFrame(window.app.windows.openWindowSlow);
-                window.app.windows.openWindowSlow();
-=======
                 requestAnimFrame(self.closeWindow);
                 self.closeWindow();
             });
@@ -54,7 +35,6 @@
                 e.preventDefault();
                 requestAnimFrame(self.openWindowSlow);
                 self.openWindowSlow();
->>>>>>> gh-pages
             });
         },
         /** 
@@ -62,19 +42,11 @@
         */
         closeWindow: function(){
             if(data[0].state+1<data[0].nbStage){
-<<<<<<< HEAD
-                requestAnimFrame(window.app.windows.closeWindow);
-            }
-            for(var i=0; i<data.length; i++){
-                calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-                $(data[i].el).css('background-position-x', calc);
-=======
                 requestAnimFrame(self.closeWindow);
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
                 data[i].el.css('background-position-x', calc);
->>>>>>> gh-pages
                 if(data[i].state<data[i].nbStage){
                     data[i].state+=1;
                 }
@@ -85,21 +57,13 @@
         */
         closeWindowSlow: function(){
             if(data[slower].state<data[slower].nbStage || data[slower].slow%data[slower].speed!=0){
-<<<<<<< HEAD
-                requestAnimFrame(window.app.windows.closeWindowSlow);
-=======
                 requestAnimFrame(self.closeWindowSlow);
->>>>>>> gh-pages
             }
             for(var i=0; i<data.length; i++){
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-<<<<<<< HEAD
-                    $(data[i].el).css('background-position-x', calc);
-=======
                     data[i].el.css('background-position-x', calc);
->>>>>>> gh-pages
                     if(data[i].state<data[i].nbStage){
                         data[i].state+=1;
                     }
@@ -111,19 +75,11 @@
         */
         openWindow: function(){
             if(data[0].state>1){
-<<<<<<< HEAD
-                requestAnimFrame(window.app.windows.openWindow);
-            }
-            for(var i=0; i<data.length; i++){
-                calc=data[i].spriteStart-(data[i].elLength+data[i].gap) * (data[i].state);
-                $(data[i].el).css('background-position-x', calc);
-=======
                 requestAnimFrame(self.openWindow);
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap) * (data[i].state);
                 data[i].el.css('background-position-x', calc);
->>>>>>> gh-pages
                 if(data[i].state>0){
                     data[i].state-=1;
                 }
@@ -134,21 +90,13 @@
         */
         openWindowSlow: function(){
             if(data[slower].state>0 || data[slower].slow%data[slower].speed!=0){
-<<<<<<< HEAD
-                requestAnimFrame(window.app.windows.openWindowSlow);
-=======
                 requestAnimFrame(self.openWindowSlow);
->>>>>>> gh-pages
             }
             for(var i=0; i<data.length; i++){
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-<<<<<<< HEAD
-                    $(data[i].el).css('background-position-x', calc);
-=======
                     data[i].el.css('background-position-x', calc);
->>>>>>> gh-pages
                     if(data[i].state>0){
                         data[i].state-=1;
                     }
