@@ -1,16 +1,21 @@
 (function(ctx){
     "use strict";
-    var data,start,end,$input,valDarkness,$inputDarkness,$bgDarkness;
+    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time={hour:0,minute:0}, val, $clock, timeProgress=0, timeFactor;
 
     var fond={
         // Application Constructor
         initialize: function(data){
-            $input=$('#time_input');
+            $inputTime=$('#time_input');
             $inputDarkness=$('#darkness_input');
             $bgDarkness=$('#darkness');
-            start=$input.val();
+            $clock=$('#timer');
+            /* facteur déterminant la vitesse de déroulement de la journée */
+            timeFactor=400;
+            start=Math.floor(ctx.params.getParams().time * 0.5);
             self.setData(data);
             self.bindEvents();
+            requestAnimFrame(self.timeProgress);
+            self.timeProgress();
         },
         getData: function(){
             return data;
@@ -23,18 +28,38 @@
         },
         setDarkness: function(darkness){
             valDarkness=darkness;
+            ctx.params.setLuxEnv(darkness);
+        },
+        getTime: function(){
+            return time;
+        },
+        setTime: function(val){
+            ctx.params.setTime(val);
+            time.hour=(Math.floor(val))? Math.floor(val) : "00";
+            time.minute=((val-Math.floor(val)))? (val-Math.floor(val))*60 : "00";
         },
         bindEvents: function(){
-            $input.on('change', function(e){
+            $inputTime.on('change', function(e){
                 e.preventDefault();
-                end=$(this).val();
-                window.app.fond.changeTime(start,end);
+                self.updateTime(this);
             });
             $inputDarkness.on('change', function(e){
                 e.preventDefault();
-                window.app.fond.setDarkness($(this).val());
-                window.app.fond.changeDarkness();
+                val=$(this).val();
+                ctx.params.setLuxEnv(val);
+                self.setDarkness(val);
+                self.changeDarkness();
             });
+        },
+        /**
+            launch action link to time change
+        */
+        updateTime: function(el){
+            val=$(el).val();
+            end=(Math.floor(val*0.5));
+            self.setTime(val);
+            self.changeTime(start,end);
+            self.changeClock();
         },
         /** 
             change time background stage
@@ -46,11 +71,41 @@
             data[stageEnd].css('opacity', 1);
             start=stageEnd;
         },
+        /**
+            change numbers displays in clock
+        */
+        changeClock: function(){
+            val=self.getTime();
+            $clock.children('#hour').html(val.hour).siblings('#minute').html(val.minute);
+        },
         /** 
             change darkness background stage
         */
         changeDarkness: function(){
-            $bgDarkness.css('opacity', valDarkness);
+            if(valDarkness>25000){
+                $bgDarkness.css('opacity', 0);
+            }else if(valDarkness>500){
+                $bgDarkness.css('opacity', 0.4);
+            }else{
+                $bgDarkness.css('opacity', 0.8);
+            }
+        },
+        /**
+            auto progress for time
+        */
+        timeProgress: function(){
+            requestAnimFrame(self.timeProgress);
+            timeProgress+=1;
+            if(timeProgress%timeFactor===0){
+                if($inputTime.val()==24){
+                    $inputTime.val(0.25);
+                }else{
+                    $inputTime.val(parseFloat($inputTime.val())+0.25);
+                }
+                self.updateTime($inputTime);
+                ctx.controller.controlOutput();
+            }
+
         }
     };
     ctx.fond=fond;

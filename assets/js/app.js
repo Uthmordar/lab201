@@ -28,15 +28,31 @@
 (function(ctx){
     "use strict";
     var windowsTab=[
-        {el: $('#window_1'), state:0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 8}, 
-        {el: $('#window_2'), state: 0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 16}
+        {el: $('#window_1'), state:0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 8, open:0, openTarget:75}, 
+        {el: $('#window_2'), state: 0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 16, open:0, openTarget:75}
     ];
-    var fondTab=[$('#bg_1'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7')];
+    var fondTab=[$('#bg_7'), $('#bg_7'), $('#bg_5'), $('#bg_1'), $('#bg_2'), $('#bg_2'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7'), $('#bg_7')];
     var lampsTab=[
         {el: $('#lamp_1'), state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0}
     ];
     var user=[{el: $('#user'), alive: 1, width: 0, height: 0}];
+
     var $scene,sceneX,sceneY;
+    var params={
+        windowOpen: 0,
+        time: 12,
+        luxEnv: 50000,
+        hygrometrie: 0,
+        user: {x: 0, y:0, status: 0},
+        plaque: 0,
+        luxHotte: 0,
+        luxPlan: 0,
+        luxTable: 0,
+        ventilation: 0,
+        tempExt: 0,
+        tempInt: 0,
+        chauffage: 0
+    };
     var app={
         // Application Constructor
         initialize: function(scene) {
@@ -51,6 +67,7 @@
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
+            this.params.initialize(params);
             this.windows.initialize(1, windowsTab);
             this.lamps.initialize(0, lampsTab);
             this.fond.initialize(fondTab);

@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var data,$input,mouseX,mouseY,activeUser;
+    var data,$input,mouseX,mouseY,activeUser, posX, posY;
 
     var user={
         // Application Constructor
@@ -40,10 +40,12 @@
                 e.preventDefault();
                 if(data[activeUser].alive===1){
                     data[activeUser].alive=0;
+                    ctx.params.setUserStatus(0);
                     data[activeUser].el.css('display', 'none');
                     $input.val('Away');
                 }else{
                     data[activeUser].alive=1;
+                    ctx.params.setUserStatus(1);
                     data[activeUser].el.css('display', 'block');
                     $input.val('Alive');
                 }
@@ -55,7 +57,10 @@
                 var $this=$(this);
                 $this.on('mousemove', function(e){
                     e.preventDefault();
-                    $(this).css({'top':e.clientY - ctx.getSceneOffset().y - data[activeUser].height*0.5 +'px', 'left':e.clientX - ctx.getSceneOffset().x - data[activeUser].width*0.5+'px'});
+                    posX=e.clientY-ctx.getSceneOffset().y - data[activeUser].height*0.5;
+                    posY=e.clientX - ctx.getSceneOffset().x - data[activeUser].width*0.5;
+                    ctx.params.setUserPos(posX, posY);
+                    $(this).css({'top': posX +'px', 'left': posY + 'px'});
                     ctx.controller.controlOutputMvt();
                 });
                 $this.on('mouseup', function(e){

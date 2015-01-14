@@ -7,35 +7,12 @@
         initialize: function(slowerEl, data){
             slower=slowerEl;
             self.setData(data);
-            self.bindEvents();
         },
         getData: function(){
             return data;
         },
         setData: function(dataset){
             data=dataset;
-        },
-        bindEvents: function() {
-            $('.call-to-action.close').on('click', function(e){
-                e.preventDefault();
-                requestAnimFrame(self.closeWindow);
-                self.closeWindow();
-            });
-            $('.call-to-action-slow.close').on('click', function(e){
-                e.preventDefault();
-                requestAnimFrame(self.closeWindowSlow);
-                self.closeWindowSlow();
-            });
-            $('.call-to-action.open').on('click', function(e){
-                e.preventDefault();
-                requestAnimFrame(self.openWindow);
-                self.openWindow();
-            });
-            $('.call-to-action-slow.open').on('click', function(e){
-                e.preventDefault();
-                requestAnimFrame(self.openWindowSlow);
-                self.openWindowSlow();
-            });
         },
         /** 
             close store at 60fps
@@ -47,6 +24,7 @@
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
                 data[i].el.css('background-position-x', calc);
+                //data[i].open+=25;
                 if(data[i].state<data[i].nbStage){
                     data[i].state+=1;
                 }
@@ -64,6 +42,7 @@
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
                     data[i].el.css('background-position-x', calc);
+                    //data[i].open+=25;
                     if(data[i].state<data[i].nbStage){
                         data[i].state+=1;
                     }
@@ -80,6 +59,7 @@
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap) * (data[i].state);
                 data[i].el.css('background-position-x', calc);
+                //data[i].open-=25;
                 if(data[i].state>0){
                     data[i].state-=1;
                 }
@@ -97,6 +77,7 @@
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
                     data[i].el.css('background-position-x', calc);
+                    //data[i].open-=25;
                     if(data[i].state>0){
                         data[i].state-=1;
                     }
