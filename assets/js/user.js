@@ -57,11 +57,12 @@
                 var $this=$(this);
                 $this.on('mousemove', function(e){
                     e.preventDefault();
-                    posX=e.clientY-ctx.getSceneOffset().y - data[activeUser].height*0.5;
-                    posY=e.clientX - ctx.getSceneOffset().x - data[activeUser].width*0.5;
+                    posY=e.clientY-ctx.getSceneOffset().y - data[activeUser].height*0.5;
+                    posX=e.clientX - ctx.getSceneOffset().x - data[activeUser].width*0.5;
                     ctx.params.setUserPos(posX, posY);
-                    $(this).css({'top': posX +'px', 'left': posY + 'px'});
-                    ctx.controller.controlOutputMvt();
+                    $(this).css({'top': posY +'px', 'left': posX + 'px'});
+                    //ctx.controller.controlOutputMvt();
+                    ctx.controller.controlOutput();
                 });
                 $this.on('mouseup', function(e){
                     $(this).off('mousemove');

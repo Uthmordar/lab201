@@ -2,10 +2,10 @@
     "use strict";
     var data, base, calc, slow=0, slower;
 
-    var lamps = {
+    var lamps={
         // Application Constructor
-        initialize: function(slowerEl, data){
-            slower=slowerEl;
+        initialize: function(idSlower, data){
+            slower=idSlower;
             self.setData(data);
             self.bindEvents();
         },
@@ -15,10 +15,16 @@
         setData: function(dataset){
             data=dataset;
         },
+        /**
+            active user near lamp
+        */
+        setUserNearLamp: function(id, val){
+            data[id].userNear=val;
+        },
         bindEvents: function() {
         },
         /** 
-            close store at 60fps
+            open lamps
         */
         openLamps: function(){
             data[0].active=1;
@@ -34,9 +40,10 @@
             }
         },
         /** 
-            close store with slow param
+            open lamp
+            id: data index
         */
-        openLampsSlow: function(){
+        /*openLampsSlow: function(){
             data[0].active=1;
             if(data[slower].state<data[slower].nbStage || data[slower].slow%data[slower].speed!=0){
                 requestAnimFrame(self.openLampsSlow);
@@ -51,9 +58,24 @@
                     }
                 }
             }
+        },*/
+        openLampsSlow: function(){
+            var id=0;
+            data[id].active=1;
+            if(data[id].state<data[id].nbStage || data[id].slow%data[id].speed!=0){
+                requestAnimFrame(self.openLampsSlow);
+            }
+            data[id].slow+=1;
+            if(data[id].slow%data[id].speed==0){
+                calc=data[id].spriteStart-(data[id].elLength+data[id].gap)*data[id].state;
+                data[id].el.css('background-position-x', calc);
+                if(data[id].state<data[id].nbStage){
+                    data[id].state+=1;
+                }
+            }
         },
         /** 
-            open store at 60fps
+            open lamp at 60fps
         */
         closeLamps: function(){
             data[0].active=0;
@@ -69,12 +91,31 @@
             }
         },
         /** 
-            open store with slow param
+            close lamp
+            id: data index
         */
         closeLampsSlow: function(){
+            var id=0;
+            data[id].active=0;
+            if(data[id].state>0 || data[id].slow%data[id].speed!=0){
+                requestAnimFrame(self.closeLampsSlow);
+            }
+            data[id].slow+=1;
+            if(data[id].slow%data[id].speed==0){
+                calc=data[id].spriteStart-(data[id].elLength+data[id].gap)*data[id].state;
+                data[id].el.css('background-position-x', calc);
+                if(data[id].state>0){
+                    data[id].state-=1;
+                }
+            }
+        },
+        /**
+            close all lamps
+        */
+        closeAllLampsSlow: function(){
             data[0].active=0;
             if(data[slower].state>0 || data[slower].slow%data[slower].speed!=0){
-                requestAnimFrame(self.closeLampsSlow);
+                requestAnimFrame(self.closeAllLampsSlow);
             }
             for(var i=0; i<data.length; i++){
                 data[i].slow+=1;

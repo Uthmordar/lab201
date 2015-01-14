@@ -2,7 +2,7 @@
     "use strict";
     var data, base, calc, slow=0, slower;
 
-    var windows = {
+    var windows={
         // Application Constructor
         initialize: function(slowerEl, data){
             slower=slowerEl;

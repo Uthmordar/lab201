@@ -6,14 +6,13 @@
     <meta name='Author' content="Uthmordar">
     <meta name='description' content="ceci est une fat description">
     <meta name='keywords' content='CEA, serious game, ExpressIF'>
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi"/>
     <!-- [if IE]>
         <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
         <meta http-equiv='X-UA-Compatible' content='IE=8'/>
         <link rel='stylesheet' href='ie.css'>
         <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  
     <!-- FAVICON -->
     <link rel='shortcut icon' href="favicon.ico"/>
     <link rel='icon' href="favicon.ico"/>    
@@ -46,7 +45,33 @@
         <label for="user_input">User</label>
         <input type="button" id="user_input" value="Alive"/>
         <div class="clear mbs"></div>
-
+        <label for="hygro_input">Hygrométrie (70-100%)</label>
+        <input type="range" id="hygro_input" min="70" max="100" step="1" value="80"/>
+        <div class="clear mbs"></div>
+        <label for="grill_input">Cuisson (0-3000W)</label>
+        <input type="range" id="grill_input" min="0" max="3000" step="100" value="0"/>
+        <div class="clear mbs"></div>
+        <label for="lux_hotte_input">Lumière hotte (0-300)</label>
+        <input type="range" id="lux_hotte_input" min="0" max="300" step="10" value="0"/>
+        <div class="clear mbs"></div>
+        <label for="lux_plan_input">Lumière plan (0-300)</label>
+        <input type="range" id="lux_plan_input" min="0" max="300" step="10" value="10"/>
+        <div class="clear mbs"></div>
+        <label for="lux_table_input">Lumière table (0-300)</label>
+        <input type="range" id="lux_table_input" min="0" max="300" step="10" value="0"/>
+        <div class="clear mbs"></div>
+        <label for="ventilation_input">Ventilation (0-1000)</label>
+        <input type="range" id="ventilation_input" min="0" max="1000" step="20" value="0"/>
+        <div class="clear mbs"></div>
+        <label for="temp_ext_input">Température ext (-15 to 45)</label>
+        <input type="range" id="temp_ext_input" min="-15" max="45" step="1" value="10"/>
+        <div class="clear mbs"></div>
+        <label for="temp_int_input">Température int (12 to 45)</label>
+        <input type="range" id="temp_ext_input" min="12" max="40" step="1" value="18"/>
+        <div class="clear mbs"></div>
+        <label for="chauffage_input">Chauffage (0-2000)</label>
+        <input type="range" id="temp_ext_input" min="0" max="2000" step="20" value="0"/>
+        <div class="clear mbs"></div>
 
         <div id="simulation_container">
             <div class="window" id="window_1"></div>
@@ -60,7 +85,7 @@
     <script type="text/javascript" src="assets/js/app.js"></script>
     <script type="text/javascript" src="assets/js/windows.js"></script>
     <script type="text/javascript" src="assets/js/lamp.js"></script>
-    <script type="text/javascript" src="assets/js/fond.js"></script>
+    <script type="text/javascript" src="assets/js/env.js"></script>
     <script type="text/javascript" src="assets/js/user.js"></script>
     <script type="text/javascript" src="assets/js/params.js"></script>
     <script type="text/javascript" src="assets/js/controller.js"></script>

@@ -21,37 +21,45 @@
         */
         controlOutput: function(){
             params=ctx.params.getParams();
+            lamps=ctx.lamps.getData();
             if(params.time>20 || params.time<7){
-                requestAnimFrame(window.app.windows.closeWindowSlow);
-                window.app.windows.closeWindowSlow();
+                requestAnimFrame(ctx.windows.closeWindowSlow);
+                ctx.windows.closeWindowSlow();
             }else{
-                requestAnimFrame(window.app.windows.openWindowSlow);
-                window.app.windows.openWindowSlow();
+                requestAnimFrame(ctx.windows.openWindowSlow);
+                ctx.windows.openWindowSlow();
             }
-            if((7>params.time || params.time>20 || params.luxEnv<25000) && window.app.user.getData()[0].alive){
-                requestAnimFrame(window.app.lamps.openLampsSlow);
-                window.app.lamps.openLampsSlow();
+            if((7>params.time || params.time>20 || params.luxEnv<25000) && ctx.user.getData()[0].alive){
+                for(var j=0; j<lamps.length; j++){
+                    if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].el.offset().top, 2))<200 && !ctx.lamps.getData()[j].active){
+                        requestAnimFrame(ctx.lamps.openLampsSlow);
+                        ctx.lamps.openLampsSlow();
+                    }else if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].el.offset().top, 2))>=200 && ctx.lamps.getData()[j].active){
+                        requestAnimFrame(ctx.lamps.closeLampsSlow);
+                        ctx.lamps.closeLampsSlow(j);
+                    }
+                }
             }else{
-                requestAnimFrame(window.app.lamps.closeLampsSlow);
-                window.app.lamps.closeLampsSlow();
+                requestAnimFrame(ctx.lamps.closeAllLampsSlow);
+                ctx.lamps.closeAllLampsSlow();
             }
         },
         /**
             params which change based on user movements
         */
-        controlOutputMvt: function(){
+       /* controlOutputMvt: function(){
             params=ctx.params.getParams();
             lamps=ctx.lamps.getData();
             for(var i=0; i<lamps.length; i++){
                 if(Math.sqrt(Math.pow(ctx.user.getData()[ctx.user.getActiveUser()].el.offset().left-lamps[i].el.offset().left, 2)+Math.pow(ctx.user.getData()[0].el.offset().top-lamps[i].el.offset().top, 2))<200 && !ctx.lamps.getData()[0].active){
-                    requestAnimFrame(window.app.lamps.openLampsSlow);
-                    window.app.lamps.openLampsSlow();
+                    requestAnimFrame(ctx.lamps.openLampsSlow);
+                    ctx.lamps.openLampsSlow();
                 }else if(Math.sqrt(Math.pow(ctx.user.getData()[ctx.user.getActiveUser()].el.offset().left-lamps[i].el.offset().left, 2)+Math.pow(ctx.user.getData()[0].el.offset().top-lamps[i].el.offset().top, 2))>=200 && ctx.lamps.getData()[0].active){
-                    requestAnimFrame(window.app.lamps.closeLampsSlow);
-                    window.app.lamps.closeLampsSlow();
+                    requestAnimFrame(ctx.lamps.closeLampsSlow);
+                    ctx.lamps.closeLampsSlow();
                 }
             }
-        }
+        }*/
     };
     ctx.controller=controller;
     var self=controller;

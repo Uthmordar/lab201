@@ -2,7 +2,7 @@
     "use strict";
     var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time={hour:0,minute:0}, val, $clock, timeProgress=0, timeFactor;
 
-    var fond={
+    var env={
         // Application Constructor
         initialize: function(data){
             $inputTime=$('#time_input');
@@ -108,6 +108,6 @@
 
         }
     };
-    ctx.fond=fond;
-    var self=fond;
+    ctx.env=env;
+    var self=env;
 })(app);
