@@ -99,6 +99,7 @@
         timeProgress: function(){
             requestAnimFrame(self.timeProgress);
             if($inputTime.attr('value')==86400){
+                $inputTime.val(1);
                 $inputTime.attr('value', 1);
             }else{
                 $inputTime.attr('value', parseInt($inputTime.attr('value'))+1);
