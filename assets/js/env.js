@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time={hour:0,minute:0}, val, $clock, timeProgress=0, timeFactor, calc;
+    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time={hour:0,minute:0}, val, $clock, timeProgress=0, timeFactor, hour, minute;
 
     var env={
         // Application Constructor
@@ -11,7 +11,7 @@
             $clock=$('#timer');
             /* facteur déterminant la vitesse de déroulement de la journée */
             timeFactor=400;
-            start=Math.floor(ctx.params.getParams().time * 0.5);
+            start=Math.floor(ctx.params.getParams().time.timestamp/(60*60*2));
             self.setData(data);
             self.bindEvents();
             requestAnimFrame(self.timeProgress);
@@ -34,14 +34,11 @@
             return time;
         },
         setTime: function(val){
-            ctx.params.setTime(val);
-            calc=Math.floor(val);
-            time.hour=(calc<10)? "0"+calc : calc;
-            calc=Math.round((val*10-Math.floor(val)*10)*0.1*60);
-            if(calc<10){
-                calc="0"+calc;
-            }
-            time.minute=calc;
+            hour=Math.floor(val/(60*60));
+            minute=Math.floor((val-(hour*60*60))/60);
+            ctx.params.setTime(hour, minute, val);
+            time.hour=(hour<10)? "0"+hour : hour;
+            time.minute=(minute<10)? "0"+minute : minute;
         },
         bindEvents: function(){
             $inputTime.on('change', function(e){
@@ -61,7 +58,7 @@
         */
         updateTime: function(el){
             val=$(el).attr('value');
-            end=(Math.floor(val*0.5));
+            end=Math.floor(val/(60*60*2));
             self.setTime(val);
             self.changeTime(start,end);
             self.changeClock();
@@ -100,16 +97,13 @@
         */
         timeProgress: function(){
             requestAnimFrame(self.timeProgress);
-            timeProgress+=1;
-            if(timeProgress%timeFactor===0){
-                if($inputTime.val()==24){
-                    $inputTime.attr("value", 0.1);
-                }else{
-                    $inputTime.attr('value', parseFloat($inputTime.val())+0.1);
-                }
-                self.updateTime($inputTime);
-                ctx.controller.controlOutput();
+            if($inputTime.val()==86400){
+                $inputTime.attr("value", 0.1);
+            }else{
+                $inputTime.attr('value', parseInt($inputTime.attr('value'))+1);
             }
+            self.updateTime($inputTime);
+            ctx.controller.controlOutput();
         }
     };
     ctx.env=env;

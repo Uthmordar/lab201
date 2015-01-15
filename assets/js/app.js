@@ -43,7 +43,7 @@
     var $scene,sceneX,sceneY;
     var params={
         windowOpen: 0,
-        time: 12,
+        time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 50000,
         hygrometrie: 0,
         user: {x: 0, y:0, status: 0},

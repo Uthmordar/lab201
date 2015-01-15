@@ -2,7 +2,7 @@
     "use strict";
     var params={
         windowOpen: 0,
-        time: 0,
+        time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 0,
         hygrometrie: 0,
         user: {x: 0, y:0, status: 0},
@@ -26,8 +26,10 @@
         setWindow: function(val){
             params.windowOpen=parseInt(val);
         },
-        setTime: function(val){
-            params.time=parseFloat(val);
+        setTime: function(hour, minute, timestamp){
+            params.time.hour=parseInt(hour);
+            params.time.minute=parseInt(minute);
+            params.time.timestamp=timestamp;
         },
         setLuxEnv: function(val){
             params.luxEnv=parseInt(val);
