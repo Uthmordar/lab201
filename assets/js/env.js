@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time={hour:0,minute:0}, val, $clock, timeProgress=0, timeFactor;
+    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time={hour:0,minute:0}, val, $clock, timeProgress=0, timeFactor, calc;
 
     var env={
         // Application Constructor
@@ -35,8 +35,13 @@
         },
         setTime: function(val){
             ctx.params.setTime(val);
-            time.hour=(Math.floor(val))? Math.floor(val) : "00";
-            time.minute=((val-Math.floor(val)))? (val-Math.floor(val))*60 : "00";
+            calc=Math.floor(val);
+            time.hour=(calc<10)? "0"+calc : calc;
+            calc=Math.round((val*10-Math.floor(val)*10)*0.1*60);
+            if(calc<10){
+                calc="0"+calc;
+            }
+            time.minute=calc;
         },
         bindEvents: function(){
             $inputTime.on('change', function(e){
@@ -55,7 +60,7 @@
             launch action link to time change
         */
         updateTime: function(el){
-            val=el.val();
+            val=$(el).attr('value');
             end=(Math.floor(val*0.5));
             self.setTime(val);
             self.changeTime(start,end);
@@ -98,9 +103,9 @@
             timeProgress+=1;
             if(timeProgress%timeFactor===0){
                 if($inputTime.val()==24){
-                    $inputTime.val(0.25);
+                    $inputTime.attr("value", 0.1);
                 }else{
-                    $inputTime.val(parseFloat($inputTime.val())+0.25);
+                    $inputTime.attr('value', parseFloat($inputTime.val())+0.1);
                 }
                 self.updateTime($inputTime);
                 ctx.controller.controlOutput();
