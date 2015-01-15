@@ -31,8 +31,8 @@
             specify user sprite dimensions
         */
         setDimensions: function(i){
-            data[i].width=data[i].el.width();
-            data[i].height=data[i].el.height();
+            data[i].width=data[i].$el.width();
+            data[i].height=data[i].$el.height();
         },
         bindEvents: function(){
             /* manage user precense */
@@ -41,24 +41,24 @@
                 if(data[activeUser].alive===1){
                     data[activeUser].alive=0;
                     ctx.params.setUserStatus(0);
-                    data[activeUser].el.css('display', 'none');
+                    data[activeUser].$el.css('display', 'none');
                     $input.val('Away');
                 }else{
                     data[activeUser].alive=1;
                     ctx.params.setUserStatus(1);
-                    data[activeUser].el.css('display', 'block');
+                    data[activeUser].$el.css('display', 'block');
                     $input.val('Alive');
                 }
             });
             /**
                 manage user movement by drag&drop
             */
-            data[activeUser].el.on('mousedown', function(e){
+            data[activeUser].$el.on('mousedown', function(e){
                 var $this=$(this);
                 $this.on('mousemove', function(e){
                     e.preventDefault();
-                    posY=e.clientY-ctx.getSceneOffset().y - data[activeUser].height*0.5;
-                    posX=e.clientX - ctx.getSceneOffset().x - data[activeUser].width*0.5;
+                    posY=e.clientY-ctx.getSceneOffset().y-data[activeUser].height*0.5;
+                    posX=e.clientX-ctx.getSceneOffset().x-data[activeUser].width*0.5;
                     ctx.params.setUserPos(posX, posY);
                     $(this).css({'top': posY +'px', 'left': posX + 'px'});
                     //ctx.controller.controlOutputMvt();

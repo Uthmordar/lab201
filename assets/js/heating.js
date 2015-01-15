@@ -2,10 +2,10 @@
     "use strict";
     var data, count, $input;
 
-    var ventilation={
+    var heating={
         // Application Constructor
         initialize: function(data){
-            $input=$('#ventilation_input');
+            $input=$('#heating_input');
             self.setData(data);
             self.bindEvents();
         },
@@ -18,42 +18,42 @@
         bindEvents: function(){
             $input.on('change', function(e){
                 e.preventDefault();
-                self.setDataDebit($(this).val()).updateVentilation();
+                self.setHeatingPower($(this).val()).updateHeating();
             });
         },
-        /**
-            set debit in data
+         /**
+            set heating in data
         */
-        setDataDebit: function(val){
+        setHeatingPower: function(val){
             $input.val(val);
-            data.initialDebit=data.debit;
-            data.debit=val;
-            ctx.params.setVentilation(val);
+            data.initialPower=data.power;
+            data.power=val;
+            ctx.params.setHeating(val);
             return self;
         },
         /**
-            update ventilation debit value in scene
+            update heating power value in scene
         */
-        updateVentilation: function(){
+        updateHeating: function(){
             count=0;
             requestAnimFrame(self.changeDisplayVal);
             self.changeDisplayVal();
         },
         /**
-            increase ventilation debit from initial value to final value
+            change power heating from initial value to final value in display zone
         */
         changeDisplayVal: function(){
-            if(data.initialDebit<data.debit){
-                if(count+parseInt(data.$display.html())>data.debit){
-                    data.$display.html(data.debit);
+            if(data.initialPower<data.power){
+                if(count+parseInt(data.$display.html())>data.power){
+                    data.$display.html(data.power);
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count+=0.1;
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }else{
-                if(count+parseInt(data.$display.html())<data.debit){
-                    data.$display.html(data.debit);
+                if(count+parseInt(data.$display.html())<data.power){
+                    data.$display.html(data.power);
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count-=0.1;
@@ -62,6 +62,6 @@
             }
         }
     };
-    ctx.ventilation=ventilation;
-    var self=ventilation;
+    ctx.heating=heating;
+    var self=heating;
 })(app);

@@ -55,7 +55,7 @@
             launch action link to time change
         */
         updateTime: function(el){
-            val=$(el).val();
+            val=el.val();
             end=(Math.floor(val*0.5));
             self.setTime(val);
             self.changeTime(start,end);
@@ -105,7 +105,6 @@
                 self.updateTime($inputTime);
                 ctx.controller.controlOutput();
             }
-
         }
     };
     ctx.env=env;

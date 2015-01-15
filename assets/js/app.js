@@ -28,14 +28,17 @@
 (function(ctx){
     "use strict";
     var windowsTab=[
-        {el: $('#window_1'), state:0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 8, open:0, openTarget:75}, 
-        {el: $('#window_2'), state: 0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 16, open:0, openTarget:75}
+        {$el: $('#window_1'), state:0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 8, open:0, openTarget:75}, 
+        {$el: $('#window_2'), state: 0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 16, open:0, openTarget:75}
     ];
     var envTab=[$('#bg_7'), $('#bg_7'), $('#bg_5'), $('#bg_1'), $('#bg_2'), $('#bg_2'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7'), $('#bg_7')];
     var lampsTab=[
-        {el: $('#lamp_1'), state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0}
+        {$el: $('#lamp_1'), state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0}
     ];
-    var user=[{el: $('#user'), alive: 1, width: 0, height: 0}];
+    var user=[{$el: $('#user'), alive: 1, width: 0, height: 0}];
+    var ventilation={$el: $('#ventilation'), debit:0, initialDebit:0, $display: $('#ventilation .display')};
+    var heating={$el: $('#heating'), power:0, initialPower:0, $display: $('#heating .display')};
+
 
     var $scene,sceneX,sceneY;
     var params={
@@ -51,7 +54,7 @@
         ventilation: 0,
         tempExt: 0,
         tempInt: 0,
-        chauffage: 0
+        heating: 0
     };
     var app={
         // Application Constructor
@@ -72,6 +75,8 @@
             this.lamps.initialize(0, lampsTab);
             this.env.initialize(envTab);
             this.user.initialize(user, $scene);
+            this.ventilation.initialize(ventilation);
+            this.heating.initialize(heating);
             this.controller.initialize();
         },
         /**

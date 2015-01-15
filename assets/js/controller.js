@@ -31,10 +31,10 @@
             }
             if((7>params.time || params.time>20 || params.luxEnv<25000) && ctx.user.getData()[0].alive){
                 for(var j=0; j<lamps.length; j++){
-                    if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].el.offset().top, 2))<200 && !ctx.lamps.getData()[j].active){
+                    if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].$el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].$el.offset().top, 2))<200 && !ctx.lamps.getData()[j].active){
                         requestAnimFrame(ctx.lamps.openLampsSlow);
                         ctx.lamps.openLampsSlow();
-                    }else if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].el.offset().top, 2))>=200 && ctx.lamps.getData()[j].active){
+                    }else if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].$el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].$el.offset().top, 2))>=200 && ctx.lamps.getData()[j].active){
                         requestAnimFrame(ctx.lamps.closeLampsSlow);
                         ctx.lamps.closeLampsSlow(j);
                     }

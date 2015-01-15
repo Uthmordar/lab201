@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var data, base, calc, slow=0, slower;
+    var data, calc, slow=0, slower;
 
     var windows={
         // Application Constructor
@@ -23,7 +23,7 @@
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-                data[i].el.css('background-position-x', calc);
+                data[i].$el.css('background-position-x', calc);
                 //data[i].open+=25;
                 if(data[i].state<data[i].nbStage){
                     data[i].state+=1;
@@ -41,7 +41,7 @@
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-                    data[i].el.css('background-position-x', calc);
+                    data[i].$el.css('background-position-x', calc);
                     //data[i].open+=25;
                     if(data[i].state<data[i].nbStage){
                         data[i].state+=1;
@@ -58,7 +58,7 @@
             }
             for(var i=0; i<data.length; i++){
                 calc=data[i].spriteStart-(data[i].elLength+data[i].gap) * (data[i].state);
-                data[i].el.css('background-position-x', calc);
+                data[i].$el.css('background-position-x', calc);
                 //data[i].open-=25;
                 if(data[i].state>0){
                     data[i].state-=1;
@@ -76,7 +76,7 @@
                 data[i].slow+=1;
                 if(data[i].slow%data[i].speed==0){
                     calc=data[i].spriteStart-(data[i].elLength+data[i].gap)*data[i].state;
-                    data[i].el.css('background-position-x', calc);
+                    data[i].$el.css('background-position-x', calc);
                     //data[i].open-=25;
                     if(data[i].state>0){
                         data[i].state-=1;

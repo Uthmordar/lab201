@@ -13,7 +13,7 @@
         ventilation: 0,
         tempExt: 0,
         tempInt: 0,
-        chauffage: 0
+        heating: 0
     };
     var params={
         // Application Constructor
@@ -63,8 +63,8 @@
         setTempInt: function(val){
             params.tempInt=parseInt(val);
         },
-        setChauffage: function(val){
-            params.chauffage=parseInt(val);
+        setHeating: function(val){
+            params.heating=parseInt(val);
         }
     };
     ctx.params=params;
