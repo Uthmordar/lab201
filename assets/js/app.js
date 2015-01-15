@@ -35,9 +35,9 @@
         shutter:{$el: $('#window_shutter'), $display: $('#windows_shutter .display'), state:0, initialState: 0}};
     var envTab=[$('#bg_7'), $('#bg_7'), $('#bg_5'), $('#bg_1'), $('#bg_2'), $('#bg_2'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7'), $('#bg_7')];
     var lamps={
-        table: {$el: $('#lamp_table'), $display: $('#lamp_table .display'), lux: 0, initialLux: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0},
-        plan: {$el: $('#lamp_plan'), $display: $('#lamp_plan .display'), lux: 0, initialLux: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0},
-        hotte: {$el: $('#lamp_hotte'), $display: $('#lamp_hotte .display'), lux: 0, initialLux: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0}
+        table: {$el: $('#lamp_table'), $display: $('#lamp_table .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0},
+        plan: {$el: $('#lamp_plan'), $display: $('#lamp_plan .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0},
+        hotte: {$el: $('#lamp_hotte'), $display: $('#lamp_hotte .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0}
     };
     var user=[{$el: $('#user'), alive: 1, width: 0, height: 0}];
     var ventilation={$el: $('#ventilation'), debit:0, initialDebit:0, $display: $('#ventilation .display')};

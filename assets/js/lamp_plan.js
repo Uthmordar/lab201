@@ -7,6 +7,8 @@
         initialize: function(data){
             $input=$('#lux_plan_input');
             self.setData(data);
+            data.posX=$('#lamp_1').offset().left;
+            data.posY=$('#lamp_1').offset().top;
             self.bindEvents();
         },
         getData: function(){

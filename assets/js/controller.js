@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var params, lamps;
+    var params, lamp;
     var controller={
         // Application Constructor
         initialize: function(){
@@ -21,28 +21,27 @@
         */
         controlOutput: function(){
             params=ctx.params.getParams();
-            //lamps=ctx.lamps.getData();
-           /* if(params.time.hour>20 || params.time.hour<7){
+            if(params.time.hour>20 || params.time.hour<7){
                 //requestAnimFrame(ctx.windows.closeWindowSlow);
                 //ctx.windows.closeWindowSlow();
+                ctx.windows.shutter.setState(100);
             }else{
                 //requestAnimFrame(ctx.windows.openWindowSlow);
                 //ctx.windows.openWindowSlow();
+                ctx.windows.shutter.setState(0);
             }
             if((7>params.time.hour || params.time.hour>20 || params.luxEnv<25000) && ctx.user.getData()[0].alive){
-                //for(var j=0; j<lamps.length; j++){
-                  //  if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].$el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].$el.offset().top, 2))<200 && !ctx.lamps.getData()[j].active){
-                        //requestAnimFrame(ctx.lamps.openLampsSlow);
-                        //ctx.lamps.openLampsSlow();
-                    //}else if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamps[j].$el.offset().left, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamps[j].$el.offset().top, 2))>=200 && ctx.lamps.getData()[j].active){
-                        //requestAnimFrame(ctx.lamps.closeLampsSlow);
-                        //ctx.lamps.closeLampsSlow(j);
-                    //}
-                //}
+                lamp=ctx.lamps.plan.getData();
+                if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamp.posX, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamp.posY, 2))<200){
+                    ctx.lamps.plan.setLux(300).updateLux();
+                }else if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamp.posX, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamp.posY, 2))>=200){
+                    ctx.lamps.plan.setLux(0).updateLux();
+                }
             }else{
-                //requestAnimFrame(ctx.lamps.closeAllLampsSlow);
-                //ctx.lamps.closeAllLampsSlow();
-            }*/
+                ctx.lamps.plan.setLux(0).updateLux();
+                ctx.lamps.table.setLux(0).updateLux();
+                ctx.lamps.hotte.setLux(0).updateLux();
+            }
         },
         /**
             params which change based on user movements
