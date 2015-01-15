@@ -1,0 +1,83 @@
+//-----------------------------------------------------
+// CSS INCLUDE CEA SITE
+//-----------------------------------------------------
+@import 'mixin.less';
+//---------------------------------------
+// CONST
+//---------------------------------------
+
+/*.font_face("../font/technicalforest/technicalforest-regular", "TechnicalForest", 'normal');*/
+
+//1.2rem for arial
+@font-size : 1.4rem;
+
+@font-family-default : sans-serif;
+@font-size-default : 1.5rem;
+@bg-body-color : lighten(#9FA1A3, 20%);
+
+@color-black : #1d1d1b;
+@color-red : #b91212;
+@color-red-dark: #ba242a;
+
+@color-grey : #aca39d;
+
+@margin : 1rem;
+@padding : 0.5rem;
+
+@width-wrapper	: 100%;
+
+.wrapper_include{
+	width: 100%;
+	max-width: 950px;
+	margin: 0 auto;
+	background-color: #FFF;
+	padding: 4*@padding 8*@padding;
+
+	h2{
+		width: 359px;
+		height: 116px;
+		margin: 4*@margin auto;
+	}
+	p{
+		font-size : 1.4*@font-size;
+		line-height : 1.7*@font-size;	 
+		-webkit-hyphens: auto;
+		-moz-hyphens: auto;
+		-ms-hyphens: auto;
+		-o-hyphens: auto;
+		hyphens: auto;
+		margin-bottom: 4*@margin;
+	}
+
+	#launch_app{
+		text-decoration: none;
+		width: 16.5rem;
+		height: 4.8rem;
+		float: right;
+		line-height: 4.2rem;
+		color: @color-black;
+		font-size: 1.7*@font-size;
+		text-align: center;
+		border-top: 3px solid @color-black;
+		border-bottom: 3px solid @color-black;
+	}
+	#laucnh_app:link{
+		font-weight: 700;
+	}
+	#launch_app:visited{
+		font-weight: 400;
+		color: @color-red-dark;
+		border-top: 3px solid @color-red-dark;
+		border-bottom: 3px solid @color-red-dark;
+	}
+	#launch_app:hover{
+		font-weight: 700;
+		color: @color-red-dark;
+	}
+	#launch_app:active{
+		font-weight: 700;
+		color: @color-red-dark;
+		border-top: 3px solid @color-red-dark;
+		border-bottom: 3px solid @color-red-dark;
+	}
+}
