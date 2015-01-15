@@ -74,14 +74,25 @@
             this.user.initialize(user, $scene);
             this.controller.initialize();
         },
+        /**
+            return scene;
+        */
         getScene: function(){
             return $scene;
         },
+        /**
+            set scene coord
+            scene: scene selector
+        */
         setScene: function(scene){
             $scene=scene;
             sceneX=scene.offset().left;
             sceneY=scene.offset().top;
         },
+        /**
+            get scene coord
+            return x: sceneX, y: sceneY
+        */
         getSceneOffset: function(){
             return {x: sceneX, y: sceneY};
         }
