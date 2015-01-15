@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time={hour:0,minute:0}, val, $clock, timeProgress=0, timeFactor, hour, minute;
+    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute;
 
     var env={
         // Application Constructor
@@ -9,9 +9,8 @@
             $inputDarkness=$('#darkness_input');
             $bgDarkness=$('#darkness');
             $clock=$('#timer');
-            /* facteur déterminant la vitesse de déroulement de la journée */
-            timeFactor=400;
-            start=Math.floor(ctx.params.getParams().time.timestamp/(60*60*2));
+            time=ctx.params.getParams().time;
+            start=Math.floor(time.timestamp/(60*60*2));
             self.setData(data);
             self.bindEvents();
             requestAnimFrame(self.timeProgress);
@@ -39,10 +38,12 @@
             ctx.params.setTime(hour, minute, val);
             time.hour=(hour<10)? "0"+hour : hour;
             time.minute=(minute<10)? "0"+minute : minute;
+            time.timestamp=parseInt(val);
         },
         bindEvents: function(){
             $inputTime.on('change', function(e){
                 e.preventDefault();
+                $(this).attr('value', $(this).val());
                 self.updateTime(this);
             });
             $inputDarkness.on('change', function(e){
@@ -97,8 +98,8 @@
         */
         timeProgress: function(){
             requestAnimFrame(self.timeProgress);
-            if($inputTime.val()==86400){
-                $inputTime.attr("value", 0.1);
+            if($inputTime.attr('value')==86400){
+                $inputTime.attr('value', 1);
             }else{
                 $inputTime.attr('value', parseInt($inputTime.attr('value'))+1);
             }

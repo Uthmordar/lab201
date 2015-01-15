@@ -1,14 +1,14 @@
 (function(ctx){
     "use strict";
-    var windows={
+    var temperature={
         // Application Constructor
         initialize: function(data){
-            self.open.initialize(data.open);
-            self.shutter.initialize(data.shutter);
+            self.ext.initialize(data.ext);
+            self.inside.initialize(data.inside);
         },
         bindEvents: function(){
         }
     };
-    ctx.windows=windows;
-    var self=windows;
+    ctx.temperature=temperature;
+    var self=temperature;
 })(app);

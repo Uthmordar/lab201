@@ -37,9 +37,9 @@
             <div class="bg-environment" id="darkness"></div>
         </section>
         <label for="time_input">Change time (0-24h)</label>
-        <input type="range" min="0" max="86400" step="60" id="time_input" value="43200"/>
+        <input type="range" min="0" max="86400" step="1" id="time_input" value="43200"/>
         <div class="clear mbs"></div>
-        <label for="time_input">Lux Environment<br/> (0-100000lux)</label>
+        <label for="darkness_input">Lux Environment<br/> (0-100000lux)</label>
         <input type="range" min="0" max="100000" id="darkness_input" value="50000"/>
         <div class="clear mbs"></div>
         <label for="user_input">User</label>
@@ -52,13 +52,13 @@
         <input type="range" id="grill_input" min="0" max="3000" step="100" value="0"/>
         <div class="clear mbs"></div>
         <label for="lux_hotte_input">Lumière hotte (0-300)</label>
-        <input type="range" id="lux_hotte_input" min="0" max="300" step="10" value="0"/>
+        <input type="range" id="lux_hotte_input" min="0" max="300" step="1" value="0"/>
         <div class="clear mbs"></div>
         <label for="lux_plan_input">Lumière plan (0-300)</label>
-        <input type="range" id="lux_plan_input" min="0" max="300" step="10" value="10"/>
+        <input type="range" id="lux_plan_input" min="0" max="300" step="1" value="0"/>
         <div class="clear mbs"></div>
         <label for="lux_table_input">Lumière table (0-300)</label>
-        <input type="range" id="lux_table_input" min="0" max="300" step="10" value="0"/>
+        <input type="range" id="lux_table_input" min="0" max="300" step="1" value="0"/>
         <div class="clear mbs"></div>
         <label for="ventilation_input">Ventilation (0-1000)</label>
         <input type="range" id="ventilation_input" min="0" max="1000" step="20" value="0"/>
@@ -72,6 +72,12 @@
         <label for="heating_input">Chauffage (0-2000)</label>
         <input type="range" id="heating_input" min="0" max="2000" step="20" value="0"/>
         <div class="clear mbs"></div>
+        <label for="windows_open_input">Windows open (0-100)</label>
+        <input type="range" id="windows_open_input" min="0" max="100" step="1" value="0"/>
+        <div class="clear mbs"></div>
+        <label for="windows_shutter_input">Windows shutter (0-100)</label>
+        <input type="range" id="windows_shutter_input" min="0" max="100" step="1" value="0"/>
+        <div class="clear mbs"></div>
 
         <div id="simulation_container">
             <div class="window" id="window_1"></div>
@@ -81,17 +87,36 @@
             <div id="timer"><span id="hour">12</span>:<span id="minute">00</span></div>
             <div id="ventilation">Ventilation val: <span class="display">0</span></div>
             <div id="heating">Chauffage val: <span class="display">0</span></div>
+            <div id="hygro">Hygromètrie val: <span class="display">80</span></div>
+            <div id="temp_ext">T° ext val: <span class="display">10</span></div>
+            <div id="temp_int">T° int val: <span class="display">18</span></div>
+            <div id="grill">Plaque val: <span class="display">0</span></div>
+            <div id="lamp_table">lamp table val: <span class="display">0</span></div>
+            <div id="lamp_plan">lamp plan val: <span class="display">0</span></div>
+            <div id="lamp_hotte">lamp hotte val: <span class="display">0</span></div>
+            <div id="windows_open">windows open val %: <span class="display">0</span></div>
+            <div id="windows_shutter">windows shutter val %: <span class="display">0</span></div>
         </div>
     </div>
     <script type="text/javascript" src="assets/js/zepto.min.js"></script>
     <script type="text/javascript" src="assets/js/app.js"></script>
     <script type="text/javascript" src="assets/js/windows.js"></script>
+    <script type="text/javascript" src="assets/js/windows_open.js"></script>
+    <script type="text/javascript" src="assets/js/windows_shutter.js"></script>
     <script type="text/javascript" src="assets/js/lamp.js"></script>
+    <script type="text/javascript" src="assets/js/lamp_table.js"></script>
+    <script type="text/javascript" src="assets/js/lamp_plan.js"></script>
+    <script type="text/javascript" src="assets/js/lamp_hotte.js"></script>
     <script type="text/javascript" src="assets/js/env.js"></script>
     <script type="text/javascript" src="assets/js/user.js"></script>
     <script type="text/javascript" src="assets/js/params.js"></script>
     <script type="text/javascript" src="assets/js/ventilation.js"></script>
     <script type="text/javascript" src="assets/js/heating.js"></script>
+    <script type="text/javascript" src="assets/js/hygro.js"></script>
+    <script type="text/javascript" src="assets/js/temperature.js"></script>
+    <script type="text/javascript" src="assets/js/temperature_int.js"></script>
+    <script type="text/javascript" src="assets/js/temperature_ext.js"></script>
+    <script type="text/javascript" src="assets/js/grill.js"></script>
     <script type="text/javascript" src="assets/js/controller.js"></script>
     <script type="text/javascript">
         $(function(){

@@ -6,14 +6,15 @@
         luxEnv: 0,
         hygrometrie: 0,
         user: {x: 0, y:0, status: 0},
-        plaque: 0,
+        grill: 0,
         luxHotte: 0,
         luxPlan: 0,
         luxTable: 0,
         ventilation: 0,
         tempExt: 0,
         tempInt: 0,
-        heating: 0
+        heating: 0,
+        windows: {open: 0, shutter: 0}
     };
     var params={
         // Application Constructor
@@ -44,8 +45,8 @@
         setUserStatus: function(status){
             params.user.status=(status)? 1 : 0;
         },
-        setPlaque: function(val){
-            params.plaque=parseInt(val);
+        setGrill: function(val){
+            params.grill=parseInt(val);
         },
         setLuxHotte: function(val){
             params.luxHotte=parseInt(val);
@@ -67,6 +68,16 @@
         },
         setHeating: function(val){
             params.heating=parseInt(val);
+        },
+        setWindowsOpen: function(val){
+            if(parseInt(val)<=100 && parseInt(val)>=0){
+                params.windows.open=parseInt(val);
+            }
+        },
+        setWindowsShutter: function(val){
+            if(parseInt(val)<=100 && parseInt(val)>=0){
+                params.windows.shutter=parseInt(val);
+            }
         }
     };
     ctx.params=params;
