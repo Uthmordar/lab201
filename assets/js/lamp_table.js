@@ -6,6 +6,9 @@
         // Application Constructor
         initialize: function(data){
             $input=$('#lux_table_input');
+            data.posX=$('#lamp_1').offset().left;
+            data.posY=$('#lamp_1').offset().top;
+            window.app.params.setPositionLuxTable(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();
         },

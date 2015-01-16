@@ -9,6 +9,7 @@
             self.setData(data);
             data.posX=$('#lamp_1').offset().left;
             data.posY=$('#lamp_1').offset().top;
+            window.app.params.setPositionLuxPlan(data.posX, data.posY);
             self.bindEvents();
         },
         getData: function(){

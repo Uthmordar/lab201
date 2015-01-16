@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var params, lamp;
+    var params, positions;
     var controller={
         // Application Constructor
         initialize: function(){
@@ -21,22 +21,40 @@
         */
         controlOutput: function(){
             params=ctx.params.getParams();
+            positions=ctx.params.getPosition();
             if(params.time.hour>20 || params.time.hour<7){
                 ctx.windows.shutter.setState(100).updateState();
             }else{
                 ctx.windows.shutter.setState(0).updateState();
             }
             if((7>params.time.hour || params.time.hour>20 || params.luxEnv<25000) && ctx.user.getData()[0].alive){
-                lamp=ctx.lamps.plan.getData();
-                if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamp.posX, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamp.posY, 2))<200){
+                if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))<200){
                     ctx.lamps.plan.setLux(300).updateLux();
-                }else if(Math.sqrt(Math.pow(params.user.x+ctx.getSceneOffset().x-lamp.posX, 2)+Math.pow(params.user.y+ctx.getSceneOffset().y-lamp.posY, 2))>=200){
+                }else if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))>=200){
                     ctx.lamps.plan.setLux(0).updateLux();
                 }
             }else{
                 ctx.lamps.plan.setLux(0).updateLux();
                 ctx.lamps.table.setLux(0).updateLux();
                 ctx.lamps.hotte.setLux(0).updateLux();
+            }
+            /* duration of hygro treshold */
+            if(params.hygrometrie.hygro<80){
+                ctx.params.setHygroTime(params.hygrometrie.time.low+1, 0, 0);
+            }else if(params.hygrometrie.hygro<90){
+                ctx.params.setHygroTime(0, params.hygrometrie.time.medium+1, 0);
+            }else{
+                ctx.params.setHygroTime(0, 0, params.hygrometrie.time.high+1);
+            }
+            /* duration of grill activity */
+            if(params.grill.power<1){
+                ctx.params.setGrillTime(0, 0, 0);
+            }else if(params.grill.power<1000){
+                ctx.params.setGrillTime(params.grill.time.low+1, 0, 0);
+            }else if(params.grill.power<2000){
+                ctx.params.setGrillTime(0, params.grill.time.medium+1, 0);
+            }else{
+                ctx.params.setGrillTime(0, 0, params.grill.time.high+1);
             }
         }
     };

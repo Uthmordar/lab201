@@ -6,6 +6,9 @@
         // Application Constructor
         initialize: function(data){
             $input=$('#lux_hotte_input');
+            data.posX=$('#lamp_1').offset().left;
+            data.posY=$('#lamp_1').offset().top;
+            window.app.params.setPositionLuxHotte(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();
         },

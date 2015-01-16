@@ -45,16 +45,16 @@
     var hygro={$el: $('#hygro'), hygro:0, initialHygro:0, $display: $('#hygro .display')};
     var temperature={ext:{$el: $('#temp_ext'), t:0, initialT:0, $display: $('#temp_ext .display')},
         inside:{$el: $('#temp_int'), t:0, initialT:0, $display: $('#temp_int .display')}};
-    var grill={$el: $('#grill'), power:0, initialPower:0, $display: $('#grill .display')};
+    var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill .display')};
 
     var $scene,sceneX,sceneY;
     var params={
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 50000,
-        hygrometrie: 80,
-        user: {x: 0, y:0, status: 0},
-        grill: 0,
+        hygrometrie: {hygro:80, time: {low: 0, medium: 0, high: 0}},
+        user: {x: 0, y:0, status: 1},
+        grill: {power: 0, time: {low: 0, medium: 0, high: 0}},
         luxHotte: 0,
         luxPlan: 0,
         luxTable: 0,
