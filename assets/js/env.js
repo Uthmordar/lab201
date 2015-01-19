@@ -1,6 +1,8 @@
 (function(ctx){
     "use strict";
-    var data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute;
+    var $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute,
+    valMax, $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius),
+    valMaxDarkness, $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
 
     var env={
         // Application Constructor
@@ -9,9 +11,26 @@
             $inputDarkness=$('#darkness_input');
             $bgDarkness=$('#darkness');
             $clock=$('#timer');
+            valMax=parseInt($inputTime.attr('max'));
+            valMaxDarkness=parseInt($inputDarkness.attr('max'));
+            $sun=$('#sun');
+            x0=window.innerWidth*0.5;
+            y0=window.innerHeight-80;
+            r=x0 * 0.9;
+            angle=0;
             time=ctx.params.getParams().time;
             start=Math.floor(time.timestamp/(60*60*2));
             self.setData(data);
+            // init range env
+            X=Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y=Math.round(radius*  -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
+            $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
+            // init range darkness
+            XDarkness = Math.round(radiusDarkness* Math.sin(degDarkness*Math.PI/180));    
+            YDarkness = Math.round(radiusDarkness*  -Math.cos(degDarkness*Math.PI/180));
+            $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness});      
+            $inputDarkness.attr('value', degDarkness * (valMaxDarkness/360));
             self.bindEvents();
             requestAnimFrame(self.timeProgress);
             self.timeProgress();
@@ -28,6 +47,7 @@
         setDarkness: function(darkness){
             valDarkness=darkness;
             ctx.params.setLuxEnv(darkness);
+            return self;
         },
         getTime: function(){
             return time;
@@ -53,6 +73,39 @@
                 self.setDarkness(val);
                 self.changeDarkness();
             });
+            /* range time */
+            $container
+            .mousedown(function (e){mdown=true;})
+            .mouseup(function (e){mdown=false;})
+            .mousemove(function (e){
+                if(mdown){
+                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
+                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+                    deg = -atan/(Math.PI/180) + 180;
+                         
+                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+                    Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
+                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
+                    $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
+                }
+            });
+            /* range luminosity */            
+            $containerDarkness
+            .mousedown(function (e){mdownDarkness=true;})
+            .mouseup(function (e){mdownDarkness=false;})
+            .mousemove(function (e){
+                if(mdownDarkness){
+                    mPosDarkness = {x: e.clientX-elPosDarkness.x, y: e.clientY-elPosDarkness.y};
+                    atanDarkness = Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
+                    degDarkness = -atanDarkness/(Math.PI/180) + 180;
+                         
+                    XDarkness = Math.round(radiusDarkness* Math.sin(degDarkness*Math.PI/180));    
+                    YDarkness = Math.round(radiusDarkness*  -Math.cos(degDarkness*Math.PI/180));
+                    $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness });      
+                    $inputDarkness.attr('value', degDarkness * (valMaxDarkness/360)).val(degDarkness * (valMaxDarkness/360));
+                    self.setDarkness(degDarkness * (valMaxDarkness/360)).changeDarkness();
+                }
+            });
         },
         /**
             launch action link to time change
@@ -63,6 +116,18 @@
             self.setTime(val);
             self.changeTime(start,end);
             self.changeClock();
+            self.rotateSun(val);
+        },
+        /**
+            rotate the sun 
+        */
+        rotateSun: function(val){
+            t=(val.timestamp/86400)*360;
+            t= (t * Math.PI / 180)+Math.PI*0.5;
+            angle+=0.01;
+            x = x0 + r*Math.cos(t);
+            y = y0 + r*Math.sin(t);
+            $sun.css({'left': x+'px', 'top': y+'px'});
         },
         /** 
             change time background stage

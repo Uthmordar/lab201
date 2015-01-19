@@ -25,7 +25,7 @@
             set heating in data
         */
         setHeatingPower: function(val){
-            $input.val(val);
+            $input.val(val).attr('value', val);
             data.initialPower=data.power;
             data.power=val;
             ctx.params.setHeating(val);

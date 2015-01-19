@@ -6,18 +6,27 @@
 // CONST
 //---------------------------------------
 
-/*.font_face("../font/quicksand/quicksand-regular", "Quicksand", 'normal');*/
+.font_face("../fonts/Dosis/dosis-regular", "Dosis", 'normal');
 
 //1.2rem for arial
 @font-size : 1.4rem;
 
-@font-family-default : Verdana, sans-serif;
+@font-family-default : 'Dosis', sans-serif;
 @font-size-default : 1.5rem;
 @bg-body-color : lighten(#9FA1A3, 20%);
 
 @color-black : #1d1d1b;
 @color-red : #b91212;
 @color-red-dark: #ba242a;
+@color-red-light: #bf0712;
+
+@color-rose: #EB5B5C;
+@color-time: #502951;
+@color-luminosity: #F6A541;
+@color-meteorology: #AA4859;
+@color-heating: #DB9186;
+@color-humidity: #1D89AA;
+@color-temperature: #49B19C;
 
 @color-grey : #aca39d;
 
@@ -59,33 +68,49 @@
 			height:100%;
 			.transition(opacity; 2s; ease-out; 0s);
 			opacity:0;
-			background-size: cover;
 			&#bg_1{
-				background: url(../img/fond/fonds_1.jpg) center center no-repeat;
+				background: url(../img/fond/fonds_1.svg) center center no-repeat;
+				background-size: cover;
 			}
 			&#bg_2{
-				background: url(../img/fond/fonds_2.jpg) center center no-repeat;
+				background: url(../img/fond/fonds_2.svg) center center no-repeat;
+				background-size: cover;
 				opacity:1;
 			}
 			&#bg_3{
-				background: url(../img/fond/fonds_3.jpg) center center no-repeat;
+				background: url(../img/fond/fonds_3.svg) center center no-repeat;
+				background-size: cover;
 			}
 			&#bg_4{
-				background: url(../img/fond/fonds_4.jpg) center center no-repeat;
+				background: url(../img/fond/fonds_4.svg) center center no-repeat;
+				background-size: cover;
 			}
 			&#bg_5{
-				background: url(../img/fond/fonds_5.jpg) center center no-repeat;
+				background: url(../img/fond/fonds_5.svg) center center no-repeat;
+				background-size: cover;
 			}
 			&#bg_6{
-				background: url(../img/fond/fonds_6.jpg) center center no-repeat;
+				background: url(../img/fond/fonds_6.svg) center center no-repeat;
+				background-size: cover;
 			}
 			&#bg_7{
-				background: url(../img/fond/etoiles_sm.png) center center repeat, url(../img/fond/fonds_7.jpg) center center no-repeat;
+				background: url(../img/fond/etoiles_sm.png) center center repeat, url(../img/fond/fonds_7.svg) center center no-repeat;
+				background-size: cover;
 			}
 			&#darkness{
 				background:@color-black;
+				background-size: cover;
 			}
 		}
+		#sun{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 80px;
+            height: 80px;
+            background: url('../img/fond/soleil_flou.png');
+            z-index: 1;
+        }
 	}
 
 	.call-to-action, .call-to-action-slow{
@@ -208,5 +233,106 @@
 			top: 26rem;
 			left: 7rem;
 		}
+	}
+
+	// --------------------------------------------------------
+	//                       CONTROLS
+	// --------------------------------------------------------
+	#controls_panel{
+		position: absolute;
+		bottom: 8rem;
+		width: 100%;
+		height: 10rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		.circle {
+			position: relative;
+	        width: 140px;
+	        height: 140px;
+	        border: 1px solid #FFF;
+	        border-radius: 100%;
+	        float: left;
+	        margin-right: 60px;
+
+	        .cran{
+	        	position: absolute;
+	        	width: 1px;
+	        	border: 1px solid #FFF;
+	        	left: 7rem;
+	        	top: -1.5rem;
+	        }
+
+          	>div{
+	            position: relative;
+	            height: 30px;
+	            width: 30px;
+	            left: 57px;
+	            top: -14px;
+	            border-radius: 100%;
+	            cursor: pointer;
+	            border: 2px solid #FFF;
+
+	            >.puce{
+	            	margin: 3px;
+		            height: 20px;
+		            width: 20px;
+	            	border-radius: 100%;
+	            }
+
+	            &#slider_time .puce{
+	            	background-color: @color-time;
+	            }
+	            &#slider_luminosity .puce{
+	            	background-color: @color-luminosity;
+	            }
+	            &#slider_meteorology .puce{
+	            	background-color: @color-meteorology;
+	            }
+	            &#slider_heating .puce{
+	            	background-color: @color-heating;
+	            }
+	            &#slider_humidity .puce{
+	            	background-color: @color-humidity;
+	            }
+	            &#slider_temperature .puce{
+	            	background-color: @color-temperature;
+	            }
+	            &#slider_more .puce{
+	            	background-color: #666;
+	            }
+	        }
+	        &.time{
+	        	background: url(../img/pictos/time.png) no-repeat center center;
+	        }
+	        &.luminosity{
+	        	background: url(../img/pictos/luminosity.png) no-repeat center center;
+	        }
+	        &.meteorology{
+	        	background: url(../img/pictos/meteorology.png) no-repeat center center;
+	        }
+	        &.heating{
+	        	background: url(../img/pictos/heating.png) no-repeat center center;
+	        }
+	        &.humidity{
+	        	background: url(../img/pictos/humidity.png) no-repeat center center;
+	        }
+	        &.temperature{
+	        	background: url(../img/pictos/temperature.png) no-repeat center center;
+	        }
+	        &.more{
+	        	border: 1px solid @color-black;
+	        	background: url(../img/pictos/votreparametre.png) no-repeat center center;
+
+	        	.cran{
+		        	border: 1px solid @color-black;
+		        }
+
+	          	>div{
+		            border: 2px solid @color-black;
+		        }
+	        }
+        }
 	}
 }

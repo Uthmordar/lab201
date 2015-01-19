@@ -1,6 +1,7 @@
 (function(ctx){
     "use strict";
-    var data, count, $input;
+    var data, count, $input,
+    valMax, $container=$('.circle.heating'), $slider=$('#slider_heating'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=0, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
 
     var grill={
         // Application Constructor
@@ -8,8 +9,14 @@
             $input=$('#grill_input');
             data.posX=$('#lamp_1').offset().left;
             data.posY=$('#lamp_1').offset().top;
+            valMax=parseInt($input.attr('max'));
             window.app.params.setPositionGrill(data.posX, data.posY);
             self.setData(data);
+
+            X=Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y=Math.round(radius*  -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
+            self.setGrillPower(deg * (valMax/360));
             self.bindEvents();
         },
         getData: function(){
@@ -23,12 +30,28 @@
                 e.preventDefault();
                 self.setGrillPower($(this).val()).updateGrill();
             });
+            /* range grill */            
+            $container
+            .mousedown(function (e){mdown=true;})
+            .mouseup(function (e){mdown=false;})
+            .mousemove(function (e){
+                if(mdown){
+                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
+                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+                    deg = -atan/(Math.PI/180) + 180;
+                         
+                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+                    Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+                    self.setGrillPower(deg * (valMax/360));
+                }
+            });
         },
          /**
             set grill power in data
         */
         setGrillPower: function(val){
-            $input.val(val);
+            $input.val(val).attr('value', val);
             data.initialPower=data.power;
             data.power=val;
             ctx.params.setGrill(val);
