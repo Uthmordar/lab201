@@ -81,14 +81,99 @@
             <input type="range" id="windows_shutter_input" min="0" max="100" step="1" value="0"/>
             <div class="clear mbs"></div>
         </div>
-
+        <div id="data_panel">
+            <div class="circle time">
+                <div class="cran"></div>
+                <div id="slider_time">
+                    <div class="puce"></div>
+                </div>
+            </div>
+            <div class="circle luminosity">
+                <div class="cran"></div>
+                <div id="slider_luminosity">
+                    <div class="puce"></div>
+                </div>
+            </div>
+            <div class="circle meteorology">
+                <div class="cran"></div>
+                <div id="slider_meteorology">
+                    <div class="puce"></div>
+                </div>
+            </div>
+            <div class="circle temperature">
+                <div class="cran"></div>
+                <div id="slider_temperature">
+                    <div class="puce"></div>
+                </div>
+            </div>
+            <div class="circle heating">
+                <div class="cran"></div>
+                <div id="slider_heating">
+                    <div class="puce"></div>
+                </div>
+            </div>
+            <div class="circle humidity">
+                <div class="cran"></div>
+                <div id="slider_humidity">
+                    <div class="puce"></div>
+                </div>
+            </div>
+            <div class="circle more">
+                <div class="cran"></div>
+                <div id="slider_more">
+                    <div class="puce"></div>
+                </div>
+            </div>
+        </div>
         <div id="simulation_container">
-            <div class="window" id="window_1"></div>
-            <div class="window" id="window_2"></div>
-            <div class="lamp" id="lamp_1"></div>
             <div id="user"></div>
             <div id="timer"><span id="hour">12</span>:<span id="minute">00</span></div>
-            <div id="ventilation">Ventilation val: <span class="display">0</span></div>
+            <object id="windows_open" type="image/svg+xml" data="assets/img/scene/fenetre.svg">
+            </object>
+            <svg id="windows_shutter">
+                <defs></defs>
+            </svg>
+            <object id="placard" type="image/svg+xml" data="assets/img/scene/placard.svg">
+            </object>
+            <object id="hotte" type="image/svg+xml" data="assets/img/scene/hotte.svg">
+            </object>
+            <svg id="hotte_power">
+                <defs></defs>
+            </svg>
+            <svg id="heating">
+                <defs></defs>
+            </svg>
+            <svg id="lux_hotte">
+                <defs></defs>
+            </svg>
+            <svg id="lux_table">
+                <defs></defs>
+            </svg>
+            <svg id="lux_plan">
+                <defs></defs>
+            </svg>
+            <svg id="grill">
+                <defs></defs>
+            </svg>
+            <!--<object id="hotte_power" type="image/svg+xml" data="assets/img/scene/hotte_power.svg">
+            </object>
+            <object id="heating" type="image/svg+xml" data="assets/img/scene/heating.svg">
+            </object>-->
+            <object id="lamp_hotte" type="image/svg+xml" data="assets/img/scene/lamp.svg">
+            </object>
+            <object id="lamp_table" type="image/svg+xml" data="assets/img/scene/lamp_table.svg">
+            </object>
+            <!--<object id="lux_plan" type="image/svg+xml" data="assets/img/scene/lux_plan.svg">
+            </object>
+            <object id="lux_hotte" type="image/svg+xml" data="assets/img/scene/lux_hotte.svg">
+            </object>
+            <object id="lux_table" type="image/svg+xml" data="assets/img/scene/lux_table.svg">
+            </object>
+            <object id="grill" type="image/svg+xml" data="assets/img/scene/plaque.svg">
+            </object>-->
+            <object id="table" type="image/svg+xml" data="assets/img/scene/table.svg">
+            </object>
+            <!--<div id="ventilation">Ventilation val: <span class="display">0</span></div>
             <div id="heating">Chauffage val: <span class="display">0</span></div>
             <div id="hygro">Hygromètrie val: <span class="display">80</span></div>
             <div id="temp_ext">T° ext val: <span class="display">10</span></div>
@@ -98,7 +183,7 @@
             <div id="lamp_plan">lamp plan val: <span class="display">0</span></div>
             <div id="lamp_hotte">lamp hotte val: <span class="display">0</span></div>
             <div id="windows_open">windows open val %: <span class="display">0</span></div>
-            <div id="windows_shutter">windows shutter val %: <span class="display">0</span></div>
+            <div id="windows_shutter">windows shutter val %: <span class="display">0</span></div>-->
         </div>
         <div id="controls_panel">
             <div class="circle time">
@@ -145,10 +230,8 @@
             </div>
         </div>
     </div>
-    <!--<object type="image/svg+xml" data="assets/img/fond/SoleilFlou.svg" width="100" height="100">
-    Le navigateur ne peut lire ce kiwi
-</object>-->
-    <script type="text/javascript" src="assets/js/zepto.min.js"></script>
+    <script type="text/javascript" src="assets/js/lib/zepto.min.js"></script>
+    <script type="text/javascript" src="assets/js/lib/snap.svg-min.js"></script>
     <script type="text/javascript" src="assets/js/app.js"></script>
     <script type="text/javascript" src="assets/js/windows.js"></script>
     <script type="text/javascript" src="assets/js/windows_open.js"></script>
@@ -170,7 +253,38 @@
     <script type="text/javascript" src="assets/js/controller.js"></script>
     <script type="text/javascript">
         $(function(){
-            app.initialize($('#simulation_container'));
+            //app.initialize($('#simulation_container'));
+            var s = Snap("#windows_shutter");
+            window.rect=s.rect(0,0,250,430);
+            window.rect.attr({
+                fill: "#000"
+            });
+            window.rect.animate({height: 0}, 1000);
+
+            var hotte=Snap("#hotte_power");
+            var img1 = hotte.image('assets/img/scene/hotte_power.svg', 0, 0, 75, 75);
+
+            var heating=Snap("#heating");
+            var img2 = heating.image('assets/img/scene/heating.svg', 0, 0, 190, 75);
+
+            var luxPlan=Snap("#lux_plan");
+            var img3 = luxPlan.image('assets/img/scene/lux_plan.svg', 0, 0, 300, 150);
+
+            var luxHotte=Snap("#lux_hotte");
+            var img4 = luxHotte.image('assets/img/scene/lux_hotte.svg', 0, 0, 130, 150);
+
+            var luxTable=Snap("#lux_table");
+            var img5 = luxTable.image('assets/img/scene/lux_table.svg', 0, 0, 300, 300);
+
+            window.luxTable=img5;
+
+            var grill = Snap("#grill");
+            var tux = Snap.load("assets/img/scene/plaque.svg", function(loadedFragment){
+                grill.append(loadedFragment);
+
+            });
+            window.grill=grill;
+    
         });
     </script>
 </body>
