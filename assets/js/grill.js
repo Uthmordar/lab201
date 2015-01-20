@@ -98,7 +98,6 @@
             change grill color based on value
         */
         viewGrill: function(){
-            console.log(data.power/valMax);
             plaque.animate({opacity: data.power/valMax}, 500);
         }
     };

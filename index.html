@@ -203,22 +203,6 @@
     <script type="text/javascript">
         $(function(){
             app.initialize($('#simulation_container'));
-
-            var hotte=Snap("#hotte_power");
-            var img1=Snap.load("assets/img/scene/hotte_power.svg", function(loadedFragment){
-                h=loadedFragment.selectAll('path').attr({fill: '#BC3D41'});
-                window.h=h;
-                hotte.append(h);
-                //window.t.animate({fill: 'green'}, 1000);
-            });
-
-            var heating=Snap("#heating");
-            var tux=Snap.load("assets/img/scene/heating.svg", function(loadedFragment){
-                h=loadedFragment.selectAll('path').attr({fill: '#BC3D41'});
-                window.h=h;
-                heating.append(h);
-                //window.t.animate({fill: 'green'}, 1000);
-            });
         });
     </script>
 </body>

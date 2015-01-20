@@ -1,11 +1,19 @@
 (function(ctx){
     "use strict";
-    var data, count, $input;
+    var data, count, $input, $hottePower, s, scene, stray, color, valMax;
 
     var ventilation={
         // Application Constructor
         initialize: function(data){
             $input=$('#ventilation_input');
+            valMax=$input.attr('max');
+            $hottePower=$('#hotte_power');
+            s=Snap("#hotte_power");
+            color='#FFF';
+            scene=Snap.load("assets/img/scene/hotte_power.svg", function(loadedFragment){
+                stray=loadedFragment.selectAll("path").attr({fill: color, opacity: 0});
+                s.append(stray);
+            });
             self.setData(data);
             self.bindEvents();
         },
@@ -36,8 +44,9 @@
         */
         updateVentilation: function(){
             count=0;
-            requestAnimFrame(self.changeDisplayVal);
-            self.changeDisplayVal();
+            //requestAnimFrame(self.changeDisplayVal);
+            //self.changeDisplayVal();
+            self.viewVentilation();
         },
         /**
             increase ventilation debit from initial value to final value
@@ -60,6 +69,16 @@
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }
+        },
+        viewVentilation: function(){
+            if(data.debit<valMax*0.3){
+                $hottePower.css('width', '25px');
+            }else if(data.debit<valMax*0.6){
+                $hottePower.css('width', '40px');
+            }else{
+                $hottePower.css('width', '60px');
+            }
+            stray.animate({opacity: (data.debit/valMax)*2}, 500);
         }
     };
     ctx.ventilation=ventilation;

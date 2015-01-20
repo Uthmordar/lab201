@@ -1,11 +1,19 @@
 (function(ctx){
     "use strict";
-    var data, count, $input;
+    var data, count, $input, s, scene, stray, colorOn, colorOff, valMax;
 
     var heating={
         // Application Constructor
         initialize: function(data){
             $input=$('#heating_input');
+            valMax=$input.attr('max');
+            s=Snap("#heating");
+            colorOn='#BC3D41';
+            colorOff='#FFF';
+            scene=Snap.load("assets/img/scene/heating.svg", function(loadedFragment){
+                stray=loadedFragment.selectAll("path").attr({fill: colorOff, opacity: 0});
+                s.append(stray);
+            });
             self.setData(data);
             self.bindEvents();
         },
@@ -36,8 +44,9 @@
         */
         updateHeating: function(){
             count=0;
-            requestAnimFrame(self.changeDisplayVal);
-            self.changeDisplayVal();
+            //requestAnimFrame(self.changeDisplayVal);
+            //self.changeDisplayVal();
+            self.viewHeating();
         },
         /**
             change power heating from initial value to final value in display zone
@@ -60,7 +69,18 @@
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }
+        },
+        /**
+            change grill color based on value
+        */
+        viewHeating: function(){
+            if(data.power>300){
+                stray.animate({opacity: data.power/valMax, fill: colorOn}, 500);
+            }else{
+                stray.animate({opacity: (data.power/valMax)*5, fill: colorOff}, 500);
+            }
         }
+
     };
     ctx.heating=heating;
     var self=heating;
