@@ -1,11 +1,18 @@
 (function(ctx){
     "use strict";
-    var data, count, $input;
+    var data, count, $input, s, rec, w, h;
 
     var shutter={
         // Application Constructor
         initialize: function(data){
             $input=$('#windows_shutter_input');
+            s = Snap("#windows_shutter");
+            w=250;
+            h=430;
+            rec=s.rect(0,0,w,0);
+            rec.attr({
+                fill: "#000"
+            });
             self.setData(data);
             self.bindEvents();
         },
@@ -36,8 +43,9 @@
         */
         updateState: function(){
             count=0;
-            requestAnimFrame(self.changeDisplayVal);
-            self.changeDisplayVal();
+            //requestAnimFrame(self.changeDisplayVal);
+            //self.changeDisplayVal();
+            self.viewChange();
         },
         /**
             change shutter opening from initial value to final value in display zone
@@ -60,6 +68,12 @@
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }
+        },
+        /**
+            change svg height based on opening percent
+        */
+        viewChange: function(){
+            rec.animate({height: h*0.01*data.state}, 500);
         }
     };
     ctx.shutter=shutter;

@@ -1,14 +1,17 @@
 (function(ctx){
     "use strict";
-    var data, count, $input;
+    var data, count, $input, s, viewLux, valMax;
 
     var plan={
         // Application Constructor
         initialize: function(data){
             $input=$('#lux_plan_input');
             self.setData(data);
-            data.posX=$('#lamp_1').offset().left;
-            data.posY=$('#lamp_1').offset().top;
+            data.posX=$('#lux_plan').offset().left;
+            data.posY=$('#lux_plan').offset().top;
+            valMax=$input.attr('max');
+            s=Snap("#lux_plan");
+            viewLux=s.image('assets/img/scene/lux_plan.svg', 0, 0, 300, 150).attr({'opacity': 0});
             window.app.params.setPositionLuxPlan(data.posX, data.posY);
             self.bindEvents();
         },
@@ -39,8 +42,9 @@
         */
         updateLux: function(){
             count=0;
-            requestAnimFrame(self.changeDisplayVal);
-            self.changeDisplayVal();
+            //requestAnimFrame(self.changeDisplayVal);
+            //self.changeDisplayVal();
+            self.viewLamp();
         },
         /**
             change workbench luminosity from initial value to final value in display zone
@@ -63,6 +67,12 @@
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }
+        },
+        /**
+            change luminosity in view
+        */
+        viewLamp: function(){
+            viewLux.animate({'opacity': data.lux/valMax}, 500);
         }
     };
     ctx.plan=plan;

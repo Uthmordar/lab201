@@ -1,13 +1,16 @@
 (function(ctx){
     "use strict";
-    var data, count, $input;
+    var data, count, $input, s, viewLux, valMax;
 
     var hotte={
         // Application Constructor
         initialize: function(data){
             $input=$('#lux_hotte_input');
-            data.posX=$('#lamp_1').offset().left;
-            data.posY=$('#lamp_1').offset().top;
+            data.posX=$('#lamp_hotte').offset().left;
+            data.posY=$('#lamp_hotte').offset().top;
+            valMax=$input.attr('max');
+            s=Snap("#lux_hotte");
+            viewLux=s.image('assets/img/scene/lux_hotte.svg', 0, 0, 130, 150).attr({'opacity': 0});
             window.app.params.setPositionLuxHotte(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();
@@ -39,8 +42,9 @@
         */
         updateLux: function(){
             count=0;
-            requestAnimFrame(self.changeDisplayVal);
-            self.changeDisplayVal();
+            //requestAnimFrame(self.changeDisplayVal);
+            //self.changeDisplayVal();
+            self.viewLamp();
         },
         /**
             change hotte luminosity from initial value to final value in display zone
@@ -63,6 +67,12 @@
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }
+        },
+        /**
+            change luminosity in view
+        */
+        viewLamp: function(){
+            viewLux.animate({'opacity': data.lux/valMax}, 500);
         }
     };
     ctx.hotte=hotte;

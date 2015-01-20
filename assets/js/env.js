@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute,
+    var $moon, $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute,
     valMax, $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius),
     valMaxDarkness, $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
 
@@ -14,6 +14,7 @@
             valMax=parseInt($inputTime.attr('max'));
             valMaxDarkness=parseInt($inputDarkness.attr('max'));
             $sun=$('#sun');
+            $moon=$('#moon');
             x0=window.innerWidth*0.5;
             y0=window.innerHeight-80;
             r=x0 * 0.9;
@@ -128,6 +129,9 @@
             x = x0 + r*Math.cos(t);
             y = y0 + r*Math.sin(t);
             $sun.css({'left': x+'px', 'top': y+'px'});
+            x = x0 + r*Math.cos(t-Math.PI);
+            y = y0 + r*Math.sin(t-Math.PI);
+            $moon.css({'left': x+'px', 'top': y+'px'});
         },
         /** 
             change time background stage
@@ -152,10 +156,10 @@
         changeDarkness: function(){
             if(valDarkness>25000){
                 $bgDarkness.css('opacity', 0);
-            }else if(valDarkness>500){
+            }else if(valDarkness>1000){
                 $bgDarkness.css('opacity', 0.4);
             }else{
-                $bgDarkness.css('opacity', 0.8);
+                $bgDarkness.css('opacity', 0.9);
             }
         },
         /**
