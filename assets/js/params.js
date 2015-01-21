@@ -10,6 +10,7 @@
         luxHotte: 0,
         luxPlan: 0,
         luxTable: 0,
+        luxWall: 0,
         ventilation: 0,
         tempExt: 0,
         tempInt: 0,
@@ -20,6 +21,7 @@
         luxHotte: {x:0, y:0},
         luxPlan: {x: 0, y:0},
         luxTable: {x: 0, y: 0},
+        luxWall: {x: 0, y: 0},
         grill: {x: 0, y: 0}
     };
     var params={
@@ -73,6 +75,9 @@
         setLuxTable: function(val){
             params.luxTable=parseInt(val);
         },
+        setLuxWall: function(val){
+            params.luxWall=parseInt(val);
+        },
         setVentilation: function(val){
             params.ventilation=parseInt(val);
         },
@@ -106,6 +111,10 @@
         setPositionLuxTable: function(x, y){
             position.luxTable.x=x-ctx.getSceneOffset().x;
             position.luxTable.y=y-ctx.getSceneOffset().y;
+        },
+        setPositionLuxWall: function(x, y){
+            position.luxWall.x=x-ctx.getSceneOffset().x;
+            position.luxWall.y=y-ctx.getSceneOffset().y;
         },
         setPositionGrill: function(x, y){
             position.grill.x=x-ctx.getSceneOffset().x;

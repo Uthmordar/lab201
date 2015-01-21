@@ -96,7 +96,7 @@
                 $chaud.css('opacity', Math.abs((data.t-moy)/(diff*0.5)));
             }else{
                 $chaud.css('opacity', 0);
-                $froid.css('opacity', Math.abs((data.t-moy)/(diff*0.5)));
+                $froid.css('opacity', Math.abs((data.t-moy)/(diff*0.5))*0.7);
             }
         }
     };

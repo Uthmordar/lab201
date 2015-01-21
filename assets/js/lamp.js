@@ -7,6 +7,7 @@
             self.hotte.initialize(data.hotte);
             self.plan.initialize(data.plan);
             self.table.initialize(data.table);
+            self.wall.initialize(data.wall);
         },
         bindEvents: function(){
         }

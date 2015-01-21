@@ -1,6 +1,7 @@
 (function(ctx){
     "use strict";
     var $moon, $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute,
+    $nuages, vecteurNuage,
     valMax, $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius),
     valMaxDarkness, $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
 
@@ -13,12 +14,17 @@
             $clock=$('#timer');
             valMax=parseInt($inputTime.attr('max'));
             valMaxDarkness=parseInt($inputDarkness.attr('max'));
+            // init sun & moon
             $sun=$('#sun');
             $moon=$('#moon');
             x0=window.innerWidth*0.5;
             y0=window.innerHeight-80;
             r=x0 * 0.9;
             angle=0;
+            // init nuages
+            $nuages=$('#nuages');
+            vecteurNuage=0;
+            // init time
             time=ctx.params.getParams().time;
             start=Math.floor(time.timestamp/(60*60*2));
             self.setData(data);
@@ -118,6 +124,7 @@
             self.changeTime(start,end);
             self.changeClock();
             self.rotateSun(val);
+            self.moveCloud(val);
         },
         /**
             rotate the sun 
@@ -132,6 +139,13 @@
             x = x0 + r*Math.cos(t-Math.PI);
             y = y0 + r*Math.sin(t-Math.PI);
             $moon.css({'left': x+'px', 'top': y+'px'});
+        },
+        /** 
+            move nugaes background with parallax
+        */
+        moveCloud: function(val){
+            vecteurNuage+=0.5;
+            $nuages.css('background', "url(assets/img/fond/fond_nuage_1.svg) "+vecteurNuage*0.7+"px -80px repeat-x, url(assets/img/fond/fond_nuage_2.svg) "+vecteurNuage+"px 50px repeat-x, url(assets/img/fond/fond_nuage_1.svg) "+vecteurNuage*1.8+"px 100px repeat-x")
         },
         /** 
             change time background stage
@@ -156,7 +170,7 @@
         changeDarkness: function(){
             if(valDarkness>25000){
                 $bgDarkness.css('opacity', 0);
-            }else if(valDarkness>1000){
+            }else if(valDarkness>5000){
                 $bgDarkness.css('opacity', 0.4);
             }else{
                 $bgDarkness.css('opacity', 0.9);

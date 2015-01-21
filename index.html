@@ -22,10 +22,8 @@
     <link rel='stylesheet' href="assets/css/index.css" type='text/css' media='all'/>
 </head>
 <body>
-    <!--<header id="header">
-        <h1>ExpressIF</h1>
-    </header>-->
     <div class="wrapper">
+        <a id="show_choice" href="#"></a>
         <section id="environment">
             <div class="bg-environment" id="bg_7"></div>
             <div class="bg-environment" id="bg_6"></div>
@@ -34,9 +32,10 @@
             <div class="bg-environment" id="bg_3"></div>
             <div class="bg-environment" id="bg_2"></div>
             <div class="bg-environment" id="bg_1"></div>
-            <div class="bg-environment" id="darkness"></div>
             <div id="sun"></div>
             <div id="moon"></div>
+            <div class="bg-environment" id="nuages"></div>
+            <div class="bg-environment" id="darkness"></div>
         </section>
         <div class="hidden">
             <label for="time_input">Change time (0-24h)</label>
@@ -62,6 +61,9 @@
             <div class="clear mbs"></div>
             <label for="lux_table_input">Lumière table (0-300)</label>
             <input type="range" id="lux_table_input" min="0" max="300" step="1" value="0"/>
+            <div class="clear mbs"></div>
+            <label for="lux_wall_input">Lumière mur (0-300)</label>
+            <input type="range" id="lux_wall_input" min="0" max="300" step="1" value="0"/>
             <div class="clear mbs"></div>
             <label for="ventilation_input">Ventilation (0-1000)</label>
             <input type="range" id="ventilation_input" min="0" max="1000" step="20" value="0"/>
@@ -100,6 +102,9 @@
             <svg id="heating">
                 <defs></defs>
             </svg>
+            <svg id="lux_wall">
+                <defs></defs>
+            </svg>
             <svg id="lux_hotte">
                 <defs></defs>
             </svg>
@@ -112,9 +117,9 @@
             <svg id="grill">
                 <defs></defs>
             </svg>
-            <object id="lamp_hotte" type="image/svg+xml" data="assets/img/scene/lamp.svg">
+            <object id="lamp_wall" type="image/svg+xml" data="assets/img/scene/lamp.svg">
             </object>
-            <object id="lamp_table" type="image/svg+xml" data="assets/img/scene/lamp_table.svg">
+            <object id="lamp_table" type="image/svg+xml" data="assets/img/scene/lamp2.svg">
             </object>
             <object id="table" type="image/svg+xml" data="assets/img/scene/table.svg">
             </object>
@@ -122,6 +127,9 @@
             </object>
             <object id="froid" type="image/svg+xml" data="assets/img/scene/froid.svg">
             </object>
+            <svg id="humidity">
+                <defs></defs>
+            </svg>
             <!--<div id="ventilation">Ventilation val: <span class="display">0</span></div>
             <div id="heating">Chauffage val: <span class="display">0</span></div>
             <div id="hygro">Hygromètrie val: <span class="display">80</span></div>
@@ -131,6 +139,7 @@
             <div id="lamp_table">lamp table val: <span class="display">0</span></div>
             <div id="lamp_plan">lamp plan val: <span class="display">0</span></div>
             <div id="lamp_hotte">lamp hotte val: <span class="display">0</span></div>
+            <div id="lamp_wall">lamp wall val: <span class="display">0</span></div>
             <div id="windows_open">windows open val %: <span class="display">0</span></div>
             <div id="windows_shutter">windows shutter val %: <span class="display">0</span></div>-->
         </div>
@@ -189,6 +198,7 @@
     <script type="text/javascript" src="assets/js/lamp_table.js"></script>
     <script type="text/javascript" src="assets/js/lamp_plan.js"></script>
     <script type="text/javascript" src="assets/js/lamp_hotte.js"></script>
+    <script type="text/javascript" src="assets/js/lamp_wall.js"></script>
     <script type="text/javascript" src="assets/js/env.js"></script>
     <script type="text/javascript" src="assets/js/user.js"></script>
     <script type="text/javascript" src="assets/js/params.js"></script>

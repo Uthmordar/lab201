@@ -6,11 +6,11 @@
         // Application Constructor
         initialize: function(data){
             $input=$('#lux_hotte_input');
-            data.posX=$('#lamp_hotte').offset().left;
-            data.posY=$('#lamp_hotte').offset().top;
+            data.posX=$('#hotte').offset().left;
+            data.posY=$('#hotte').offset().top;
             valMax=$input.attr('max');
             s=Snap("#lux_hotte");
-            viewLux=s.image('assets/img/scene/lux_hotte.svg', 0, 0, 130, 150).attr({'opacity': 0});
+            viewLux=s.image('assets/img/scene/lux_hotte.svg', -130, -130, 500, 500).attr({'opacity': 0});
             window.app.params.setPositionLuxHotte(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();
@@ -72,7 +72,7 @@
             change luminosity in view
         */
         viewLamp: function(){
-            viewLux.animate({'opacity': data.lux/valMax}, 500);
+            viewLux.animate({'opacity': (data.lux/valMax)*1.2}, 400);
         }
     };
     ctx.hotte=hotte;

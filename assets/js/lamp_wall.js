@@ -2,16 +2,16 @@
     "use strict";
     var data, count, $input, s, viewLux, valMax;
 
-    var table={
+    var wall={
         // Application Constructor
         initialize: function(data){
-            $input=$('#lux_table_input');
-            data.posX=$('#lamp_table').offset().left;
-            data.posY=$('#lamp_table').offset().top;
+            $input=$('#lux_wall_input');
+            data.posX=$('#lamp_wall').offset().left;
+            data.posY=$('#lamp_wall').offset().top;
             valMax=$input.attr('max');
-            s=Snap("#lux_table");
-            viewLux=s.image('assets/img/scene/lux_table.svg', -75, -125, 440, 540).attr({'opacity': 0});
-            window.app.params.setPositionLuxTable(data.posX, data.posY);
+            s=Snap("#lux_wall");
+            viewLux=s.image('assets/img/scene/lux_wall.svg', -187, -200, 520, 520).attr({'opacity': 0});
+            window.app.params.setPositionLuxWall(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();
         },
@@ -28,17 +28,17 @@
             });
         },
         /**
-            set table luminosity    
+            set luminosity   
         */
         setLux: function(val){
             $input.val(val);
             data.initialLux=data.lux;
             data.lux=val;
-            window.app.params.setLuxTable(val);
+            window.app.params.setLuxWall(val);
             return self;
         },
         /**
-            update table luminosity value in scene
+            update hotte luminosity value in scene
         */
         updateLux: function(){
             count=0;
@@ -47,7 +47,7 @@
             self.viewLamp();
         },
         /**
-            change table luminosity from initial value to final value in display zone
+            change hotte luminosity from initial value to final value in display zone
         */
         changeDisplayVal: function(){
             if(data.initialLux<data.lux){
@@ -72,9 +72,9 @@
             change luminosity in view
         */
         viewLamp: function(){
-            viewLux.animate({'opacity': data.lux/valMax}, 500);
+            viewLux.animate({'opacity': (data.lux/valMax)*2}, 400);
         }
     };
-    ctx.table=table;
-    var self=table;
+    ctx.wall=wall;
+    var self=wall;
 })(app.lamps);

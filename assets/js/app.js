@@ -35,9 +35,10 @@
         shutter:{$el: $('#window_shutter'), $display: $('#windows_shutter .display'), state:0, initialState: 0}};
     var envTab=[$('#bg_7'), $('#bg_7'), $('#bg_5'), $('#bg_1'), $('#bg_2'), $('#bg_2'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7'), $('#bg_7')];
     var lamps={
-        table: {$el: $('#lamp_table'), $display: $('#lamp_table .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0},
-        plan: {$el: $('#lamp_plan'), $display: $('#lamp_plan .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0},
-        hotte: {$el: $('#lamp_hotte'), $display: $('#lamp_hotte .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, spriteStart:-30, elLength:80, gap:30, nbStage: 2, slow: 0, speed: 8, active: 0, intensity: 0}
+        table: {$el: $('#lamp_table'), $display: $('#lamp_table .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
+        plan: {$el: $('#lamp_plan'), $display: $('#lamp_plan .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
+        hotte: {$el: $('#lamp_hotte'), $display: $('#lamp_hotte .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
+        wall: {$el: $('#lamp_wall'), $display: $('#lamp_wall .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0}
     };
     var user=[{$el: $('#user'), alive: 1, width: 0, height: 0}];
     var ventilation={$el: $('#ventilation'), debit:0, initialDebit:0, $display: $('#ventilation .display')};
@@ -47,7 +48,7 @@
         inside:{$el: $('#temp_int'), t:0, initialT:0, $display: $('#temp_int .display')}};
     var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill .display')};
 
-    var $scene,sceneX,sceneY;
+    var $scene,sceneX,sceneY, sceneWidth, sceneHeight;
     var params={
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
@@ -58,6 +59,7 @@
         luxHotte: 0,
         luxPlan: 0,
         luxTable: 0,
+        luxWall: 0,
         ventilation: 0,
         tempExt: 10,
         tempInt: 18,
@@ -104,6 +106,8 @@
             $scene=scene;
             sceneX=scene.offset().left;
             sceneY=scene.offset().top;
+            sceneWidth=parseFloat(scene.width());
+            sceneHeight=parseFloat(scene.height());
         },
         /**
             get scene coord
@@ -111,6 +115,12 @@
         */
         getSceneOffset: function(){
             return {x: sceneX, y: sceneY};
+        },
+        getSceneWidth: function(){
+            return sceneWidth;
+        },
+        getSceneHeight: function(){
+            return sceneHeight;
         }
     };
     ctx.app=app;

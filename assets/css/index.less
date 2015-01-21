@@ -52,6 +52,23 @@
 	width: 100%;
 	padding: 2*@padding;
 
+	#show_choice{
+		position: absolute;
+		top: 2rem;
+		left: 2rem;
+		text-decoration: none;
+		display: block;
+		width: 100px;
+		height: 100px;
+		background: url(../img/pictos/home.svg) 0 center no-repeat;
+	}
+	#show_choice:hover{
+		background: url(../img/pictos/home.svg) -91px center no-repeat;
+	}
+	#show_choice:active{
+		background: url(../img/pictos/home.svg) -182px center no-repeat;
+	}
+
 	#environment{
 		position: absolute;
 		top:0;
@@ -97,13 +114,17 @@
 				background-size: cover;
 			}
 			&#bg_7{
-				background: url(../img/fond/etoile.svg) center center repeat, url(../img/fond/fonds_7.svg) center center no-repeat;
+				background: url(../img/fond/stars.svg) center center repeat, url(../img/fond/fonds_7.svg) center center no-repeat;
 				background-size: cover;
 			}
 			&#darkness{
 				background:@color-black;
 				background-size: cover;
 			}
+			&#nuages{
+	        	background: url(../img/fond/fond_nuage_1.svg) 0 -80px repeat-x, url(../img/fond/fond_nuage_2.svg) 0 50px repeat-x, url(../img/fond/fond_nuage_1.svg) 0 100px repeat-x;
+	        	opacity: 1;
+	        }
 		}
 		#sun{
             position: absolute;
@@ -131,9 +152,17 @@
 		cursor: pointer;
 		background-color: #EDEDED;
 	}
+	#simulation_container *{
+	    -webkit-touch-callout: none;
+	    -webkit-user-select: none;
+	    -khtml-user-select: none;
+	    -moz-user-select: none;
+	    -ms-user-select: none;
+	    user-select: none;
+	}
 	#simulation_container{
 		position: relative;
-		background: url(../img/scene/cuisine.svg) no-repeat center center;
+		background: url(../img/scene/cuisine2.svg) no-repeat center center;
 		background-size: contain;
 		width: 120rem;
 		height: 60rem;
@@ -184,7 +213,7 @@
 			position: absolute;
 			top: 10rem;
 			left: 99rem;
-			z-index: 1;
+			z-index: 2;
 		}
 
 		#placard{
@@ -213,7 +242,7 @@
 			}
 		}
 
-		#lamp_hotte{
+		#lamp_wall{
 			position: absolute;
 			top: 10rem;
 			left: 52rem;
@@ -236,11 +265,20 @@
 			z-index: 1;
 		}
 
-		#lux_hotte{
+		#lux_wall{
 			position: absolute;
 			top: 3.5rem;
 			left: 49.8rem;
-			z-index: 0;
+			z-index: 1;
+		}
+
+		#lux_hotte{
+			position: absolute;
+			width: 223px;
+			height: 270px;
+			top: 20rem;
+			left: 95rem;
+			z-index: 1;
 		}
 
 		#lux_table{
@@ -248,7 +286,7 @@
 			height: 300px;
 			top: 17rem;
 			left: -13rem;
-			z-index: 0;
+			z-index: 1;
 		}
 
 		#grill{
@@ -269,14 +307,20 @@
 			position: absolute;
 			top: -5.8rem;
 			left: -0.5rem;
+			.transition(opacity, 0.3s, ease-in, 0s);
 			opacity: 0;
 		}
 		#froid{
 			position: absolute;
 			top: -5.8rem;
-			left: -0.8rem;
-			.transition(opacity, 1s, ease-in, 0s);
+			left: -0.5rem;
+			.transition(opacity, 0.3s, ease-in, 0s);
 			opacity: 0;
+		}
+
+		#humidity{
+			width: 100%;
+			height: 100%;
 		}
 
 		/*#ventilation{

@@ -31,22 +31,30 @@
                 if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))<200){
                     ctx.lamps.plan.setLux(300).updateLux();
                 }else if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))>=200){
-                    ctx.lamps.plan.setLux(0).updateLux();
+                    ctx.lamps.plan.setLux(100).updateLux();
                 }
-                if(Math.sqrt(Math.pow(params.user.x-positions.luxHotte.x, 2)+Math.pow(params.user.y-positions.luxHotte.y, 2))<200){
+                if(Math.sqrt(Math.pow(params.user.x-positions.luxHotte.x, 2)+Math.pow(params.user.y-positions.luxHotte.y, 2))<250){
                     ctx.lamps.hotte.setLux(300).updateLux();
-                }else if(Math.sqrt(Math.pow(params.user.x-positions.luxHotte.x, 2)+Math.pow(params.user.y-positions.luxHotte.y, 2))>=200){
+                }else if(Math.sqrt(Math.pow(params.user.x-positions.luxHotte.x, 2)+Math.pow(params.user.y-positions.luxHotte.y, 2))<400){
+                    ctx.lamps.hotte.setLux(150).updateLux();
+                }else if(Math.sqrt(Math.pow(params.user.x-positions.luxHotte.x, 2)+Math.pow(params.user.y-positions.luxHotte.y, 2))>=400){
                     ctx.lamps.hotte.setLux(0).updateLux();
                 }
-                if(Math.sqrt(Math.pow(params.user.x-positions.luxTable.x, 2)+Math.pow(params.user.y-positions.luxTable.y, 2))<200){
+                if(Math.sqrt(Math.pow(params.user.x-positions.luxTable.x, 2)+Math.pow(params.user.y-positions.luxTable.y, 2))<350){
                     ctx.lamps.table.setLux(300).updateLux();
-                }else if(Math.sqrt(Math.pow(params.user.x-positions.luxTable.x, 2)+Math.pow(params.user.y-positions.luxTable.y, 2))>=200){
-                    ctx.lamps.table.setLux(0).updateLux();
+                }else if(Math.sqrt(Math.pow(params.user.x-positions.luxTable.x, 2)+Math.pow(params.user.y-positions.luxTable.y, 2))>=350){
+                    ctx.lamps.table.setLux(100).updateLux();
+                }
+                if(Math.sqrt(Math.pow(params.user.x-positions.luxWall.x, 2)+Math.pow(params.user.y-positions.luxWall.y, 2))<200){
+                    ctx.lamps.wall.setLux(300).updateLux();
+                }else if(Math.sqrt(Math.pow(params.user.x-positions.luxWall.x, 2)+Math.pow(params.user.y-positions.luxWall.y, 2))>=200){
+                    ctx.lamps.wall.setLux(100).updateLux();
                 }
             }else{
                 ctx.lamps.plan.setLux(0).updateLux();
                 ctx.lamps.table.setLux(0).updateLux();
                 ctx.lamps.hotte.setLux(0).updateLux();
+                ctx.lamps.wall.setLux(0).updateLux();
             }
             /* duration of hygro treshold */
             if(params.hygrometrie.hygro<80){
