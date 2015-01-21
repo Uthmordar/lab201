@@ -20,8 +20,8 @@
             $sun=$('#sun');
             $moon=$('#moon');
             x0=window.innerWidth*0.5;
-            y0=window.innerHeight-80;
-            r=y0 * 0.95;
+            y0=window.innerHeight-94;
+            r=y0 * 0.98;
             angle=0;
             // init nuages
             $nuages=$('#nuages');

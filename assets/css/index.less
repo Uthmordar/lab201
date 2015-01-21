@@ -152,9 +152,9 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 80px;
-            height: 80px;
-            background: url('../img/fond/soleil_flou.png');
+            width: 95px;
+            height: 94px;
+            background: url('../img/fond/soleil.png');
             z-index: 1;
         }
         #moon{
@@ -174,13 +174,17 @@
 		cursor: pointer;
 		background-color: #EDEDED;
 	}
+
+	// ------------------------------------------------------------------------------
+	//                        SIMULATION CONTAINER
+	// ------------------------------------------------------------------------------
 	#simulation_container{
 		position: relative;
 		background: url(../img/scene/cuisine.svg) no-repeat center center;
 		background-size: contain;
 		width: 120rem;
 		height: 60rem;
-		margin: 9rem auto 0;
+		margin: 7rem auto 0;
 		left: -10rem;
 
 		#user{
@@ -362,7 +366,7 @@
 	// --------------------------------------------------------
 	#controls_panel{
 		position: absolute;
-		bottom: 8.5rem;
+		bottom: 10rem;
 		width: 90%;
 		height: 10rem;
 		display: flex;
@@ -376,6 +380,7 @@
 				text-align: center;
 				color: #FFF;
 				font-weight: bold;
+				font-size: 2.1rem;
 			}
 
 			&.karl{
@@ -505,13 +510,24 @@
 		z-index: 1000;
 
 		section.pop_in{
+			position: relative;
 			margin: 0.7*@margin;
 			background: rgba(255,255,255, 0.85);
 			border-radius: 10px;
 			padding: 6*@padding 12*@padding;
 
 			h4{
-				font-size: 3rem;
+				font-size: 4rem;
+			}
+
+			.close{
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				right: 1rem;
+				top: 1rem;
+				background: url(../img/pictos/croix.svg) center center no-repeat;
+				cursor: pointer;
 			}
 
 			form{
@@ -523,11 +539,13 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
+					font-size: 2.4rem;
 				}
 
 				select{
 					background: @color-grey;
 					margin: 0 @margin;
+					font-size: 1.8rem;
 				}
 
 				input[type="submit"]{
@@ -535,7 +553,7 @@
 					border: 2px solid @color-red-dark;
 					color: @color-red-dark;
 					padding: @padding;
-					font-size: 1.8rem;
+					font-size: 2.4rem;
 					background: none;
 					cursor: pointer;
 					margin: 2*@margin auto 0;
