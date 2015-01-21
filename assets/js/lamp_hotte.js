@@ -47,7 +47,7 @@
             self.viewLamp();
         },
         /**
-            change hotte luminosity from initial value to final value in display zone
+            change hotte lamp luminosity from initial value to final value in display zone
         */
         changeDisplayVal: function(){
             if(data.initialLux<data.lux){
