@@ -10,6 +10,7 @@
             valMax=parseInt($input.attr('max'));
             valMin=parseInt($input.attr('min'));
             diff=Math.abs(valMax-valMin);
+            data.t=parseInt($input.val());
             self.setData(data);
 
             s=Snap('#humidity');
@@ -66,17 +67,19 @@
         */
         updateHygro: function(){
             count=0;
-            //requestAnimFrame(self.changeDisplayVal);
-            //self.changeDisplayVal();
+            requestAnimFrame(self.changeDisplayVal);
+            self.changeDisplayVal();
             self.viewHumi();
         },
         /**
             change power heating from initial value to final value in display zone
         */
         changeDisplayVal: function(){
-            if(data.initialHygro<data.hygro){
+            data.$display.html(Math.floor(data.hygro));
+            data.$display.parent().siblings('.circle').eq(0).css('border', '3px solid rgba(255,255,255,'+parseFloat(0.1+(data.hygro-valMin)/diff)+')');
+            /*if(data.initialHygro<data.hygro){
                 if(count+parseInt(data.$display.html())>data.hygro){
-                    data.$display.html(data.hygro);
+                    data.$display.html(Math.floor(data.hygro));
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count+=0.1;
@@ -84,13 +87,13 @@
                 }
             }else{
                 if(count+parseInt(data.$display.html())<data.hygro){
-                    data.$display.html(data.hygro);
+                    data.$display.html(Math.floor(data.hygro));
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count-=0.1;
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
-            }
+            }*/
         },
         /**
             change humidity in view

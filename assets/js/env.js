@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var $moon, $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute,
+    var $moon, $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute, $displayDarkness,
     $nuages, vecteurNuage,
     valMax, $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius),
     valMaxDarkness, $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
@@ -11,7 +11,9 @@
             $inputTime=$('#time_input');
             $inputDarkness=$('#darkness_input');
             $bgDarkness=$('#darkness');
+            $displayDarkness=$('#luminosity_output .display');
             $clock=$('#timer');
+            valDarkness=$inputDarkness.val();
             valMax=parseInt($inputTime.attr('max'));
             valMaxDarkness=parseInt($inputDarkness.attr('max'));
             // init sun & moon
@@ -41,6 +43,7 @@
             self.bindEvents();
             requestAnimFrame(self.timeProgress);
             self.timeProgress();
+            self.changeDarknessDisplayVal();
         },
         getData: function(){
             return data;
@@ -175,6 +178,7 @@
             }else{
                 $bgDarkness.css('opacity', 0.9);
             }
+            self.changeDarknessDisplayVal();
         },
         /**
             auto progress for time
@@ -189,6 +193,13 @@
             }
             self.updateTime($inputTime);
             ctx.controller.controlOutput();
+        },
+        /**
+            change darkness from initial value to final value in display
+        */
+        changeDarknessDisplayVal: function(){
+            $displayDarkness.html(Math.floor(valDarkness));
+            $displayDarkness.parent().siblings('.circle').eq(0).css('border', '3px solid rgba(255,255,255,'+parseFloat(0.1+valDarkness/valMaxDarkness)+')');
         }
     };
     ctx.env=env;

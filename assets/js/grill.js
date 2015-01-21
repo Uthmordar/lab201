@@ -10,6 +10,7 @@
             data.posX=$('#grill').offset().left;
             data.posY=$('#grill').offset().top;
             valMax=parseInt($input.attr('max'));
+            data.power=parseInt($input.val());
             window.app.params.setPositionGrill(data.posX, data.posY);
             s=Snap("#grill");
             colorOn='#BC3D41';
@@ -68,17 +69,19 @@
         */
         updateGrill: function(){
             count=0;
-            //requestAnimFrame(self.changeDisplayVal);
-            //self.changeDisplayVal();
+            requestAnimFrame(self.changeDisplayVal);
+            self.changeDisplayVal();
             self.viewGrill();
         },
         /**
             change power heating from initial value to final value in display zone
         */
         changeDisplayVal: function(){
-            if(data.initialPower<data.power){
+            data.$display.html(Math.floor(data.power));
+            data.$display.parent().siblings('.circle').eq(0).css('border', '3px solid rgba(255,255,255,'+parseFloat(0.1+data.power/valMax)+')');
+            /*if(data.initialPower<data.power){
                 if(count+parseInt(data.$display.html())>data.power){
-                    data.$display.html(data.power);
+                    data.$display.html(Math.floor(data.power));
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count+=0.1;
@@ -86,13 +89,13 @@
                 }
             }else{
                 if(count+parseInt(data.$display.html())<data.power){
-                    data.$display.html(data.power);
+                    data.$display.html(Math.floor(data.power));
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count-=0.1;
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
-            }
+            }*/
         },
         /**
             change grill color based on value

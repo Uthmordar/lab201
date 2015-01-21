@@ -13,6 +13,7 @@
             valMin=parseInt($input.attr('min'));
             moy=(valMax+valMin)/2;
             diff=Math.abs(valMax-valMin);
+            data.t=parseInt($input.val());
             self.setData(data);
 
             X = Math.round(radius* Math.sin(deg*Math.PI/180));    
@@ -20,6 +21,7 @@
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
             self.setTemperature(deg*(diff/360)+valMin);
             self.bindEvents();
+            self.changeDisplayVal();
         },
         getData: function(){
             return data;
@@ -64,17 +66,19 @@
         */
         updateTemperature: function(){
             count=0;
-            //requestAnimFrame(self.changeDisplayVal);
-            //self.changeDisplayVal();
+            requestAnimFrame(self.changeDisplayVal);
+            self.changeDisplayVal();
             self.viewTemperatureInside();
         },
         /**
             change power heating from initial value to final value in display zone
         */
         changeDisplayVal: function(){
-            if(data.initialT<data.t){
+            data.$display.html(Math.floor(data.t));
+            data.$display.parent().siblings('.circle').eq(0).css('border', '3px solid rgba(255,255,255,'+parseFloat(0.1+(data.t-valMin)/diff)+')');
+            /*if(data.initialT<data.t){
                 if(count+parseInt(data.$display.html())>data.t){
-                    data.$display.html(data.t);
+                    data.$display.html(Math.floor(data.t));
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count+=0.1;
@@ -82,13 +86,13 @@
                 }
             }else{
                 if(count+parseInt(data.$display.html())<data.t){
-                    data.$display.html(data.t);
+                    data.$display.html(Math.floor(data.t));
                 }else{
                     requestAnimFrame(self.changeDisplayVal);
                     count-=0.1;
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
-            }
+            }*/
         },
         viewTemperatureInside: function(){
             if(data.t>moy){

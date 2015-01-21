@@ -48,6 +48,27 @@
 	}
 }
 
+*{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.blur{
+	-webkit-filter: blur(5px);
+	-ms-filter: blur(5px);
+	-o-filter: blur(5px);
+	-moz-filter: blur(5px);
+	filter: blur(5px);
+}
+
+.red{
+	color: @color-red;
+}
+
 .wrapper{
 	width: 100%;
 	padding: 2*@padding;
@@ -124,6 +145,7 @@
 			&#nuages{
 	        	background: url(../img/fond/fond_nuage_1.svg) 0 -80px repeat-x, url(../img/fond/fond_nuage_2.svg) 0 50px repeat-x, url(../img/fond/fond_nuage_1.svg) 0 100px repeat-x;
 	        	opacity: 1;
+	        	z-index: 20;
 	        }
 		}
 		#sun{
@@ -152,21 +174,13 @@
 		cursor: pointer;
 		background-color: #EDEDED;
 	}
-	#simulation_container *{
-	    -webkit-touch-callout: none;
-	    -webkit-user-select: none;
-	    -khtml-user-select: none;
-	    -moz-user-select: none;
-	    -ms-user-select: none;
-	    user-select: none;
-	}
 	#simulation_container{
 		position: relative;
 		background: url(../img/scene/cuisine.svg) no-repeat center center;
 		background-size: contain;
 		width: 120rem;
 		height: 60rem;
-		margin: 10rem auto 0;
+		margin: 9rem auto 0;
 		left: -10rem;
 
 		#user{
@@ -341,164 +355,198 @@
 			width: 100%;
 			height: 100%;
 		}
-
-		/*#ventilation{
-			position: absolute;
-			top: 6rem;
-			left: 7rem;
-		}
-
-		#heating{
-			position: absolute;
-			top: 8rem;
-			left: 7rem;
-		}
-
-		#hygro{
-			position: absolute;
-			top: 10rem;
-			left: 7rem;
-		}
-		#temp_int{
-			position: absolute;
-			top: 12rem;
-			left: 7rem;
-		}
-		#temp_ext{
-			position: absolute;
-			top: 14rem;
-			left: 7rem;
-		}
-		#grill{
-			position: absolute;
-			top: 16rem;
-			left: 7rem;
-		}
-		#lamp_table{
-			position: absolute;
-			top: 18rem;
-			left: 7rem;
-		}
-		#lamp_plan{
-			position: absolute;
-			top: 20rem;
-			left: 7rem;
-		}
-		#lamp_hotte{
-			position: absolute;
-			top: 22rem;
-			left: 7rem;
-		}
-		#windows_open{
-			position: absolute;
-			top: 24rem;
-			left: 7rem;
-		}
-		#windows_shutter{
-			position: absolute;
-			top: 26rem;
-			left: 7rem;
-		}*/
 	}
 
 	// --------------------------------------------------------
 	//                       CONTROLS
 	// --------------------------------------------------------
-	#controls_panel, #data_panel{
+	#controls_panel{
 		position: absolute;
-		bottom: 5rem;
-		width: 100%;
+		bottom: 8.5rem;
+		width: 90%;
 		height: 10rem;
 		display: flex;
-		align-items: center;
-		justify-content: center;
+		align-items: flex-start;
+		justify-content: space-around;
+		margin-left: 5%;
 
-		.circle {
-			position: relative;
-	        width: 140px;
-	        height: 140px;
-	        border: 1px solid #FFF;
-	        border-radius: 100%;
-	        float: left;
-	        margin-right: 60px;
+		.control{
+			
+			.output{
+				text-align: center;
+				color: #FFF;
+				font-weight: bold;
+			}
 
-	        .cran{
-	        	position: absolute;
-	        	width: 1px;
-	        	border: 1px solid #FFF;
-	        	left: 7rem;
-	        	top: -1.5rem;
-	        }
+			&.karl{
+				width: 140px;
+				height: 140px;
+				background: url(../img/pictos/karltete.svg) center -160px no-repeat;
 
-          	>div{
-	            position: relative;
-	            height: 30px;
-	            width: 30px;
-	            left: 57px;
-	            top: -14px;
-	            border-radius: 100%;
-	            cursor: pointer;
-	            border: 2px solid #FFF;
+				input{
+					display: block;
+					border: 2px solid @color-red-dark;
+					color: @color-red-dark;
+					padding: @padding;
+					font-size: 1.8rem;
+					background: none;
+					cursor: pointer;
+					margin: 0 auto;
+					outline: none;
+					
+					&:hover{
+						border: 2px solid lighten(@color-red-light, 10%);
+						color: lighten(@color-red-light, 10%);
+					}
+				}
+			}
+			.circle {
+				position: relative;
+		        width: 140px;
+		        height: 140px;
+		        border: 3px solid rgba(255,255,255,0.3);
+		        border-radius: 100%;
+		        float: left;
+		        margin-bottom: 2*@margin;
 
-	            >.puce{
-	            	margin: 3px;
-		            height: 20px;
-		            width: 20px;
-	            	border-radius: 100%;
-	            }
-
-	            &#slider_time .puce{
-	            	background-color: @color-time;
-	            }
-	            &#slider_luminosity .puce{
-	            	background-color: @color-luminosity;
-	            }
-	            &#slider_meteorology .puce{
-	            	background-color: @color-meteorology;
-	            }
-	            &#slider_heating .puce{
-	            	background-color: @color-heating;
-	            }
-	            &#slider_humidity .puce{
-	            	background-color: @color-humidity;
-	            }
-	            &#slider_temperature .puce{
-	            	background-color: @color-temperature;
-	            }
-	            &#slider_more .puce{
-	            	background-color: #666;
-	            }
-	        }
-	        &.time{
-	        	background: url(../img/pictos/time.png) no-repeat center center;
-	        }
-	        &.luminosity{
-	        	background: url(../img/pictos/luminosity.png) no-repeat center center;
-	        }
-	        &.meteorology{
-	        	background: url(../img/pictos/meteorology.png) no-repeat center center;
-	        }
-	        &.heating{
-	        	background: url(../img/pictos/heating.png) no-repeat center center;
-	        }
-	        &.humidity{
-	        	background: url(../img/pictos/humidity.png) no-repeat center center;
-	        }
-	        &.temperature{
-	        	background: url(../img/pictos/temperature.png) no-repeat center center;
-	        }
-	        &.more{
-	        	border: 1px solid @color-black;
-	        	background: url(../img/pictos/votreparametre.png) no-repeat center center;
-
-	        	.cran{
-		        	border: 1px solid @color-black;
+		        .cran{
+		        	position: absolute;
+		        	width: 1px;
+		        	border: 1px solid #FFF;
+		        	left: 7rem;
+		        	top: -1.5rem;
 		        }
 
 	          	>div{
-		            border: 2px solid @color-black;
+		            position: relative;
+		            height: 30px;
+		            width: 30px;
+		            left: 57px;
+		            top: -14px;
+		            border-radius: 100%;
+		            cursor: pointer;
+		            border: 2px solid #FFF;
+
+		            >.puce{
+		            	margin: 3px;
+			            height: 20px;
+			            width: 20px;
+		            	border-radius: 100%;
+		            }
+
+		            &#slider_time .puce{
+		            	background-color: @color-time;
+		            }
+		            &#slider_luminosity .puce{
+		            	background-color: @color-luminosity;
+		            }
+		            &#slider_meteorology .puce{
+		            	background-color: @color-meteorology;
+		            }
+		            &#slider_heating .puce{
+		            	background-color: @color-heating;
+		            }
+		            &#slider_humidity .puce{
+		            	background-color: @color-humidity;
+		            }
+		            &#slider_temperature .puce{
+		            	background-color: @color-temperature;
+		            }
+		            &#slider_more .puce{
+		            	background-color: #666;
+		            }
+		        }
+		        &.time{
+		        	background: url(../img/pictos/time.png) no-repeat center center;
+		        }
+		        &.luminosity{
+		        	background: url(../img/pictos/luminosity.png) no-repeat center center;
+		        }
+		        &.meteorology{
+		        	background: url(../img/pictos/meteorology.png) no-repeat center center;
+		        }
+		        &.heating{
+		        	background: url(../img/pictos/heating.png) no-repeat center center;
+		        }
+		        &.humidity{
+		        	background: url(../img/pictos/humidity.png) no-repeat center center;
+		        }
+		        &.temperature{
+		        	background: url(../img/pictos/temperature.png) no-repeat center center;
+		        }
+		        &.more{
+	        		border: 3px solid @color-black;
+		        	background: url(../img/pictos/votreparametre.png) no-repeat center center;
+		        	cursor: pointer;
+
+		        	&:hover{
+		        		border: 3px solid @color-grey;
+		        	}
+		        	.cran{
+			        	border: 1px solid @color-black;
+			        }
+
+		          	>div{
+			            border: 2px solid @color-black;
+			        }
 		        }
 	        }
-        }
+		}
+	}
+	// --------------------------------------------------------
+	//                         FORM
+	// --------------------------------------------------------
+	#rules_form{
+		position: absolute;
+		top: 20rem;
+		left: 20rem;
+		border: 2px solid rgba(255, 255, 255, 0.85);
+		border-radius: 10px;
+		z-index: 1000;
+
+		section.pop_in{
+			margin: 0.7*@margin;
+			background: rgba(255,255,255, 0.85);
+			border-radius: 10px;
+			padding: 6*@padding 12*@padding;
+
+			h4{
+				font-size: 3rem;
+			}
+
+			form{
+				width: 90%;
+				margin: 0 auto;
+
+				.field_group{
+					margin: @margin auto;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
+
+				select{
+					background: @color-grey;
+					margin: 0 @margin;
+				}
+
+				input[type="submit"]{
+					display: block;
+					border: 2px solid @color-red-dark;
+					color: @color-red-dark;
+					padding: @padding;
+					font-size: 1.8rem;
+					background: none;
+					cursor: pointer;
+					margin: 2*@margin auto 0;
+					outline: none;
+					
+					&:hover{
+						border: 2px solid lighten(@color-red-light, 10%);
+						color: lighten(@color-red-light, 10%);
+					}
+				}
+			}
+		}
 	}
 }

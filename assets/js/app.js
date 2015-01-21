@@ -42,11 +42,11 @@
     };
     var user=[{$el: $('#user'), alive: 1, width: 0, height: 0}];
     var ventilation={$el: $('#ventilation'), debit:0, initialDebit:0, $display: $('#ventilation .display')};
-    var heating={$el: $('#heating'), power:0, initialPower:0, $display: $('#heating .display')};
-    var hygro={$el: $('#hygro'), hygro:0, initialHygro:0, $display: $('#hygro .display')};
-    var temperature={ext:{$el: $('#temp_ext'), t:0, initialT:0, $display: $('#temp_ext .display')},
-        inside:{$el: $('#temp_int'), t:0, initialT:0, $display: $('#temp_int .display')}};
-    var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill .display')};
+    var heating={$el: $('#heating'), power:0, initialPower:0, $display: $('#heating_output .display')};
+    var hygro={$el: $('#hygro'), hygro:0, initialHygro:0, $display: $('#hygro_output .display')};
+    var temperature={ext:{$el: $('#temp_ext'), t:15, initialT:0, $display: $('#temp_ext_output .display')},
+        inside:{$el: $('#temp_int'), t:18, initialT:0, $display: $('#temp_int_output .display')}};
+    var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill_output .display')};
 
     var $scene,sceneX,sceneY, sceneWidth, sceneHeight;
     var params={
@@ -81,6 +81,7 @@
                     };
             })();
             this.params.initialize(params);
+            this.form.initialize($('#submit_rules'));
             this.windows.initialize(windows);
             this.lamps.initialize(lamps);
             this.env.initialize(envTab);

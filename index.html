@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang='en'>
 <head>
-    <title>GROS TITLE</title>
+    <title>EXPRESSIF</title>
     <meta charset="utf-8" >
     <meta name='Author' content="Uthmordar">
     <meta name='description' content="ceci est une fat description">
@@ -23,174 +23,226 @@
 </head>
 <body>
     <div class="wrapper">
-        <a id="show_choice" href="#"></a>
-        <section id="environment">
-            <div class="bg-environment" id="bg_7"></div>
-            <div class="bg-environment" id="bg_6"></div>
-            <div class="bg-environment" id="bg_5"></div>
-            <div class="bg-environment" id="bg_4"></div>
-            <div class="bg-environment" id="bg_3"></div>
-            <div class="bg-environment" id="bg_2"></div>
-            <div class="bg-environment" id="bg_1"></div>
-            <div id="sun"></div>
-            <div id="moon"></div>
-            <div class="bg-environment" id="nuages"></div>
-            <div class="bg-environment" id="darkness"></div>
+        <section id="app_blur">
+            <a id="show_choice" href="#"></a>
+            <section id="environment">
+                <div class="bg-environment" id="bg_7"></div>
+                <div class="bg-environment" id="bg_6"></div>
+                <div class="bg-environment" id="bg_5"></div>
+                <div class="bg-environment" id="bg_4"></div>
+                <div class="bg-environment" id="bg_3"></div>
+                <div class="bg-environment" id="bg_2"></div>
+                <div class="bg-environment" id="bg_1"></div>
+                <div id="sun"></div>
+                <div id="moon"></div>
+                <div class="bg-environment" id="nuages"></div>
+                <div class="bg-environment" id="darkness"></div>
+            </section>
+            <section class="hidden">
+                <label for="time_input">Change time (0-24h)</label>
+                <input type="range" min="0" max="86400" step="1" id="time_input" value="43200"/>
+                <div class="clear mbs"></div>
+                <label for="darkness_input">Lux Environment<br/> (0-100000lux)</label>
+                <input type="range" min="0" max="100000" id="darkness_input" value="50000"/>
+                <div class="clear mbs"></div>
+                <label for="hygro_input">Hygrométrie (70-100%)</label>
+                <input type="range" id="hygro_input" min="70" max="100" step="1" value="80"/>
+                <div class="clear mbs"></div>
+                <label for="grill_input">Cuisson (0-3000W)</label>
+                <input type="range" id="grill_input" min="0" max="3000" step="100" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="lux_hotte_input">Lumière hotte (0-300)</label>
+                <input type="range" id="lux_hotte_input" min="0" max="300" step="1" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="lux_plan_input">Lumière plan (0-300)</label>
+                <input type="range" id="lux_plan_input" min="0" max="300" step="1" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="lux_table_input">Lumière table (0-300)</label>
+                <input type="range" id="lux_table_input" min="0" max="300" step="1" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="lux_wall_input">Lumière mur (0-300)</label>
+                <input type="range" id="lux_wall_input" min="0" max="300" step="1" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="ventilation_input">Ventilation (0-1000)</label>
+                <input type="range" id="ventilation_input" min="0" max="1000" step="20" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="temp_ext_input">Température ext (-15 to 45)</label>
+                <input type="range" id="temp_ext_input" min="-15" max="45" step="1" value="10"/>
+                <div class="clear mbs"></div>
+                <label for="temp_int_input">Température int (12 to 45)</label>
+                <input type="range" id="temp_int_input" min="12" max="40" step="1" value="18"/>
+                <div class="clear mbs"></div>
+                <label for="heating_input">Chauffage (0-2000)</label>
+                <input type="range" id="heating_input" min="0" max="2000" step="20" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="windows_open_input">Windows open (0-100)</label>
+                <input type="range" id="windows_open_input" min="0" max="100" step="1" value="0"/>
+                <div class="clear mbs"></div>
+                <label for="windows_shutter_input">Windows shutter (0-100)</label>
+                <input type="range" id="windows_shutter_input" min="0" max="100" step="1" value="0"/>
+                <div class="clear mbs"></div>
+            </section>
+            <section id="simulation_container">
+                <div id="user"></div>
+                <div id="timer"><span id="hour">12</span><span class="sep">:</span><span id="minute">00</span></div>
+                <object id="windows_open" type="image/svg+xml" data="assets/img/scene/fenetre.svg">
+                </object>
+                <svg id="windows_shutter">
+                    <defs></defs>
+                </svg>
+                <object id="placard" type="image/svg+xml" data="assets/img/scene/placard.svg">
+                </object>
+                <object id="hotte" type="image/svg+xml" data="assets/img/scene/hotte.svg">
+                </object>
+                <svg id="hotte_power">
+                    <defs></defs>
+                </svg>
+                <svg id="heating">
+                    <defs></defs>
+                </svg>
+                <svg id="lux_wall">
+                    <defs></defs>
+                </svg>
+                <svg id="lux_hotte">
+                    <defs></defs>
+                </svg>
+                <svg id="lux_table">
+                    <defs></defs>
+                </svg>
+                <svg id="lux_plan">
+                    <defs></defs>
+                </svg>
+                <svg id="grill">
+                    <defs></defs>
+                </svg>
+                <object id="lamp_wall" type="image/svg+xml" data="assets/img/scene/lamp.svg">
+                </object>
+                <object id="lamp_table" type="image/svg+xml" data="assets/img/scene/lamp2.svg">
+                </object>
+                <object id="table" type="image/svg+xml" data="assets/img/scene/table.svg">
+                </object>
+                <object id="chaud" type="image/svg+xml" data="assets/img/scene/chaud.svg">
+                </object>
+                <object id="froid" type="image/svg+xml" data="assets/img/scene/froid.svg">
+                </object>
+                <svg id="humidity">
+                    <defs></defs>
+                </svg>
+                <!--<div id="ventilation">Ventilation val: <span class="display">0</span></div>
+                <div id="heating">Chauffage val: <span class="display">0</span></div>
+                <div id="grill">Plaque val: <span class="display">0</span></div>
+                <div id="lamp_table">lamp table val: <span class="display">0</span></div>
+                <div id="lamp_plan">lamp plan val: <span class="display">0</span></div>
+                <div id="lamp_hotte">lamp hotte val: <span class="display">0</span></div>
+                <div id="lamp_wall">lamp wall val: <span class="display">0</span></div>
+                <div id="windows_open">windows open val %: <span class="display">0</span></div>
+                <div id="windows_shutter">windows shutter val %: <span class="display">0</span></div>-->
+            </section>
+            <section id="controls_panel">
+                <div class="control karl">
+                    <input type="button" id="user_input" value="YES"/>
+                </div>
+                <div class="control">
+                    <div class="circle time">
+                        <div class="cran"></div>
+                        <div id="slider_time">
+                            <div class="puce"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="circle luminosity">
+                        <div class="cran"></div>
+                        <div id="slider_luminosity">
+                            <div class="puce"></div>
+                        </div>
+                    </div>
+                    <div id="luminosity_output" class="output">LUMINOSITY: <span class="display">50000</span> lux</div>
+                </div>
+                <div class="control">
+                    <div class="circle meteorology">
+                        <div class="cran"></div>
+                        <div id="slider_meteorology">
+                            <div class="puce"></div>
+                        </div>
+                    </div>
+                    <div id="temp_ext_output" class="output">T° OUTSIDE: <span class="display">15</span> °C</div>
+                </div>
+                <div class="control">
+                    <div class="circle temperature">
+                        <div class="cran"></div>
+                        <div id="slider_temperature">
+                            <div class="puce"></div>
+                        </div>
+                    </div>
+                    <div id="temp_int_output" class="output">T° INSIDE: <span class="display">18</span> °C</div>
+                </div>
+                <div class="control">
+                    <div class="circle heating">
+                        <div class="cran"></div>
+                        <div id="slider_heating">
+                            <div class="puce"></div>
+                        </div>
+                    </div>
+                    <div id="grill_output" class="output">GRILL: <span class="display">0</span> W</div>
+                </div>
+                <div class="control">
+                    <div class="circle humidity">
+                        <div class="cran"></div>
+                        <div id="slider_humidity">
+                            <div class="puce"></div>
+                        </div>
+                    </div>
+                     <div id="hygro_output" class="output">HUMIDITY: <span class="display">80</span>%</div>
+                </div>
+                <div class="control">
+                    <div class="circle more">
+                        <div class="cran"></div>
+                        <div id="slider_more">
+                            <div class="puce"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </section>
-        <div class="hidden">
-            <label for="time_input">Change time (0-24h)</label>
-            <input type="range" min="0" max="86400" step="1" id="time_input" value="43200"/>
-            <div class="clear mbs"></div>
-            <label for="darkness_input">Lux Environment<br/> (0-100000lux)</label>
-            <input type="range" min="0" max="100000" id="darkness_input" value="50000"/>
-            <div class="clear mbs"></div>
-            <label for="user_input">User</label>
-            <input type="button" id="user_input" value="Alive"/>
-            <div class="clear mbs"></div>
-            <label for="hygro_input">Hygrométrie (70-100%)</label>
-            <input type="range" id="hygro_input" min="70" max="100" step="1" value="80"/>
-            <div class="clear mbs"></div>
-            <label for="grill_input">Cuisson (0-3000W)</label>
-            <input type="range" id="grill_input" min="0" max="3000" step="100" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="lux_hotte_input">Lumière hotte (0-300)</label>
-            <input type="range" id="lux_hotte_input" min="0" max="300" step="1" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="lux_plan_input">Lumière plan (0-300)</label>
-            <input type="range" id="lux_plan_input" min="0" max="300" step="1" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="lux_table_input">Lumière table (0-300)</label>
-            <input type="range" id="lux_table_input" min="0" max="300" step="1" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="lux_wall_input">Lumière mur (0-300)</label>
-            <input type="range" id="lux_wall_input" min="0" max="300" step="1" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="ventilation_input">Ventilation (0-1000)</label>
-            <input type="range" id="ventilation_input" min="0" max="1000" step="20" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="temp_ext_input">Température ext (-15 to 45)</label>
-            <input type="range" id="temp_ext_input" min="-15" max="45" step="1" value="10"/>
-            <div class="clear mbs"></div>
-            <label for="temp_int_input">Température int (12 to 45)</label>
-            <input type="range" id="temp_int_input" min="12" max="40" step="1" value="18"/>
-            <div class="clear mbs"></div>
-            <label for="heating_input">Chauffage (0-2000)</label>
-            <input type="range" id="heating_input" min="0" max="2000" step="20" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="windows_open_input">Windows open (0-100)</label>
-            <input type="range" id="windows_open_input" min="0" max="100" step="1" value="0"/>
-            <div class="clear mbs"></div>
-            <label for="windows_shutter_input">Windows shutter (0-100)</label>
-            <input type="range" id="windows_shutter_input" min="0" max="100" step="1" value="0"/>
-            <div class="clear mbs"></div>
-        </div>
-        <div id="simulation_container">
-            <div id="user"></div>
-            <div id="timer"><span id="hour">12</span><span class="sep">:</span><span id="minute">00</span></div>
-            <object id="windows_open" type="image/svg+xml" data="assets/img/scene/fenetre.svg">
-            </object>
-            <svg id="windows_shutter">
-                <defs></defs>
-            </svg>
-            <object id="placard" type="image/svg+xml" data="assets/img/scene/placard.svg">
-            </object>
-            <object id="hotte" type="image/svg+xml" data="assets/img/scene/hotte.svg">
-            </object>
-            <svg id="hotte_power">
-                <defs></defs>
-            </svg>
-            <svg id="heating">
-                <defs></defs>
-            </svg>
-            <svg id="lux_wall">
-                <defs></defs>
-            </svg>
-            <svg id="lux_hotte">
-                <defs></defs>
-            </svg>
-            <svg id="lux_table">
-                <defs></defs>
-            </svg>
-            <svg id="lux_plan">
-                <defs></defs>
-            </svg>
-            <svg id="grill">
-                <defs></defs>
-            </svg>
-            <object id="lamp_wall" type="image/svg+xml" data="assets/img/scene/lamp.svg">
-            </object>
-            <object id="lamp_table" type="image/svg+xml" data="assets/img/scene/lamp2.svg">
-            </object>
-            <object id="table" type="image/svg+xml" data="assets/img/scene/table.svg">
-            </object>
-            <object id="chaud" type="image/svg+xml" data="assets/img/scene/chaud.svg">
-            </object>
-            <object id="froid" type="image/svg+xml" data="assets/img/scene/froid.svg">
-            </object>
-            <svg id="humidity">
-                <defs></defs>
-            </svg>
-            <!--<div id="ventilation">Ventilation val: <span class="display">0</span></div>
-            <div id="heating">Chauffage val: <span class="display">0</span></div>
-            <div id="hygro">Hygromètrie val: <span class="display">80</span></div>
-            <div id="temp_ext">T° ext val: <span class="display">10</span></div>
-            <div id="temp_int">T° int val: <span class="display">18</span></div>
-            <div id="grill">Plaque val: <span class="display">0</span></div>
-            <div id="lamp_table">lamp table val: <span class="display">0</span></div>
-            <div id="lamp_plan">lamp plan val: <span class="display">0</span></div>
-            <div id="lamp_hotte">lamp hotte val: <span class="display">0</span></div>
-            <div id="lamp_wall">lamp wall val: <span class="display">0</span></div>
-            <div id="windows_open">windows open val %: <span class="display">0</span></div>
-            <div id="windows_shutter">windows shutter val %: <span class="display">0</span></div>-->
-        </div>
-        <div id="controls_panel">
-            <div class="circle time">
-                <div class="cran"></div>
-                <div id="slider_time">
-                    <div class="puce"></div>
-                </div>
+        <div id="rules_form" class="hidden">
+            <section class="pop_in">
+                <h4>Create your own rules according to the choices available to you</h4>
+                <form id="add_rules">
+                    <div class="field_group">
+                        <span class="red strong">IF</span> <select name="if">
+                            <option>Luminosity</option>
+                            <option>T° outside</option>
+                            <option>T° inside</option>
+                        </select>
+                        IS
+                            <select name="if_is">
+                                <option>Low</option>
+                                <option>Average</option>
+                                <option>High</option>
+                            </select>
+                        THEN 
+                            <select name="then">
+                                <option>Light</option>
+                                <option>Ventilation</option>
+                                <option>Heating</option>
+                            </select>
+                        IS
+                            <select name="then_is">
+                                <option>Low</option>
+                                <option>Average</option>
+                                <option>high</option>
+                            </select>
+                    </div>
+                    <input type="submit" value="CONFIGURED" id="submit_rules"/>
+                </form>
             </div>
-            <div class="circle luminosity">
-                <div class="cran"></div>
-                <div id="slider_luminosity">
-                    <div class="puce"></div>
-                </div>
-            </div>
-            <div class="circle meteorology">
-                <div class="cran"></div>
-                <div id="slider_meteorology">
-                    <div class="puce"></div>
-                </div>
-            </div>
-            <div class="circle temperature">
-                <div class="cran"></div>
-                <div id="slider_temperature">
-                    <div class="puce"></div>
-                </div>
-            </div>
-            <div class="circle heating">
-                <div class="cran"></div>
-                <div id="slider_heating">
-                    <div class="puce"></div>
-                </div>
-            </div>
-            <div class="circle humidity">
-                <div class="cran"></div>
-                <div id="slider_humidity">
-                    <div class="puce"></div>
-                </div>
-            </div>
-            <div class="circle more">
-                <div class="cran"></div>
-                <div id="slider_more">
-                    <div class="puce"></div>
-                </div>
-            </div>
-        </div>
+        </section>
     </div>
     <script type="text/javascript" src="assets/js/lib/zepto.min.js"></script>
     <script type="text/javascript" src="assets/js/lib/snap.svg-min.js"></script>
     <script type="text/javascript" src="assets/js/app.js"></script>
+    <script type="text/javascript" src="assets/js/form.js"></script>
     <script type="text/javascript" src="assets/js/windows.js"></script>
     <script type="text/javascript" src="assets/js/windows_open.js"></script>
     <script type="text/javascript" src="assets/js/windows_shutter.js"></script>
@@ -213,6 +265,32 @@
     <script type="text/javascript">
         $(function(){
             app.initialize($('#simulation_container'));
+            document.addEventListener("keydown", function(e) {
+              if (e.keyCode == 13) {
+                toggleFullScreen();
+              }
+            }, false);
+
+            function toggleFullScreen() {
+              if (!document.fullscreenElement &&    // alternative standard method
+                  !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
+                if (document.documentElement.requestFullscreen) {
+                  document.documentElement.requestFullscreen();
+                } else if (document.documentElement.mozRequestFullScreen) {
+                  document.documentElement.mozRequestFullScreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                  document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+                }
+              } else {
+                if (document.cancelFullScreen) {
+                  document.cancelFullScreen();
+                } else if (document.mozCancelFullScreen) {
+                  document.mozCancelFullScreen();
+                } else if (document.webkitCancelFullScreen) {
+                  document.webkitCancelFullScreen();
+                }
+              }
+            }
         });
     </script>
 </body>

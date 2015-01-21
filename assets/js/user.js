@@ -44,12 +44,12 @@
                     data[activeUser].alive=0;
                     ctx.params.setUserStatus(0);
                     data[activeUser].$el.css('display', 'none');
-                    $input.val('Away');
+                    $input.val('N0');
                 }else{
                     data[activeUser].alive=1;
                     ctx.params.setUserStatus(1);
                     data[activeUser].$el.css('display', 'block');
-                    $input.val('Alive');
+                    $input.val('YES');
                 }
             });
             /**
@@ -61,7 +61,6 @@
                     e.preventDefault();
                     posY=e.clientY-sceneY-data[activeUser].height*0.5;
                     posX=e.clientX-sceneX-data[activeUser].width*0.5;
-                    console.log(posY);
                     if(posY<320 && posY>212 && posX>-80 && posX<950){
                         ctx.params.setUserPos(posX, posY);
                         $(this).css({'top': posY +'px', 'left': posX + 'px'});
