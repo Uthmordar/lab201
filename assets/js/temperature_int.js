@@ -62,7 +62,7 @@
             return self;
         },
         /**
-            update heating power value in scene
+            update T° outside value in scene
         */
         updateTemperature: function(){
             count=0;
@@ -71,7 +71,7 @@
             self.viewTemperatureInside();
         },
         /**
-            change power heating from initial value to final value in display zone
+            change T° inside from initial value to final value in display zone
         */
         changeDisplayVal: function(){
             data.$display.html(Math.floor(data.t));
@@ -94,6 +94,9 @@
                 }
             }*/
         },
+        /**
+            change background T° atmosphere
+        */ 
         viewTemperatureInside: function(){
             if(data.t>moy){
                 $froid.css('opacity', 0);

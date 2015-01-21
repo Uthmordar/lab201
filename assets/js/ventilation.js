@@ -70,6 +70,9 @@
                 }
             }
         },
+        /**
+            change ventilation stray view in scene
+        */
         viewVentilation: function(){
             if(data.debit<valMax*0.3){
                 $hottePower.css('width', '25px');

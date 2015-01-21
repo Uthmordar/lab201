@@ -8,15 +8,14 @@
 
 .font_face("../fonts/Dosis/dosis-regular", "Dosis", 'normal');
 
-//1.2rem for arial
-@font-size : 1.4rem;
+@font-size: 1.4rem;
 
-@font-family-default : 'Dosis', sans-serif;
-@font-size-default : 1.5rem;
-@bg-body-color : lighten(#9FA1A3, 20%);
+@font-family-default: 'Dosis', sans-serif;
+@font-size-default: 1.5rem;
+@bg-body-color: lighten(#9FA1A3, 20%);
 
 @color-black : #1d1d1b;
-@color-red : #b91212;
+@color-red: #b91212;
 @color-red-dark: #ba242a;
 @color-red-light: #bf0712;
 
@@ -28,12 +27,10 @@
 @color-humidity: #1D89AA;
 @color-temperature: #49B19C;
 
-@color-grey : #aca39d;
+@color-grey: #aca39d;
 
-@margin : 1rem;
-@padding : 0.5rem;
-
-@width-wrapper	: 100%;
+@margin: 1rem;
+@padding: 0.5rem;
 
 //-------------------------------------------------
 // HEADER
@@ -68,11 +65,18 @@
 .red{
 	color: @color-red;
 }
-
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+//                           APPLICATION SCREEN
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
 .wrapper{
 	width: 100%;
 	padding: 2*@padding;
 
+	// ----------------------------------------------------------------------
+	//                         RETURN HOME BUTTON
+	// ----------------------------------------------------------------------  
 	#show_choice{
 		position: absolute;
 		top: 2rem;
@@ -90,6 +94,9 @@
 		background: url(../img/pictos/home.svg) -182px center no-repeat;
 	}
 
+	// --------------------------------------------------------------------
+	//         BG ZONE : time, cloud, sun, moon, luminosity
+	// --------------------------------------------------------------------
 	#environment{
 		position: absolute;
 		top:0;
@@ -176,7 +183,9 @@
 	}
 
 	// ------------------------------------------------------------------------------
+	// ------------------------------------------------------------------------------
 	//                        SIMULATION CONTAINER
+	// ------------------------------------------------------------------------------
 	// ------------------------------------------------------------------------------
 	#simulation_container{
 		position: relative;
@@ -187,6 +196,9 @@
 		margin: 7rem auto 0;
 		left: -10rem;
 
+		// ---------------------------------------------------------------
+		//                 CHARACTER
+		// ---------------------------------------------------------------
 		#user{
 			position: absolute;
 			top: 24rem;
@@ -228,7 +240,9 @@
 				left: 4.4rem;
 			}
 		}
-
+		// -------------------------------------------------------------
+		//                     SVG ELEM POSITION
+		// -------------------------------------------------------------
 		#windows_open{
 			position: absolute;
 			top: 4.7rem;
@@ -367,20 +381,18 @@
 	#controls_panel{
 		position: absolute;
 		bottom: 10rem;
-		width: 90%;
+		width: 100%;
 		height: 10rem;
 		display: flex;
 		align-items: flex-start;
-		justify-content: space-around;
-		margin-left: 5%;
+		justify-content: center;
 
 		.control{
-			
 			.output{
 				text-align: center;
 				color: #FFF;
 				font-weight: bold;
-				font-size: 2.1rem;
+				font-size: 1.8rem;
 			}
 
 			&.karl{
@@ -408,6 +420,7 @@
 			.circle {
 				position: relative;
 		        width: 140px;
+		        margin: 0 25px;
 		        height: 140px;
 		        border: 3px solid rgba(255,255,255,0.3);
 		        border-radius: 100%;

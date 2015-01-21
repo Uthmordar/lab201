@@ -24,24 +24,20 @@
             clearTimeout(id);
         };
 }());
-
 (function(ctx){
     "use strict";
-    /*var windowsTab=[
-        {$el: $('#window_1'), state:0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 8, open:0, openTarget:75}, 
-        {$el: $('#window_2'), state: 0, spriteStart:-25, elLength:156, gap:24, nbStage: 3, slow: 0, speed: 16, open:0, openTarget:75}
-    ];*/
-    var windows={open:{$el: $('#window_open'), $display: $('#windows_open .display'), state:0, initialState: 0},
-        shutter:{$el: $('#window_shutter'), $display: $('#windows_shutter .display'), state:0, initialState: 0}};
+    /*  MODEL */
+    var windows={open:{$el: $('#window_open'), $display: $('#windows_open_output .display'), state:0, initialState: 0},
+        shutter:{$el: $('#window_shutter'), $display: $('#windows_shutter_output .display'), state:0, initialState: 0}};
     var envTab=[$('#bg_7'), $('#bg_7'), $('#bg_5'), $('#bg_1'), $('#bg_2'), $('#bg_2'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7'), $('#bg_7')];
     var lamps={
-        table: {$el: $('#lamp_table'), $display: $('#lamp_table .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
-        plan: {$el: $('#lamp_plan'), $display: $('#lamp_plan .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
-        hotte: {$el: $('#lamp_hotte'), $display: $('#lamp_hotte .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
-        wall: {$el: $('#lamp_wall'), $display: $('#lamp_wall .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0}
+        table: {$el: $('#lamp_table'), $display: $('#lamp_table_output .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
+        plan: {$el: $('#lamp_plan'), $display: $('#lamp_plan_output .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
+        hotte: {$el: $('#lamp_hotte'), $display: $('#lamp_hotte_output .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0},
+        wall: {$el: $('#lamp_wall'), $display: $('#lamp_wall_output .display'), lux: 0, initialLux: 0, posX: 0, posY: 0, state:0, active: 0, intensity: 0}
     };
     var user=[{$el: $('#user'), alive: 1, width: 0, height: 0}];
-    var ventilation={$el: $('#ventilation'), debit:0, initialDebit:0, $display: $('#ventilation .display')};
+    var ventilation={$el: $('#ventilation'), debit:0, initialDebit:0, $display: $('#ventilation_output .display')};
     var heating={$el: $('#heating'), power:0, initialPower:0, $display: $('#heating_output .display')};
     var hygro={$el: $('#hygro'), hygro:0, initialHygro:0, $display: $('#hygro_output .display')};
     var temperature={ext:{$el: $('#temp_ext'), t:15, initialT:0, $display: $('#temp_ext_output .display')},
@@ -61,7 +57,7 @@
         luxTable: 0,
         luxWall: 0,
         ventilation: 0,
-        tempExt: 10,
+        tempExt: 15,
         tempInt: 18,
         heating: 0,
         windows: {open: 0, shutter: 0}
@@ -69,7 +65,6 @@
     var app={
         // Application Constructor
         initialize: function(scene) {
-            this.setScene(scene);
             window.requestAnimFrame = (function(){
             return  window.requestAnimationFrame       ||
                     window.webkitRequestAnimationFrame ||
@@ -80,7 +75,10 @@
                         window.setTimeout(callback, 1000 / 60);
                     };
             })();
+            this.setScene(scene);
+            // Initialize data for api/controller 
             this.params.initialize(params);
+            // Initialize all input/output && set data
             this.form.initialize($('#submit_rules'));
             this.windows.initialize(windows);
             this.lamps.initialize(lamps);
@@ -91,6 +89,7 @@
             this.hygro.initialize(hygro);
             this.temperature.initialize(temperature);
             this.grill.initialize(grill);
+            // Initialize algorithm controller 
             this.controller.initialize();
         },
         /**

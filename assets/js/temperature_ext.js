@@ -57,7 +57,7 @@
             return self;
         },
         /**
-            update heating power value in scene
+            update T° outside value in scene
         */
         updateTemperature: function(){
             count=0;
@@ -65,7 +65,7 @@
             self.changeDisplayVal();
         },
         /**
-            change power heating from initial value to final value in display zone
+            change T° outside from initial value to final value in display zone
         */
         changeDisplayVal: function(){
             data.$display.html(Math.floor(data.t));

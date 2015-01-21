@@ -37,7 +37,7 @@
             data[i].height=data[i].$el.height();
         },
         bindEvents: function(){
-            /* manage user precense */
+            /* manage user presence */
             $input.on('click', function(e){
                 e.preventDefault();
                 if(data[activeUser].alive===1){
@@ -64,7 +64,6 @@
                     if(posY<320 && posY>212 && posX>-80 && posX<950){
                         ctx.params.setUserPos(posX, posY);
                         $(this).css({'top': posY +'px', 'left': posX + 'px'});
-                        //ctx.controller.controlOutputMvt();
                         ctx.controller.controlOutput();
                     }
                 });

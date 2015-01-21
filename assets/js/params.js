@@ -120,6 +120,9 @@
             position.grill.x=x-ctx.getSceneOffset().x;
             position.grill.y=y-ctx.getSceneOffset().y;
         },
+        /**
+            position x,y for all spacio type input : lux & grill
+        */
         getPosition: function(){
             return position;
         }

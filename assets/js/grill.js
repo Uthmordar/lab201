@@ -65,7 +65,7 @@
             return self;
         },
         /**
-            update heating power value in scene
+            update grill power value in scene
         */
         updateGrill: function(){
             count=0;
@@ -74,7 +74,7 @@
             self.viewGrill();
         },
         /**
-            change power heating from initial value to final value in display zone
+            change grill power from initial value to final value in display zone
         */
         changeDisplayVal: function(){
             data.$display.html(Math.floor(data.power));

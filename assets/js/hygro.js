@@ -53,7 +53,7 @@
             });
         },
          /**
-            set heating in data
+            set hygro in data
         */
         setHygroValue: function(val){
             $input.val(val).attr('val', val);
@@ -63,7 +63,7 @@
             return self;
         },
         /**
-            update heating power value in scene
+            update humidity % value in scene
         */
         updateHygro: function(){
             count=0;
@@ -72,7 +72,7 @@
             self.viewHumi();
         },
         /**
-            change power heating from initial value to final value in display zone
+            change humidity from initial value to final value in display zone
         */
         changeDisplayVal: function(){
             data.$display.html(Math.floor(data.hygro));

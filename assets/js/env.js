@@ -1,3 +1,10 @@
+/**
+    MANAGE HOUSE ENVIRONMENT  &&  RANGE SLIDER LINKED
+    SUN && MOON
+    TIME CHANGE
+    CLOUD
+    LUMINOSITY
+*/
 (function(ctx){
     "use strict";
     var $moon, $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute, $displayDarkness,
