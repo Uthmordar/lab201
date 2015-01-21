@@ -72,7 +72,7 @@
             change luminosity in view
         */
         viewLamp: function(){
-            viewLux.animate({'opacity': data.lux/valMax}, 500);
+            viewLux.animate({'opacity': (data.lux/valMax)*2}, 400);
         }
     };
     ctx.plan=plan;

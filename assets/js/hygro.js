@@ -15,7 +15,7 @@
             s=Snap('#humidity');
             sceneWidth=app.getSceneWidth();
             sceneHeight=app.getSceneHeight();
-            viewHumiLow=s.group(s.image('assets/img/scene/humi_1.svg', -sceneWidth*0.05, -sceneHeight*0.2, 370, 370), s.image('assets/img/scene/humi_2.svg', sceneWidth*0.2, sceneHeight*0.5, 300, 300), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.6, sceneHeight*0.1, 350, 350)).attr({opacity: 0});
+            viewHumiLow=s.group(s.image('assets/img/scene/humi_1.svg', -sceneWidth*0.05, -sceneHeight*0.2, 370, 370), s.image('assets/img/scene/humi_2.svg', sceneWidth*0.2, sceneHeight*0.5, 300, 300), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.7, sceneHeight*0.4, 350, 350)).attr({opacity: 0});
             viewHumiHigh=s.group(s.image('assets/img/scene/humi_1.svg', 0, sceneHeight*0.25, 500, 500), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.35, 0, 500, 500), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.4, sceneHeight*0.45, 450, 450)).attr({opacity: 0});
             X=Math.round(radius* Math.sin(deg*Math.PI/180));    
             Y=Math.round(radius*  -Math.cos(deg*Math.PI/180));

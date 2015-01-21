@@ -162,11 +162,12 @@
 	}
 	#simulation_container{
 		position: relative;
-		background: url(../img/scene/cuisine2.svg) no-repeat center center;
+		background: url(../img/scene/cuisine.svg) no-repeat center center;
 		background-size: contain;
 		width: 120rem;
 		height: 60rem;
 		margin: 10rem auto 0;
+		left: -10rem;
 
 		#user{
 			position: absolute;
@@ -183,13 +184,31 @@
 		#timer{
 			position: absolute;
 			background: @color-black;
-			min-width: 50px;
+			min-width: 85px;
+			height: 40px;
 			color: teal;
 			top: 10rem;
 			left: 9rem;
 			font-weight: bold;
-			font-size: 2rem;
-			padding: 0.8*@padding @padding;
+			font-size: 2.8rem;
+
+			#hour{
+				position: absolute;
+				top: 0.4rem;
+				left: 0.8rem;
+				min-width: 28px;
+				text-align: right;
+			}
+			.sep{
+				position: absolute;
+				top: 0.2rem;
+				left: 3.7rem;
+			}
+			#minute{
+				position: absolute;
+				top: 0.4rem;
+				left: 4.4rem;
+			}
 		}
 
 		#windows_open{
@@ -274,17 +293,17 @@
 
 		#lux_hotte{
 			position: absolute;
-			width: 223px;
+			width: 243px;
 			height: 270px;
-			top: 20rem;
-			left: 95rem;
+			top: 23rem;
+			left: 93rem;
 			z-index: 1;
 		}
 
 		#lux_table{
 			position: absolute;
-			height: 300px;
-			top: 17rem;
+			height: 400px;
+			top: 13rem;
 			left: -13rem;
 			z-index: 1;
 		}

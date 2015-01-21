@@ -10,7 +10,7 @@
             data.posY=$('#lamp_table').offset().top;
             valMax=$input.attr('max');
             s=Snap("#lux_table");
-            viewLux=s.image('assets/img/scene/lux_table.svg', -75, -125, 440, 540).attr({'opacity': 0});
+            viewLux=s.image('assets/img/scene/lux_table.svg', -75, -85, 440, 540).attr({'opacity': 0});
             window.app.params.setPositionLuxTable(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();
@@ -72,7 +72,7 @@
             change luminosity in view
         */
         viewLamp: function(){
-            viewLux.animate({'opacity': data.lux/valMax}, 500);
+            viewLux.animate({'opacity': (data.lux/valMax)*1.2}, 400);
         }
     };
     ctx.table=table;
