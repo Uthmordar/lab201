@@ -72,6 +72,7 @@
 // -----------------------------------------------------------------------------
 .wrapper{
 	width: 100%;
+	min-width: 130rem;
 	padding: 2*@padding;
 
 	// ----------------------------------------------------------------------
@@ -326,8 +327,8 @@
 		#lux_hotte{
 			position: absolute;
 			width: 243px;
-			height: 270px;
-			top: 23rem;
+			height: 360px;
+			top: 14rem;
 			left: 93rem;
 			z-index: 1;
 		}
@@ -400,21 +401,34 @@
 				height: 140px;
 				background: url(../img/pictos/karltete.svg) center -160px no-repeat;
 
-				input{
-					display: block;
+				.button_container{
 					border: 2px solid @color-red-dark;
-					color: @color-red-dark;
-					padding: @padding;
-					font-size: 1.8rem;
-					background: none;
-					cursor: pointer;
+					padding: 0.7*@padding;
 					margin: 0 auto;
-					outline: none;
-					
-					&:hover{
-						border: 2px solid lighten(@color-red-light, 10%);
-						color: lighten(@color-red-light, 10%);
+					width: 6rem;
+
+					input{
+						border: none;
+						width: 100%;
+						color: @color-red-dark;
+						padding: @padding;
+						font-size: 1.8rem;
+						background: none;
+						cursor: pointer;
+						outline: none;
 					}
+					&:hover{
+						input{
+							color: #FFF;
+							background: @color-red-dark;
+						}
+					}
+					&:active{
+						background: @color-red-dark;
+					}
+				}
+				.output{
+					margin-top: 10rem;
 				}
 			}
 			.circle {
@@ -561,20 +575,30 @@
 					font-size: 1.8rem;
 				}
 
-				input[type="submit"]{
-					display: block;
+				.button_container{
 					border: 2px solid @color-red-dark;
-					color: @color-red-dark;
-					padding: @padding;
-					font-size: 2.4rem;
-					background: none;
-					cursor: pointer;
+					padding: 0.7*@padding;
 					margin: 2*@margin auto 0;
-					outline: none;
-					
+					width: 18rem;
+
+					input{
+						border: none;
+						width: 100%;
+						color: @color-red-dark;
+						padding: @padding;
+						font-size: 2.4rem;
+						background: none;
+						cursor: pointer;
+						outline: none;
+					}
 					&:hover{
-						border: 2px solid lighten(@color-red-light, 10%);
-						color: lighten(@color-red-light, 10%);
+						input{
+							color: #FFF;
+							background: @color-red-dark;
+						}
+					}
+					&:active{
+						background: @color-red-dark;
 					}
 				}
 			}

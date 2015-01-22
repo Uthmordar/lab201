@@ -5,7 +5,7 @@
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 0,
         hygrometrie: {hygro:0, time: {low: 0, medium: 0, high: 0}},
-        user: {x: 0, y:0, status: 0},
+        user: {x: 0, y:0, status: 0, time: {grill: 0, away:0}},
         grill: {power: 0, time: {low: 0, medium: 0, high: 0}},
         luxHotte: 0,
         luxPlan: 0,
@@ -57,6 +57,12 @@
         },
         setUserStatus: function(status){
             params.user.status=(status)? 1 : 0;
+        },
+        setUserGrillTime: function(time){
+            params.user.time.grill=parseInt(time);      
+        },
+        setUserAwayTime: function(time){
+            params.user.time.away=parseInt(time);      
         },
         setGrill: function(val){
             params.grill.power=parseInt(val);

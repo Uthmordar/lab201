@@ -1,7 +1,7 @@
 (function(ctx){
     "use strict";
     var data, count, $input,
-    valMax, valMin, $container=$('.circle.meteorology'), $slider=$('#slider_meteorology'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    valMax, valMin, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var ext={
         // Application Constructor
@@ -11,6 +11,8 @@
             valMin=parseInt($input.attr('min'));
             data.t=parseInt($input.val());
             self.setData(data);
+
+            $container=$('.circle.meteorology'), $slider=$('#slider_meteorology'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             X = Math.round(radius* Math.sin(deg*Math.PI/180));    
             Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      

@@ -74,10 +74,12 @@
             change grill color based on value
         */
         viewHeating: function(){
-            if(data.power>300){
-                stray.animate({opacity: data.power/valMax, fill: colorOn}, 500);
-            }else{
-                stray.animate({opacity: (data.power/valMax)*5, fill: colorOff}, 500);
+            if(stray){
+                if(data.power>450){
+                    stray.attr({opacity: data.power/valMax, fill: colorOn});
+                }else{
+                    stray.attr({opacity: data.power/valMax, fill: colorOff});
+                }
             }
         }
 

@@ -74,14 +74,16 @@
             change ventilation stray view in scene
         */
         viewVentilation: function(){
-            if(data.debit<valMax*0.3){
-                $hottePower.css('width', '25px');
-            }else if(data.debit<valMax*0.6){
-                $hottePower.css('width', '40px');
-            }else{
-                $hottePower.css('width', '60px');
+            if(stray){
+                if(data.debit<valMax*0.3){
+                    $hottePower.css('width', '25px');
+                }else if(data.debit<valMax*0.6){
+                    $hottePower.css('width', '40px');
+                }else{
+                    $hottePower.css('width', '60px');
+                }
+                stray.animate({opacity: (data.debit/valMax)*2}, 400);
             }
-            stray.animate({opacity: (data.debit/valMax)*2}, 500);
         }
     };
     ctx.ventilation=ventilation;

@@ -1,7 +1,7 @@
 (function(ctx){
     "use strict";
     var data, count, $input, $chaud, $froid,
-    valMax, valMin, moy, diff, $container=$('.circle.temperature'), $slider=$('#slider_temperature'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=80, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    valMax, valMin, moy, diff, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var inside={
         // Application Constructor
@@ -13,6 +13,7 @@
             valMin=parseInt($input.attr('min'));
             moy=(valMax+valMin)/2;
             diff=Math.abs(valMax-valMin);
+            $container=$('.circle.temperature'), $slider=$('#slider_temperature'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=80, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             data.t=parseInt($input.val());
             self.setData(data);
 

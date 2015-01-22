@@ -73,7 +73,7 @@
             change svg height based on opening percent
         */
         viewChange: function(){
-            rec.animate({height: h*0.01*data.state}, 500);
+            rec.animate({height: h*0.01*data.state}, 300);
         }
     };
     ctx.shutter=shutter;

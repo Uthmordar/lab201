@@ -8,9 +8,9 @@
 (function(ctx){
     "use strict";
     var $moon, $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute, $displayDarkness,
-    $nuages, vecteurNuage,
-    valMax, $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius),
-    valMaxDarkness, $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
+    $nuages, vecteurNuage, calc,
+    valMax, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan,
+    valMaxDarkness, $containerDarkness, $sliderDarkness, sliderW2Darkness, sliderH2Darkness, radiusDarkness, degDarkness, elPDarkness, elPosDarkness, XDarkness, YDarkness, mdownDarkness, mPosDarkness, atanDarkness;
 
     var env={
         // Application Constructor
@@ -36,6 +36,7 @@
             // init time
             time=ctx.params.getParams().time;
             start=Math.floor(time.timestamp/(60*60*2));
+            $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             self.setData(data);
             // init range env
             X=Math.round(radius* Math.sin(deg*Math.PI/180));    
@@ -43,6 +44,7 @@
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
             $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
             // init range darkness
+            $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
             XDarkness = Math.round(radiusDarkness* Math.sin(degDarkness*Math.PI/180));    
             YDarkness = Math.round(radiusDarkness*  -Math.cos(degDarkness*Math.PI/180));
             $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness});      
@@ -125,6 +127,16 @@
             });
         },
         /**
+            move cursor to new val 
+        */
+        setCursorPos: function(val){
+            deg=(val/valMax)*360;
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            return self;
+        },
+        /**
             launch action link to time change
         */
         updateTime: function(el){
@@ -195,8 +207,11 @@
             if($inputTime.attr('value')==86400){
                 $inputTime.val(1);
                 $inputTime.attr('value', 1);
+                self.setCursorPos(1);
             }else{
-                $inputTime.attr('value', parseInt($inputTime.attr('value'))+1);
+                calc=parseInt($inputTime.attr('value'))+1;
+                $inputTime.attr('value', calc);
+                self.setCursorPos(calc);
             }
             self.updateTime($inputTime);
             ctx.controller.controlOutput();

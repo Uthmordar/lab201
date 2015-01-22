@@ -10,7 +10,7 @@
             data.posY=$('#hotte').offset().top;
             valMax=$input.attr('max');
             s=Snap("#lux_hotte");
-            viewLux=s.image('assets/img/scene/lux_hotte.svg', -110, -160, 500, 500).attr({'opacity': 0});
+            viewLux=s.image('assets/img/scene/lux_hotte.svg', -110, -70, 500, 500).attr({'opacity': 0});
             window.app.params.setPositionLuxHotte(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();

@@ -1,7 +1,7 @@
 (function(ctx){
     "use strict";
     var data, count, $input, s, viewHumiLow, viewHumiHigh, sceneWidth, sceneHeight,
-    valMax, valMin, diff, $container=$('.circle.humidity'), $slider=$('#slider_humidity'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=120, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    valMax, valMin, diff, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var hygro={
         // Application Constructor
@@ -12,7 +12,7 @@
             diff=Math.abs(valMax-valMin);
             data.t=parseInt($input.val());
             self.setData(data);
-
+            $container=$('.circle.humidity'), $slider=$('#slider_humidity'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=120, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             s=Snap('#humidity');
             sceneWidth=app.getSceneWidth();
             sceneHeight=app.getSceneHeight();

@@ -50,7 +50,7 @@
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 50000,
         hygrometrie: {hygro:80, time: {low: 0, medium: 0, high: 0}},
-        user: {x: 0, y:0, status: 1},
+        user: {x: 0, y:0, status: 1, time: {grill:0, away: 0}},
         grill: {power: 0, time: {low: 0, medium: 0, high: 0}},
         luxHotte: 0,
         luxPlan: 0,
@@ -80,17 +80,17 @@
             this.params.initialize(params);
             // Initialize all input/output && set data
             this.form.initialize($('#submit_rules'));
+            this.heating.initialize(heating);
             this.windows.initialize(windows);
             this.lamps.initialize(lamps);
-            this.env.initialize(envTab);
             this.user.initialize(user, $scene);
             this.ventilation.initialize(ventilation);
-            this.heating.initialize(heating);
             this.hygro.initialize(hygro);
             this.temperature.initialize(temperature);
             this.grill.initialize(grill);
             // Initialize algorithm controller 
             this.controller.initialize();
+            this.env.initialize(envTab);
         },
         /**
             return scene;

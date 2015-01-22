@@ -1,7 +1,7 @@
 (function(ctx){
     "use strict";
     var data, count, $input, s, scene, plaque, colorOn,
-    valMax, $container=$('.circle.heating'), $slider=$('#slider_heating'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=0, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    valMax, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var grill={
         // Application Constructor
@@ -19,7 +19,7 @@
                 s.append(plaque);
             });
             self.setData(data);
-
+            $container=$('.circle.heating'), $slider=$('#slider_heating'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=0, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             X=Math.round(radius* Math.sin(deg*Math.PI/180));    
             Y=Math.round(radius*  -Math.cos(deg*Math.PI/180));
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
@@ -54,7 +54,17 @@
                 }
             });
         },
-         /**
+        /**
+            move cursor to new val 
+        */
+        setCursorPos: function(val){
+            deg=(val/valMax)*360;
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            return self;
+        },
+        /**
             set grill power in data
         */
         setGrillPower: function(val){
@@ -72,6 +82,7 @@
             requestAnimFrame(self.changeDisplayVal);
             self.changeDisplayVal();
             self.viewGrill();
+            return self;
         },
         /**
             change grill power from initial value to final value in display zone

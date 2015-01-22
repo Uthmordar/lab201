@@ -140,7 +140,10 @@
             </section>
             <section id="controls_panel">
                 <div class="control karl">
-                    <input type="button" id="user_input" value="YES"/>
+                    <div class="button_container">
+                        <input type="button" id="user_input" value="YES"/>
+                    </div>
+                    <div class="output">KARL</div>
                 </div>
                 <div class="control">
                     <div class="circle time">
@@ -149,6 +152,7 @@
                             <div class="puce"></div>
                         </div>
                     </div>
+                    <div class="output">TIME</div>
                 </div>
                 <div class="control">
                     <div class="circle luminosity">
@@ -235,7 +239,9 @@
                                 <option>high</option>
                             </select>
                     </div>
-                    <input type="submit" value="CONFIGURED" id="submit_rules"/>
+                    <div class="button_container">
+                        <input type="submit" value="CONFIGURED" id="submit_rules"/>
+                    </div>
                 </form>
             </div>
         </section>
@@ -267,6 +273,9 @@
     <script type="text/javascript">
         $(function(){
             app.initialize($('#simulation_container'));
+            $(window).on('resize', function(e){
+                app.initialize($('#simulation_container'));
+            });
             document.addEventListener("keydown", function(e) {
               if (e.keyCode == 13) {
                 toggleFullScreen();
