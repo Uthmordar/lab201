@@ -7,6 +7,10 @@
             self.ext.initialize(data.ext);
             self.inside.initialize(data.inside);
         },
+        resetControls: function(){
+            self.ext.resetControls();
+            self.inside.resetControls();
+        },
         bindEvents: function(){
         }
     };

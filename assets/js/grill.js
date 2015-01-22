@@ -26,6 +26,9 @@
             self.setGrillPower(deg * (valMax/360));
             self.bindEvents();
         },
+        resetControls: function(){
+            sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+        },
         getData: function(){
             return data;
         },

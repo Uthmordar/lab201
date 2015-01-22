@@ -1,7 +1,8 @@
 (function(ctx){
     "use strict";
     var data, count, $input,
-    valMax, valMin, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
+    valMax, valMin, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan,
+    s, jauge, h;
 
     var ext={
         // Application Constructor
@@ -11,6 +12,12 @@
             valMin=parseInt($input.attr('min'));
             data.t=parseInt($input.val());
             self.setData(data);
+            s=Snap("#thermo_masque");
+            h=35;
+            jauge=s.rect(0,0,10,h*(data.t-valMin)/(valMax-valMin));
+            jauge.attr({
+                fill: "#FFF"
+            });
 
             $container=$('.circle.meteorology'), $slider=$('#slider_meteorology'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             X = Math.round(radius* Math.sin(deg*Math.PI/180));    
@@ -19,6 +26,9 @@
             self.setTemperature(deg * ((valMax-valMin)/360) + valMin);
             self.bindEvents();
             self.changeDisplayVal();
+        },
+        resetControls: function(){
+            sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
         },
         getData: function(){
             return data;
@@ -65,6 +75,7 @@
             count=0;
             requestAnimFrame(self.changeDisplayVal);
             self.changeDisplayVal();
+            self.viewTemperature();
         },
         /**
             change T° outside from initial value to final value in display zone
@@ -89,6 +100,9 @@
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }*/
+        },
+        viewTemperature: function(){
+            jauge.animate({height: 35 - h*(data.t-valMin)/(valMax-valMin)}, 300);
         }
     };
     ctx.ext=ext;

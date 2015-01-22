@@ -128,6 +128,11 @@
                 <svg id="humidity">
                     <defs></defs>
                 </svg>
+                <object id="thermometre" type="image/svg+xml" data="assets/img/scene/thermometre.svg">
+                </object>
+                <svg id="thermo_masque">
+                    <defs></defs>
+                </svg>
                 <!--<div id="ventilation_output">Ventilation val: <span class="display">0</span></div>
                 <div id="heating_output">Chauffage val: <span class="display">0</span></div>
                 <div id="grill_output">Plaque val: <span class="display">0</span></div>
@@ -273,35 +278,6 @@
     <script type="text/javascript">
         $(function(){
             app.initialize($('#simulation_container'));
-            $(window).on('resize', function(e){
-                app.initialize($('#simulation_container'));
-            });
-            document.addEventListener("keydown", function(e) {
-              if (e.keyCode == 13) {
-                toggleFullScreen();
-              }
-            }, false);
-
-            function toggleFullScreen() {
-              if (!document.fullscreenElement &&    // alternative standard method
-                  !document.mozFullScreenElement && !document.webkitFullscreenElement) {  // current working methods
-                if (document.documentElement.requestFullscreen) {
-                  document.documentElement.requestFullscreen();
-                } else if (document.documentElement.mozRequestFullScreen) {
-                  document.documentElement.mozRequestFullScreen();
-                } else if (document.documentElement.webkitRequestFullscreen) {
-                  document.documentElement.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-                }
-              } else {
-                if (document.cancelFullScreen) {
-                  document.cancelFullScreen();
-                } else if (document.mozCancelFullScreen) {
-                  document.mozCancelFullScreen();
-                } else if (document.webkitCancelFullScreen) {
-                  document.webkitCancelFullScreen();
-                }
-              }
-            }
         });
     </script>
 </body>
