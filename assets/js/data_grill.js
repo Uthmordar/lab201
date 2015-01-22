@@ -10,8 +10,8 @@
             fontMax=data.f;
 
             input=Snap("#data_grill .input");
-            cInput = input.circle(40, 40, 20).attr({fill: '#EB5B5C'});
-            tInput = input.text(15, 46, "1000W").attr({fill: '#000', "font-size": "2rem"});
+            cInput = input.circle(40, 40, 0).attr({fill: '#EB5B5C'});
+            tInput = input.text(15, 46, "0W").attr({fill: '#000', "font-size": "2rem"});
 
             output=Snap("#data_grill .output");
             cOutput = output.circle(40, 40, 25).attr({fill: '#1D89AA'});

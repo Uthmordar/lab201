@@ -74,8 +74,8 @@
                     ctx.heating.setHeatingPower(0).updateHeating();
                 }
             }
-            if(params.user.time.grill>180){
-                ctx.grill.setGrillPower(1500).updateGrill();
+            if(params.user.time.grill>180 && params.grill.power==0){
+                ctx.grill.setGrillPower(1500).updateGrill().setCursorPos(1500);
             }
             if(params.user.time.away>180){
                 ctx.grill.setGrillPower(0).updateGrill().setCursorPos(0);
@@ -115,7 +115,7 @@
                 ctx.params.setHygroTime(params.hygrometrie.time.high+1, params.hygrometrie.time.high+1, params.hygrometrie.time.high+1);
             }
             /* duration of grill activity */
-            if(params.grill.power<1){
+            if(params.grill.power<100){
                 ctx.params.setGrillTime(0, 0, 0);
             }else if(params.grill.power<1000){
                 ctx.params.setGrillTime(params.grill.time.low+1, 0, 0);
@@ -126,6 +126,8 @@
             }
             if(params.user.status==0){
                 ctx.params.setUserAwayTime(params.user.time.away+1);
+            }else{
+                ctx.params.setUserAwayTime(0);
             }
         }
     };
