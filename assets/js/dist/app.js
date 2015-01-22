@@ -50,7 +50,7 @@
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 50000,
         hygrometrie: {hygro:80, time: {low: 0, medium: 0, high: 0}},
-        user: {x: 0, y:0, status: 1},
+        user: {x: 0, y:0, status: 1, time: {grill:0, away: 0}},
         grill: {power: 0, time: {low: 0, medium: 0, high: 0}},
         luxHotte: 0,
         luxPlan: 0,
@@ -62,35 +62,51 @@
         heating: 0,
         windows: {open: 0, shutter: 0}
     };
+
     var app={
         // Application Constructor
         initialize: function(scene) {
             window.requestAnimFrame = (function(){
-            return  window.requestAnimationFrame       ||
-                    window.webkitRequestAnimationFrame ||
-                    window.mozRequestAnimationFrame    ||
-                    window.oRequestAnimationFrame      ||
-                    window.msRequestAnimationFrame     ||
-                    function( callback ){
-                        window.setTimeout(callback, 1000 / 60);
-                    };
+                return  window.requestAnimationFrame       ||
+                        window.webkitRequestAnimationFrame ||
+                        window.mozRequestAnimationFrame    ||
+                        window.oRequestAnimationFrame      ||
+                        window.msRequestAnimationFrame     ||
+                        function( callback ){
+                            window.setTimeout(callback, 1000 / 60);
+                        };
             })();
             this.setScene(scene);
             // Initialize data for api/controller 
             this.params.initialize(params);
             // Initialize all input/output && set data
             this.form.initialize($('#submit_rules'));
+            this.heating.initialize(heating);
             this.windows.initialize(windows);
             this.lamps.initialize(lamps);
-            this.env.initialize(envTab);
             this.user.initialize(user, $scene);
             this.ventilation.initialize(ventilation);
-            this.heating.initialize(heating);
             this.hygro.initialize(hygro);
             this.temperature.initialize(temperature);
             this.grill.initialize(grill);
+            this.data.initialize();
             // Initialize algorithm controller 
             this.controller.initialize();
+            this.env.initialize(envTab);
+            self.bindEvents();
+        },
+        reInitialize: function(scene){
+            this.setScene(scene);
+            this.hygro.resetControls();
+            this.temperature.resetControls();
+            this.grill.resetControls();
+            this.env.resetControls();
+        },
+        bindEvents: function(){
+            $(window).on('resize', function(e){
+                // stop previous timeProgress to increase performance
+                self.reInitialize($('#simulation_container'));
+            });
         },
         /**
             return scene;
@@ -128,7 +144,7 @@
 })(window);
 (function(ctx){
     "use strict";
-    var $input, $popIn, $sceneBlur, $formSubmit, $close;
+    var $input, $popIn, $sceneBlur, $formSubmit, $close, $popInTuto, $tutoYes, $tutoNo;
 
     var form={
         // Application Constructor
@@ -138,9 +154,15 @@
             $sceneBlur=$('#app_blur');
             $close=$popIn.children('.pop_in').children('.close');
             $formSubmit=data;
+
+            $popInTuto=$('#tuto_form');
+            $popInTuto.css({'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
+            $tutoYes=$('#tuto_yes');
+            $tutoNo=$('#tuto_no, #tuto_form .close');
             self.bindEvents();
         },
         bindEvents: function(){
+            // FORM RULES
             $input.on('click', function(e){
                 e.preventDefault();
                 self.displayPopIn();
@@ -154,6 +176,20 @@
             $close.on('click', function(e){
                 e.preventDefault();
                 self.hidePopIn();
+            });
+            // FORM TUTO
+            $tutoYes.on('click', function(e){
+                e.preventDefault();
+                $popInTuto.remove();
+                ctx.user.say.setTuto(1);
+                $sceneBlur.removeClass('blur');
+            });
+
+            $tutoNo.on('click', function(e){
+                e.preventDefault();
+                $popInTuto.remove();
+                ctx.user.say.setTuto(0);
+                $sceneBlur.removeClass('blur');
             });
         },
         displayPopIn: function(){
@@ -325,7 +361,7 @@
             change svg height based on opening percent
         */
         viewChange: function(){
-            rec.animate({height: h*0.01*data.state}, 500);
+            rec.animate({height: h*0.01*data.state}, 300);
         }
     };
     ctx.shutter=shutter;
@@ -520,7 +556,7 @@
             data.posY=$('#hotte').offset().top;
             valMax=$input.attr('max');
             s=Snap("#lux_hotte");
-            viewLux=s.image('assets/img/scene/lux_hotte.svg', -110, -160, 500, 500).attr({'opacity': 0});
+            viewLux=s.image('assets/img/scene/lux_hotte.svg', -110, -70, 500, 500).attr({'opacity': 0});
             window.app.params.setPositionLuxHotte(data.posX, data.posY);
             self.setData(data);
             self.bindEvents();
@@ -678,9 +714,9 @@
 (function(ctx){
     "use strict";
     var $moon, $sun, x0, y0, t, angle, r, x, y, data,start,end,$inputTime,valDarkness,$inputDarkness,$bgDarkness,time, val, $clock, timeProgress=0, hour, minute, $displayDarkness,
-    $nuages, vecteurNuage,
-    valMax, $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius),
-    valMaxDarkness, $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
+    $nuages, vecteurNuage, calc,
+    valMax, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan,
+    valMaxDarkness, $containerDarkness, $sliderDarkness, sliderW2Darkness, sliderH2Darkness, radiusDarkness, degDarkness, elPDarkness, elPosDarkness, XDarkness, YDarkness, mdownDarkness, mPosDarkness, atanDarkness;
 
     var env={
         // Application Constructor
@@ -706,6 +742,7 @@
             // init time
             time=ctx.params.getParams().time;
             start=Math.floor(time.timestamp/(60*60*2));
+            $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             self.setData(data);
             // init range env
             X=Math.round(radius* Math.sin(deg*Math.PI/180));    
@@ -713,6 +750,7 @@
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
             $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
             // init range darkness
+            $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
             XDarkness = Math.round(radiusDarkness* Math.sin(degDarkness*Math.PI/180));    
             YDarkness = Math.round(radiusDarkness*  -Math.cos(degDarkness*Math.PI/180));
             $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness});      
@@ -721,6 +759,12 @@
             requestAnimFrame(self.timeProgress);
             self.timeProgress();
             self.changeDarknessDisplayVal();
+        },
+        resetControls: function(){
+            sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+            // init range env
+            // init range darkness
+            sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
         },
         getData: function(){
             return data;
@@ -763,7 +807,7 @@
             /* range time */
             $container
             .mousedown(function (e){mdown=true;})
-            .mouseup(function (e){mdown=false;})
+            .mouseup(function (e){mdown=false;self.updateDataTime();})
             .mousemove(function (e){
                 if(mdown){
                     mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
@@ -793,6 +837,16 @@
                     self.setDarkness(degDarkness * (valMaxDarkness/360)).changeDarkness();
                 }
             });
+        },
+        /**
+            move cursor to new val 
+        */
+        setCursorPos: function(val){
+            deg=(val/valMax)*360;
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            return self;
         },
         /**
             launch action link to time change
@@ -865,8 +919,11 @@
             if($inputTime.attr('value')==86400){
                 $inputTime.val(1);
                 $inputTime.attr('value', 1);
+                self.setCursorPos(1);
             }else{
-                $inputTime.attr('value', parseInt($inputTime.attr('value'))+1);
+                calc=parseInt($inputTime.attr('value'))+1;
+                $inputTime.attr('value', calc);
+                self.setCursorPos(calc);
             }
             self.updateTime($inputTime);
             ctx.controller.controlOutput();
@@ -877,6 +934,13 @@
         changeDarknessDisplayVal: function(){
             $displayDarkness.html(Math.floor(valDarkness));
             $displayDarkness.parent().siblings('.circle').eq(0).css('border', '3px solid rgba(255,255,255,'+parseFloat(0.1+valDarkness/valMaxDarkness)+')');
+        },
+        /**
+            update data linked with time
+        */
+        updateDataTime: function(){
+            val=self.getTime();
+            ctx.data.time.setInput(val).setOutput(Math.random() * 100);
         }
     };
     ctx.env=env;
@@ -890,6 +954,7 @@
         // Application Constructor
         initialize: function(data){
             $input=$('#user_input');
+            self.say.initialize(data[0].$el);
             self.setData(data);
             sceneX=ctx.getSceneOffset().x;
             sceneY=ctx.getSceneOffset().y;
@@ -929,6 +994,7 @@
                     ctx.params.setUserStatus(0);
                     data[activeUser].$el.css('display', 'none');
                     $input.val('N0');
+                    self.say.silent();
                 }else{
                     data[activeUser].alive=1;
                     ctx.params.setUserStatus(1);
@@ -962,12 +1028,60 @@
 })(app);
 (function(ctx){
     "use strict";
+    var $user, $say, tuto=0;
+
+    var say={
+        // Application Constructor
+        initialize: function(data){
+            $user=data;
+            $say=$user.children('.talk');
+            self.bindEvents();
+        },
+        setTuto: function(val){
+            tuto=val;
+            self.initSpeech();
+            return self;
+        },
+        getTuto: function(){
+            return tuto;
+        },
+        bindEvents: function(){
+
+        },
+        setSay: function(talk){
+            $say.removeClass('hidden').html(talk);
+            return self;
+        },
+        silent: function(){
+            $say.addClass('hidden').html('');
+        },
+        initSpeech: function(){
+            self.setSay('<p>Touch me</p>');
+            $('#user').on('click', function(){
+                ctx.say.secondStep();
+                $(this).off('click');
+            });
+        },
+        secondStep: function(){
+            self.setSay('<p>Ooooooooooooh YES!!!!!!!!</p><p>You can move me by drag&drop</p><br/><p>Now try to use the controls at screen bottom</p>');
+            $('#controls_panel').on('click', function(){
+                ctx.say.setSay('<p>You can alter each intput parameter only by interacting with this bullet.</p><p class="red strong">Now watch the scene and show the rules implications</p>');
+                $(this).off('click');
+                setTimeout(function(){ctx.say.silent()}, 3000);
+            });
+        }
+    };
+    ctx.say=say;
+    var self=say;
+})(app.user);
+(function(ctx){
+    "use strict";
     var params={
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 0,
         hygrometrie: {hygro:0, time: {low: 0, medium: 0, high: 0}},
-        user: {x: 0, y:0, status: 0},
+        user: {x: 0, y:0, status: 0, time: {grill: 0, away:0}},
         grill: {power: 0, time: {low: 0, medium: 0, high: 0}},
         luxHotte: 0,
         luxPlan: 0,
@@ -1019,6 +1133,12 @@
         },
         setUserStatus: function(status){
             params.user.status=(status)? 1 : 0;
+        },
+        setUserGrillTime: function(time){
+            params.user.time.grill=parseInt(time);      
+        },
+        setUserAwayTime: function(time){
+            params.user.time.away=parseInt(time);      
         },
         setGrill: function(val){
             params.grill.power=parseInt(val);
@@ -1168,14 +1288,16 @@
             change ventilation stray view in scene
         */
         viewVentilation: function(){
-            if(data.debit<valMax*0.3){
-                $hottePower.css('width', '25px');
-            }else if(data.debit<valMax*0.6){
-                $hottePower.css('width', '40px');
-            }else{
-                $hottePower.css('width', '60px');
+            if(stray){
+                if(data.debit<valMax*0.3){
+                    $hottePower.css('width', '25px');
+                }else if(data.debit<valMax*0.6){
+                    $hottePower.css('width', '40px');
+                }else{
+                    $hottePower.css('width', '60px');
+                }
+                stray.animate({opacity: (data.debit/valMax)*2}, 400);
             }
-            stray.animate({opacity: (data.debit/valMax)*2}, 500);
         }
     };
     ctx.ventilation=ventilation;
@@ -1257,10 +1379,12 @@
             change grill color based on value
         */
         viewHeating: function(){
-            if(data.power>300){
-                stray.animate({opacity: data.power/valMax, fill: colorOn}, 500);
-            }else{
-                stray.animate({opacity: (data.power/valMax)*5, fill: colorOff}, 500);
+            if(stray){
+                if(data.power>450){
+                    stray.attr({opacity: data.power/valMax, fill: colorOn});
+                }else{
+                    stray.attr({opacity: data.power/valMax, fill: colorOff});
+                }
             }
         }
 
@@ -1271,7 +1395,7 @@
 (function(ctx){
     "use strict";
     var data, count, $input, s, viewHumiLow, viewHumiHigh, sceneWidth, sceneHeight,
-    valMax, valMin, diff, $container=$('.circle.humidity'), $slider=$('#slider_humidity'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=120, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    valMax, valMin, diff, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var hygro={
         // Application Constructor
@@ -1282,7 +1406,7 @@
             diff=Math.abs(valMax-valMin);
             data.t=parseInt($input.val());
             self.setData(data);
-
+            $container=$('.circle.humidity'), $slider=$('#slider_humidity'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=120, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             s=Snap('#humidity');
             sceneWidth=app.getSceneWidth();
             sceneHeight=app.getSceneHeight();
@@ -1293,6 +1417,9 @@
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });  
             self.setHygroValue((deg * ((valMax-valMin)/360))+valMin).updateHygro();
             self.bindEvents();
+        },
+        resetControls: function(){
+            sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
         },
         getData: function(){
             return data;
@@ -1397,6 +1524,10 @@
             self.ext.initialize(data.ext);
             self.inside.initialize(data.inside);
         },
+        resetControls: function(){
+            self.ext.resetControls();
+            self.inside.resetControls();
+        },
         bindEvents: function(){
         }
     };
@@ -1406,7 +1537,7 @@
 (function(ctx){
     "use strict";
     var data, count, $input, $chaud, $froid,
-    valMax, valMin, moy, diff, $container=$('.circle.temperature'), $slider=$('#slider_temperature'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=80, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    valMax, valMin, moy, diff, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var inside={
         // Application Constructor
@@ -1418,6 +1549,7 @@
             valMin=parseInt($input.attr('min'));
             moy=(valMax+valMin)/2;
             diff=Math.abs(valMax-valMin);
+            $container=$('.circle.temperature'), $slider=$('#slider_temperature'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=80, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             data.t=parseInt($input.val());
             self.setData(data);
 
@@ -1427,6 +1559,9 @@
             self.setTemperature(deg*(diff/360)+valMin);
             self.bindEvents();
             self.changeDisplayVal();
+        },
+        resetControls: function(){
+            sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
         },
         getData: function(){
             return data;
@@ -1518,7 +1653,8 @@
 (function(ctx){
     "use strict";
     var data, count, $input,
-    valMax, valMin, $container=$('.circle.meteorology'), $slider=$('#slider_meteorology'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    valMax, valMin, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan,
+    s, jauge, h;
 
     var ext={
         // Application Constructor
@@ -1528,12 +1664,23 @@
             valMin=parseInt($input.attr('min'));
             data.t=parseInt($input.val());
             self.setData(data);
+            s=Snap("#thermo_masque");
+            h=35;
+            jauge=s.rect(0,0,10,h*(data.t-valMin)/(valMax-valMin));
+            jauge.attr({
+                fill: "#FFF"
+            });
+
+            $container=$('.circle.meteorology'), $slider=$('#slider_meteorology'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             X = Math.round(radius* Math.sin(deg*Math.PI/180));    
             Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
             self.setTemperature(deg * ((valMax-valMin)/360) + valMin);
             self.bindEvents();
             self.changeDisplayVal();
+        },
+        resetControls: function(){
+            sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
         },
         getData: function(){
             return data;
@@ -1580,6 +1727,8 @@
             count=0;
             requestAnimFrame(self.changeDisplayVal);
             self.changeDisplayVal();
+            self.viewTemperature();
+            self.updateDatavis();
         },
         /**
             change T° outside from initial value to final value in display zone
@@ -1604,6 +1753,12 @@
                     data.$display.html(Math.floor(parseInt(data.$display.html())+count));
                 }
             }*/
+        },
+        viewTemperature: function(){
+            jauge.animate({height: 35 - h*(data.t-valMin)/(valMax-valMin)}, 300);
+        },
+        updateDatavis: function(){
+            window.app.data.outside.setInput(data.t).setOutput(70+ Math.random() * 30);
         }
     };
     ctx.ext=ext;
@@ -1611,8 +1766,8 @@
 })(app.temperature);
 (function(ctx){
     "use strict";
-    var data, count, $input, s, scene, plaque, colorOn,
-    valMax, $container=$('.circle.heating'), $slider=$('#slider_heating'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=0, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+    var data, count, $input, s, scene, plaque, colorOn, sCas, viewCas,
+    valMax, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var grill={
         // Application Constructor
@@ -1629,13 +1784,20 @@
                 plaque=loadedFragment.selectAll("ellipse").attr({fill: colorOn, opacity: 0});
                 s.append(plaque);
             });
-            self.setData(data);
 
+            sCas=Snap("#casserole");
+            viewCas=sCas.image('assets/img/scene/casserole.svg', 0, 0, 140, 60).attr({opacity: 0});
+
+            self.setData(data);
+            $container=$('.circle.heating'), $slider=$('#slider_heating'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=0, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             X=Math.round(radius* Math.sin(deg*Math.PI/180));    
             Y=Math.round(radius*  -Math.cos(deg*Math.PI/180));
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
             self.setGrillPower(deg * (valMax/360));
             self.bindEvents();
+        },
+        resetControls: function(){
+            sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
         },
         getData: function(){
             return data;
@@ -1665,7 +1827,17 @@
                 }
             });
         },
-         /**
+        /**
+            move cursor to new val 
+        */
+        setCursorPos: function(val){
+            deg=(val/valMax)*360;
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            return self;
+        },
+        /**
             set grill power in data
         */
         setGrillPower: function(val){
@@ -1683,6 +1855,8 @@
             requestAnimFrame(self.changeDisplayVal);
             self.changeDisplayVal();
             self.viewGrill();
+            self.updateDatavis();
+            return self;
         },
         /**
             change grill power from initial value to final value in display zone
@@ -1712,12 +1886,182 @@
             change grill color based on value
         */
         viewGrill: function(){
+            if(data.power!=0){
+                viewCas.attr({opacity: 1});
+            }else{
+                viewCas.attr({opacity: 0});
+            }
             plaque.animate({opacity: data.power/valMax}, 500);
+        },
+        updateDatavis: function(){
+            ctx.data.grill.setInput(data.power).setOutput(70+ Math.random() * 30);
         }
     };
     ctx.grill=grill;
     var self=grill;
 })(app);
+(function(ctx){
+    "use strict";
+    var init;
+
+    var data={
+        // Application Constructor
+        initialize: function(){
+            init={w: $("#data_grill .input").width(), h: $("#data_grill .input").height(), f: 2.4};
+            
+            this.grill.initialize(init);
+            this.inside.initialize(init);
+            this.outside.initialize(init);
+            this.time.initialize(init);
+        }
+    };
+    ctx.data=data;
+    var self=data;
+})(app);
+(function(ctx){
+    "use strict";
+    var v, dataWidth, dataHeight, fontMax, input, output, cInput, cOutput, tInput, tOutput, inputUnit="W", outputUnit="%", valMax=3000, valMin=0, valMaxOutput=100;
+
+    var grill={
+        // Application Constructor
+        initialize: function(data){
+            dataWidth=data.w;
+            dataHeight=data.h;
+            fontMax=data.f;
+
+            input=Snap("#data_grill .input");
+            cInput = input.circle(40, 40, 0).attr({fill: '#EB5B5C'});
+            tInput = input.text(15, 46, "0W").attr({fill: '#000', "font-size": "2rem"});
+
+            output=Snap("#data_grill .output");
+            cOutput = output.circle(40, 40, 25).attr({fill: '#1D89AA'});
+            tOutput = output.text(23, 46, "70%").attr({fill: '#000', "font-size": "1.8rem"});
+        },
+        setInput: function(val){
+            v=(val/valMax)*40;
+            cInput.animate({r: v}, 500);
+            tInput.attr({text: parseInt(val)+inputUnit, "font-size": parseFloat(2.4-(1- val/valMax)*0.6)+'rem'});
+            return self;
+        },
+        setOutput: function(val){
+            v=(val/valMaxOutput)*40;
+            cOutput.animate({r: v}, 500);
+            tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
+            return self;
+        }
+    };
+    ctx.grill=grill;
+    var self=grill;
+})(app.data);
+(function(ctx){
+    "use strict";
+    var v, dataWidth, dataHeight, fontMax, input, output, cInput, cOutput, tInput, tOutput, inputUnit="°C", outputUnit="%", valMax=45, valMin=-15, valMaxOutput=100;
+
+    var outside={
+        // Application Constructor
+        initialize: function(data){
+            dataWidth=data.w;
+            dataHeight=data.h;
+            fontMax=data.f;
+
+            input=Snap("#data_outside .input");
+            cInput = input.circle(40, 40, 20).attr({fill: '#AA4859'});
+            tInput = input.text(23, 46, "15°C").attr({fill: '#000', "font-size": "1.8rem"});
+
+            output=Snap("#data_outside .output");
+            cOutput = output.circle(40, 40, 16).attr({fill: '#49B19C'});
+            tOutput = output.text(23, 46, "40%").attr({fill: '#000', "font-size": "1.8rem"});
+        },
+        setInput: function(val){
+            v=((15+val)/Math.abs(valMax-valMin))*40;
+            cInput.animate({r: v}, 500);
+            tInput.attr({text: parseInt(val)+inputUnit, "font-size": parseFloat(2.4-(1- val/valMax)*0.6)+'rem'});
+            return self;
+        },
+        setOutput: function(val){
+            v=(val/valMaxOutput)*40;
+            cOutput.animate({r: v}, 500);
+            tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
+            return self;
+        }
+    };
+    ctx.outside=outside;
+    var self=outside;
+})(app.data);
+(function(ctx){
+    "use strict";
+    var v, dataWidth, dataHeight, fontMax, input, output, cInput, cOutput, tInput, tOutput, inputUnit="%", outputUnit="%", valMax=3000, valMin=0, valMaxOutput=100;
+
+    var inside={
+        // Application Constructor
+        initialize: function(data){
+            dataWidth=data.w;
+            dataHeight=data.h;
+            fontMax=data.f;
+
+            input=Snap("#data_inside .input");
+            cInput = input.circle(40, 40, 40).attr({fill: '#49B19C'});
+            tInput = input.text(16, 46, "100%").attr({fill: '#000', "font-size": "2.4rem"});
+
+            output=Snap("#data_inside .output");
+            cOutput = output.circle(40, 40, 25).attr({fill: '#1D89AA'});
+            tOutput = output.text(23, 46, "70%").attr({fill: '#000', "font-size": "1.8rem"});
+        },
+        setInput: function(val){
+            v=(val/valMax)*40;
+            cInput.animate({r: v}, 500);
+            tInput.attr({text: parseInt(val)+inputUnit, "font-size": parseFloat(2.4-(1- val/valMax)*0.6)+'rem'});
+            return self;
+        },
+        setOutput: function(val){
+            v=(val/valMaxOutput)*40;
+            cOutput.animate({r: v}, 500);
+            tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
+            return self;
+        }
+    };
+    ctx.inside=inside;
+    var self=inside;
+})(app.data);
+(function(ctx){
+    "use strict";
+    var v, dataWidth, dataHeight, fontMax, input, output, cInput, cOutput, tInput, tOutput, inputUnit="h", outputUnit="%", valMax=86400, valMaxOutput=100;
+
+    var time={
+        // Application Constructor
+        initialize: function(data){
+            dataWidth=data.w;
+            dataHeight=data.h;
+            fontMax=data.f;
+
+            input=Snap("#data_time .input");
+            cInput = input.circle(40, 40, 25).attr({fill: '#502951'});
+            tInput = input.text(23, 46, "12h").attr({fill: '#FFF', "font-size": "2rem"});
+
+            output=Snap("#data_time .output");
+            cOutput = output.circle(40, 40, 20).attr({fill: '#F6A541'});
+            tOutput = output.text(23, 46, "30%").attr({fill: '#000', "font-size": "1.8rem"});
+        },
+        /**
+            val : {hour: h, minute: m, timestamp: 0}
+        */
+        setInput: function(val){
+            v=val.timestamp/valMax;
+            cInput.animate({r: v*40}, 10);
+            tInput.attr({text: val.hour+inputUnit, "font-size": parseFloat(2.4-(1- val.timestamp/valMax)*0.6)+'rem'});
+            return self;
+        },
+        setOutput: function(val){
+            v=(val/valMaxOutput)*40;
+            cOutput.animate({r: v}, 500);
+            tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
+            return self;
+        }
+        
+    };
+    ctx.time=time;
+    var self=time;
+})(app.data);
 (function(ctx){
     "use strict";
     var params, positions;
@@ -1742,12 +2086,18 @@
         controlOutput: function(){
             params=ctx.params.getParams();
             positions=ctx.params.getPosition();
+            /** ---------------------------------------------
+                             OUTPUT
+                --------------------------------------------- */
+            /* OUTPUT SHUTTER */
             if(params.time.hour>20 || params.time.hour<7){
                 ctx.windows.shutter.setState(100).updateState();
             }else{
                 ctx.windows.shutter.setState(0).updateState();
             }
+            /* OUTPUT LUX */
             if((7>params.time.hour || params.time.hour>20 || params.luxEnv<25000) && ctx.user.getData()[0].alive){
+                ctx.user.say.setSay('<p>During the night, lights will become brighter when I am near them</p>');
                 if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))<200){
                     ctx.lamps.plan.setLux(300).updateLux();
                 }else if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))>=200){
@@ -1776,23 +2126,72 @@
                 ctx.lamps.hotte.setLux(0).updateLux();
                 ctx.lamps.wall.setLux(0).updateLux();
             }
+            if(params.tempInt<15 && ctx.user.getData()[0].alive){
+                ctx.user.say.setSay("<p>When it's cold outisde, heating will warm me up</p>");
+                if(params.tempExt<0){
+                    ctx.heating.setHeatingPower(2000).updateHeating();
+                }else if(params.tempExt<5){
+                    ctx.heating.setHeatingPower(1000).updateHeating();
+                }else if(params.tempExt<10){
+                    ctx.heating.setHeatingPower(400).updateHeating();
+                }else{
+                    ctx.heating.setHeatingPower(0).updateHeating();
+                }
+            }
+            if(params.user.time.grill>180 && params.grill.power==0){
+                ctx.grill.setGrillPower(1500).updateGrill().setCursorPos(1500);
+            }
+            if(params.user.time.away>180){
+                ctx.grill.setGrillPower(0).updateGrill().setCursorPos(0);
+            }
+            if(params.grill.time.high>180){
+                if(params.hygrometrie.hygro>90 && (params.hygrometrie.time.low>180 || params.hygrometrie.time.medium>180 || params.hygrometrie.time.high>180)){
+                    ctx.ventilation.setDataDebit(1000).updateVentilation();
+                }else{
+                    ctx.ventilation.setDataDebit(599).updateVentilation();
+                }
+            }else if((params.grill.time.low>180 || params.grill.time.medium>180)){
+                if(params.hygrometrie.hygro>80 && (params.hygrometrie.time.low>180 || params.hygrometrie.time.medium>180)){
+                    ctx.ventilation.setDataDebit(599).updateVentilation();
+                }else{
+                    ctx.ventilation.setDataDebit(299).updateVentilation();
+                }
+            }else{
+                 ctx.ventilation.setDataDebit(0).updateVentilation();
+            }
+
+            /** ---------------------------------------------
+                            TEMPORALITY
+                --------------------------------------------- */
+            /* duration near grill */
+            if(Math.sqrt(Math.pow(params.user.x-positions.grill.x, 2)+Math.pow(params.user.y-positions.grill.y, 2))<200){
+                ctx.params.setUserGrillTime(params.user.time.grill+1);
+                ctx.user.say.setSay('<p>When I stay near my grill, it will launch after 3 minutes</p>');
+            }else{
+                ctx.params.setUserGrillTime(0);
+            }
             /* duration of hygro treshold */
             if(params.hygrometrie.hygro<80){
                 ctx.params.setHygroTime(params.hygrometrie.time.low+1, 0, 0);
             }else if(params.hygrometrie.hygro<90){
-                ctx.params.setHygroTime(0, params.hygrometrie.time.medium+1, 0);
+                ctx.params.setHygroTime(params.hygrometrie.time.medium+1, params.hygrometrie.time.medium+1, 0);
             }else{
-                ctx.params.setHygroTime(0, 0, params.hygrometrie.time.high+1);
+                ctx.params.setHygroTime(params.hygrometrie.time.high+1, params.hygrometrie.time.high+1, params.hygrometrie.time.high+1);
             }
             /* duration of grill activity */
-            if(params.grill.power<1){
+            if(params.grill.power<100){
                 ctx.params.setGrillTime(0, 0, 0);
             }else if(params.grill.power<1000){
                 ctx.params.setGrillTime(params.grill.time.low+1, 0, 0);
             }else if(params.grill.power<2000){
-                ctx.params.setGrillTime(0, params.grill.time.medium+1, 0);
+                ctx.params.setGrillTime(params.grill.time.medium+1, params.grill.time.medium+1, 0);
             }else{
-                ctx.params.setGrillTime(0, 0, params.grill.time.high+1);
+                ctx.params.setGrillTime(params.grill.time.high+1, params.grill.time.high+1, params.grill.time.high+1);
+            }
+            if(params.user.status==0){
+                ctx.params.setUserAwayTime(params.user.time.away+1);
+            }else{
+                ctx.params.setUserAwayTime(0);
             }
         }
     };
