@@ -23,7 +23,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <section id="app_blur">
+        <section id="app_blur" class="">
             <a id="show_choice" href="#"></a>
             <section id="environment">
                 <div class="bg-environment" id="bg_7"></div>
@@ -37,6 +37,7 @@
                 <div id="moon"></div>
                 <div class="bg-environment" id="nuages"></div>
                 <div class="bg-environment" id="darkness"></div>
+                <div class="bg-environment" id="cloud_deco"></div>
             </section>
             <section class="hidden">
                 <label for="time_input">Change time (0-24h)</label>
@@ -67,7 +68,7 @@
                 <input type="range" id="ventilation_input" min="0" max="1000" step="20" value="0"/>
                 <div class="clear mbs"></div>
                 <label for="temp_ext_input">Température ext (-15 to 45)</label>
-                <input type="range" id="temp_ext_input" min="-15" max="45" step="1" value="10"/>
+                <input type="range" id="temp_ext_input" min="-15" max="45" step="1" value="15"/>
                 <div class="clear mbs"></div>
                 <label for="temp_int_input">Température int (12 to 45)</label>
                 <input type="range" id="temp_int_input" min="12" max="40" step="1" value="18"/>
@@ -83,7 +84,10 @@
                 <div class="clear mbs"></div>
             </section>
             <section id="simulation_container">
-                <div id="user"></div>
+                <div id="user">
+                    <div class="talk hidden"> 
+                    </div>
+                </div>
                 <div id="timer"><span id="hour">12</span><span class="sep">:</span><span id="minute">00</span></div>
                 <object id="windows_open" type="image/svg+xml" data="assets/img/scene/fenetre.svg">
                 </object>
@@ -113,6 +117,10 @@
                     <defs></defs>
                 </svg>
                 <svg id="grill">
+                    <defs></defs>
+                </svg>
+                <!--<object id="casserole" type="image/svg+xml" data="assets/img/scene/casserole.svg"></object>-->
+                <svg id="casserole">
                     <defs></defs>
                 </svg>
                 <object id="lamp_wall" type="image/svg+xml" data="assets/img/scene/lamp.svg">
@@ -148,11 +156,19 @@
                 <div class="white_sep"></div>
                 <section>
                     <div class="initial"><span>19584</span>kWh/month</div>
-                    <article id="grill">IF <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg></article>
-                    <article id="grill">IF <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg></article>
-                    <article id="grill">IF <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg></article>
-                    <article id="grill">IF <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg></article>
-                    <div class="end red"><span>19584</span>kWh/month</div>
+                    <div id="data_grill" class="data">
+                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
+                    </div>
+                    <div id="data_outside" class="data">
+                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
+                    </div>
+                    <div id="data_inside" class="data">
+                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
+                    </div>
+                    <div id="data_time" class="data">
+                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
+                    </div>
+                    <div class="final red strong"><span>15367</span>kWh/month</div>
                 </section>
             </section>
             <section id="controls_panel">
@@ -226,6 +242,20 @@
                 </div>
             </section>
         </section>
+        <!--<div id="tuto_form" class="">
+            <section class="pop_in">
+                <div class="close"></div>
+                <h4>FOLLOW THE TUTORIAL ?</h4>
+                <div class="field_group">
+                    <div class="button_container">
+                        <input type="button" value="YES" id="tuto_yes"/>
+                    </div>
+                    <div class="button_container">
+                        <input type="button" value="NO" id="tuto_no"/>
+                    </div>
+                </div>
+            </section>
+        </div>-->
         <div id="rules_form" class="hidden">
             <section class="pop_in">
                 <div class="close"></div>
@@ -233,35 +263,19 @@
                 <form id="add_rules">
                     <div class="field_group">
                         <span class="red strong">IF</span> <select name="if">
+                            <option disabled selected> -- select an option -- </option>
                             <option>Luminosity</option>
                             <option>T° outside</option>
                             <option>T° inside</option>
                         </select>
-                        IS
-                            <select name="if_is">
-                                <option>Low</option>
-                                <option>Average</option>
-                                <option>High</option>
-                            </select>
-                        THEN 
-                            <select name="then">
-                                <option>Light</option>
-                                <option>Ventilation</option>
-                                <option>Heating</option>
-                            </select>
-                        IS
-                            <select name="then_is">
-                                <option>Low</option>
-                                <option>Average</option>
-                                <option>high</option>
-                            </select>
+                        THEN ...
                     </div>
                     <div class="button_container">
                         <input type="submit" value="CONFIGURED" id="submit_rules"/>
                     </div>
                 </form>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
     <script type="text/javascript" src="assets/js/lib/zepto.min.js"></script>
     <script type="text/javascript" src="assets/js/lib/snap.svg-min.js"></script>
@@ -278,6 +292,7 @@
     <script type="text/javascript" src="assets/js/lamp_wall.js"></script>
     <script type="text/javascript" src="assets/js/env.js"></script>
     <script type="text/javascript" src="assets/js/user.js"></script>
+    <script type="text/javascript" src="assets/js/user_say.js"></script>
     <script type="text/javascript" src="assets/js/params.js"></script>
     <script type="text/javascript" src="assets/js/ventilation.js"></script>
     <script type="text/javascript" src="assets/js/heating.js"></script>
@@ -286,6 +301,11 @@
     <script type="text/javascript" src="assets/js/temperature_int.js"></script>
     <script type="text/javascript" src="assets/js/temperature_ext.js"></script>
     <script type="text/javascript" src="assets/js/grill.js"></script>
+    <script type="text/javascript" src="assets/js/data.js"></script>
+    <script type="text/javascript" src="assets/js/data_grill.js"></script>
+    <script type="text/javascript" src="assets/js/data_outside.js"></script>
+    <script type="text/javascript" src="assets/js/data_inside.js"></script>
+    <script type="text/javascript" src="assets/js/data_time.js"></script>
     <script type="text/javascript" src="assets/js/controller.js"></script>
     <script type="text/javascript">
         $(function(){

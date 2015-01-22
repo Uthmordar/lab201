@@ -6,6 +6,7 @@
         // Application Constructor
         initialize: function(data){
             $input=$('#user_input');
+            self.say.initialize(data[0].$el);
             self.setData(data);
             sceneX=ctx.getSceneOffset().x;
             sceneY=ctx.getSceneOffset().y;
@@ -45,6 +46,7 @@
                     ctx.params.setUserStatus(0);
                     data[activeUser].$el.css('display', 'none');
                     $input.val('N0');
+                    self.say.silent();
                 }else{
                     data[activeUser].alive=1;
                     ctx.params.setUserStatus(1);

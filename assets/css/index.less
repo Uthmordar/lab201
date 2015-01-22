@@ -65,6 +65,7 @@
 .red{
 	color: @color-red;
 }
+
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 //                           APPLICATION SCREEN
@@ -73,7 +74,6 @@
 .wrapper{
 	width: 100%;
 	min-width: 130rem;
-	padding: 2*@padding;
 
 	// ----------------------------------------------------------------------
 	//                         RETURN HOME BUTTON
@@ -111,12 +111,13 @@
 
 		.bg-environment{
 			position:absolute;
-			top:0;
+			/*top:0;*/
 			left:0;
 			width:100%;
 			height:100%;
 			.transition(opacity; 2s; ease-out; 0s);
 			opacity:0;
+
 			&#bg_1{
 				background: url(../img/fond/fonds_1.svg) center center no-repeat;
 				background-size: cover;
@@ -154,6 +155,14 @@
 	        	background: url(../img/fond/fond_nuage_1.svg) 0 -80px repeat-x, url(../img/fond/fond_nuage_2.svg) 0 50px repeat-x, url(../img/fond/fond_nuage_1.svg) 0 100px repeat-x;
 	        	opacity: 1;
 	        	z-index: 20;
+	        }
+	        &#cloud_deco{
+	        	background: url(../img/fond/cloud.svg) center -68px no-repeat;
+	        	opacity: 1;
+	        	height: 31rem;
+	        	background-size: cover;
+	        	background-size: 210rem;
+	        	bottom: 0;
 	        }
 		}
 		#sun{
@@ -210,6 +219,30 @@
 			background-size: contain;
 			cursor: pointer;
 			z-index: 10;
+			overflow: visible;
+
+			.talk{
+				position: absolute;
+				top: 1rem;
+				left: 16rem;
+				max-width: 30rem;
+				padding: 2*@padding;
+				z-index: 40;
+				background: rgba(253,249,240,0.9);
+				border-radius: 10px;
+
+				&:before{
+					content:"";
+					width:10px;
+					height:2px;
+					border:15px solid transparent;
+					border-right:15px solid rgba(253,249,240,0.9);
+					position:absolute;
+					left:-4rem;
+					top:1rem;
+					z-index:40;
+				}
+			}
 		}
 
 		#timer{
@@ -348,6 +381,15 @@
 			z-index: 1;
 		}
 
+		#casserole{
+			position: absolute;
+			top: 33rem;
+			left: 95rem;
+			z-index: 1;
+			width: 110px;
+			height: 60px;
+		}
+
 		#table{
 			position: absolute;
 			top: 42rem;
@@ -393,13 +435,59 @@
 	// --------------------------------------------------------
 	#data_panel{
 		position: absolute;
-		max-width: 20%;
-		right: 0;
+		width: 35rem;
+		right: 0rem;
 		top: 8rem;
+		padding: @padding;
+		background: rgba(235,91,92, 0.1);
 
 		h4{
 			color: #FFF;
-			font-size: 2.6rem;
+			font-size: 2.8rem;
+			text-align: center;
+		}
+
+		.white_sep{
+			height: 2px;
+			width: 60px;
+			background: #FFF;
+			margin: @margin auto;
+		}
+
+		section{
+			padding: 2*@padding 4*@padding;
+
+			.initial{
+				color: #FFF;
+				font-size: 2.4rem;
+				height: 7rem;
+				line-height: 3rem;
+				text-align: center;
+				background: url(../img/pictos/arrow_white.png) center 35px no-repeat;
+			}
+
+			div.data{
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 2.2rem;
+				text-align: center;
+				margin-bottom: @margin;
+			}
+
+			svg{
+				margin: 0 @margin;
+				width: 80px;
+				height: 80px;
+			}
+
+			.final{
+				font-size: 2.6rem;
+				height: 7rem;
+				line-height: 10rem;
+				text-align: center;
+				background: url(../img/pictos/arrow_red.png) center 0px no-repeat;
+			}
 		}
 	}
 
@@ -418,7 +506,7 @@
 		.control{
 			.output{
 				text-align: center;
-				color: #FFF;
+				color: @color-black;
 				font-weight: bold;
 				font-size: 1.8rem;
 			}
@@ -555,6 +643,71 @@
 	// --------------------------------------------------------
 	//                         FORM
 	// --------------------------------------------------------
+	#tuto_form{
+		position: absolute;
+		top: 20rem;
+		left: 20rem;
+		border: 2px solid rgba(255, 255, 255, 0.85);
+		border-radius: 10px;
+		z-index: 1000;
+
+		section.pop_in{
+			position: relative;
+			margin: 0.7*@margin;
+			background: rgba(255,255,255, 0.85);
+			border-radius: 10px;
+			padding: 8*@padding 15*@padding;
+
+			h4{
+				font-size: 4rem;
+			}
+
+			.close{
+				position: absolute;
+				width: 30px;
+				height: 30px;
+				right: 1rem;
+				top: 1rem;
+				background: url(../img/pictos/croix.svg) center center no-repeat;
+				cursor: pointer;
+			}
+
+			.field_group{
+				margin: @margin auto;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 2.8rem;
+
+				.button_container{
+					border: 2px solid @color-red-dark;
+					padding: 0.7*@padding;
+					margin: 4*@margin auto 0;
+					width: 18rem;
+
+					input{
+						border: none;
+						width: 100%;
+						color: @color-red-dark;
+						padding: @padding;
+						font-size: 2.4rem;
+						background: none;
+						cursor: pointer;
+						outline: none;
+					}
+					&:hover{
+						input{
+							color: #FFF;
+							background: @color-red-dark;
+						}
+					}
+					&:active{
+						background: @color-red-dark;
+					}
+				}
+			}
+		}
+	}
 	#rules_form{
 		position: absolute;
 		top: 20rem;
@@ -568,7 +721,7 @@
 			margin: 0.7*@margin;
 			background: rgba(255,255,255, 0.85);
 			border-radius: 10px;
-			padding: 6*@padding 12*@padding;
+			padding: 8*@padding 15*@padding;
 
 			h4{
 				font-size: 4rem;
@@ -593,7 +746,11 @@
 					display: flex;
 					justify-content: center;
 					align-items: center;
-					font-size: 2.4rem;
+					font-size: 2.8rem;
+
+					span.red{
+						font-size: 3.8rem;
+					}
 				}
 
 				select{
@@ -605,7 +762,7 @@
 				.button_container{
 					border: 2px solid @color-red-dark;
 					padding: 0.7*@padding;
-					margin: 2*@margin auto 0;
+					margin: 4*@margin auto 0;
 					width: 18rem;
 
 					input{

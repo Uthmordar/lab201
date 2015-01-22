@@ -95,6 +95,7 @@
             this.hygro.initialize(hygro);
             this.temperature.initialize(temperature);
             this.grill.initialize(grill);
+            this.data.initialize();
             // Initialize algorithm controller 
             this.controller.initialize();
             this.env.initialize(envTab);

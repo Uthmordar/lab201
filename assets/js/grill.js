@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var data, count, $input, s, scene, plaque, colorOn,
+    var data, count, $input, s, scene, plaque, colorOn, sCas, viewCas,
     valMax, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
     var grill={
@@ -18,6 +18,10 @@
                 plaque=loadedFragment.selectAll("ellipse").attr({fill: colorOn, opacity: 0});
                 s.append(plaque);
             });
+
+            sCas=Snap("#casserole");
+            viewCas=sCas.image('assets/img/scene/casserole.svg', 0, 0, 140, 60).attr({opacity: 0});
+
             self.setData(data);
             $container=$('.circle.heating'), $slider=$('#slider_heating'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=0, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             X=Math.round(radius* Math.sin(deg*Math.PI/180));    
@@ -85,6 +89,7 @@
             requestAnimFrame(self.changeDisplayVal);
             self.changeDisplayVal();
             self.viewGrill();
+            self.updateDatavis();
             return self;
         },
         /**
@@ -115,7 +120,15 @@
             change grill color based on value
         */
         viewGrill: function(){
+            if(data.power!=0){
+                viewCas.attr({opacity: 1});
+            }else{
+                viewCas.attr({opacity: 0});
+            }
             plaque.animate({opacity: data.power/valMax}, 500);
+        },
+        updateDatavis: function(){
+            ctx.data.grill.setInput(data.power).setOutput(70+ Math.random() * 30);
         }
     };
     ctx.grill=grill;

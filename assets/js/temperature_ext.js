@@ -76,6 +76,7 @@
             requestAnimFrame(self.changeDisplayVal);
             self.changeDisplayVal();
             self.viewTemperature();
+            self.updateDatavis();
         },
         /**
             change T° outside from initial value to final value in display zone
@@ -103,6 +104,9 @@
         },
         viewTemperature: function(){
             jauge.animate({height: 35 - h*(data.t-valMin)/(valMax-valMin)}, 300);
+        },
+        updateDatavis: function(){
+            window.app.data.outside.setInput(data.t).setOutput(70+ Math.random() * 30);
         }
     };
     ctx.ext=ext;

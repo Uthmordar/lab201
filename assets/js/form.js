@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var $input, $popIn, $sceneBlur, $formSubmit, $close;
+    var $input, $popIn, $sceneBlur, $formSubmit, $close, $popInTuto, $tutoYes, $tutoNo;
 
     var form={
         // Application Constructor
@@ -10,9 +10,15 @@
             $sceneBlur=$('#app_blur');
             $close=$popIn.children('.pop_in').children('.close');
             $formSubmit=data;
+
+            $popInTuto=$('#tuto_form');
+            $popInTuto.css({'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
+            $tutoYes=$('#tuto_yes');
+            $tutoNo=$('#tuto_no, #tuto_form .close');
             self.bindEvents();
         },
         bindEvents: function(){
+            // FORM RULES
             $input.on('click', function(e){
                 e.preventDefault();
                 self.displayPopIn();
@@ -26,6 +32,20 @@
             $close.on('click', function(e){
                 e.preventDefault();
                 self.hidePopIn();
+            });
+            // FORM TUTO
+            $tutoYes.on('click', function(e){
+                e.preventDefault();
+                $popInTuto.remove();
+                ctx.user.say.setTuto(1);
+                $sceneBlur.removeClass('blur');
+            });
+
+            $tutoNo.on('click', function(e){
+                e.preventDefault();
+                $popInTuto.remove();
+                ctx.user.say.setTuto(0);
+                $sceneBlur.removeClass('blur');
             });
         },
         displayPopIn: function(){

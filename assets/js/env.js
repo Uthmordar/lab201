@@ -101,7 +101,7 @@
             /* range time */
             $container
             .mousedown(function (e){mdown=true;})
-            .mouseup(function (e){mdown=false;})
+            .mouseup(function (e){mdown=false;self.updateDataTime();})
             .mousemove(function (e){
                 if(mdown){
                     mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
@@ -228,6 +228,13 @@
         changeDarknessDisplayVal: function(){
             $displayDarkness.html(Math.floor(valDarkness));
             $displayDarkness.parent().siblings('.circle').eq(0).css('border', '3px solid rgba(255,255,255,'+parseFloat(0.1+valDarkness/valMaxDarkness)+')');
+        },
+        /**
+            update data linked with time
+        */
+        updateDataTime: function(){
+            val=self.getTime();
+            ctx.data.time.setInput(val).setOutput(Math.random() * 100);
         }
     };
     ctx.env=env;
