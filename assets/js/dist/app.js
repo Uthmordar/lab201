@@ -2097,7 +2097,7 @@
             }
             /* OUTPUT LUX */
             if((7>params.time.hour || params.time.hour>20 || params.luxEnv<25000) && ctx.user.getData()[0].alive){
-                ctx.user.say.setSay('<p>During the night, lights will become brighter when I am near them</p>');
+                ctx.user.say.setSay('<p><span class="strong red">IF</span> it\'s night, THEN lights will become brighter when I am near them</p>');
                 if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))<200){
                     ctx.lamps.plan.setLux(300).updateLux();
                 }else if(Math.sqrt(Math.pow(params.user.x-positions.luxPlan.x, 2)+Math.pow(params.user.y-positions.luxPlan.y, 2))>=200){
@@ -2127,7 +2127,7 @@
                 ctx.lamps.wall.setLux(0).updateLux();
             }
             if(params.tempInt<15 && ctx.user.getData()[0].alive){
-                ctx.user.say.setSay("<p>When it's cold outisde, heating will warm me up</p>");
+                ctx.user.say.setSay("<p><span class='strong red'>IF</span> it's cold outisde, THEN heating will warm me up</p>");
                 if(params.tempExt<0){
                     ctx.heating.setHeatingPower(2000).updateHeating();
                 }else if(params.tempExt<5){
@@ -2166,7 +2166,7 @@
             /* duration near grill */
             if(Math.sqrt(Math.pow(params.user.x-positions.grill.x, 2)+Math.pow(params.user.y-positions.grill.y, 2))<200){
                 ctx.params.setUserGrillTime(params.user.time.grill+1);
-                ctx.user.say.setSay('<p>When I stay near my grill, it will launch after 3 minutes</p>');
+                ctx.user.say.setSay('<p><span class="strong red">IF</span> I stay near my grill, THEN it will launch after 3 minutes</p>');
             }else{
                 ctx.params.setUserGrillTime(0);
             }
