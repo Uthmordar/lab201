@@ -59,7 +59,7 @@
                 manage user movement by drag&drop
             */
 
-            if ($.os.tablet === true) {
+            if ($.os !== undefined && $.os.tablet === true) {
                 $movementPlan.on("click", function(e) {
                     e.preventDefault();
                     posY=e.clientY-sceneY-data[activeUser].height*0.5;

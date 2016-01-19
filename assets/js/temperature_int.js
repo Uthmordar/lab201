@@ -39,21 +39,37 @@
                 self.setTemperature($(this).val()).updateTemperature();
             });
             /* range temp int */          
+            if ($.os !== undefined && $.os.tablet === true ) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
+        },
+        controlStandard: function() {
             $container
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;})
             .mousemove(function (e){
                 if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X=Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y=Math.round(radius* -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
-                    self.setTemperature(deg*(diff/360)+valMin).updateTemperature();
+                    self.controlChange(e);
                 }
             });
+        },
+        controlTablet: function() {
+            $container
+            .click(function(e) {
+                self.controlChange(e);
+            });
+        },
+        controlChange: function(e) {
+            mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X=Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y=Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            self.setTemperature(deg*(diff/360)+valMin).updateTemperature();
         },
         /**
             set temp    
