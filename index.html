@@ -129,6 +129,7 @@
                 </object>
                 <object id="table" type="image/svg+xml" data="assets/img/scene/table.svg">
                 </object>
+                <div id="movement_plan"></div>
                 <object id="chaud" type="image/svg+xml" data="assets/img/scene/chaud.svg">
                 </object>
                 <object id="froid" type="image/svg+xml" data="assets/img/scene/froid.svg">
@@ -232,14 +233,14 @@
                     </div>
                      <div id="hygro_output" class="output">HUMIDITY: <span class="display">80</span>%</div>
                 </div>
-                <div class="control">
+                <!--<div class="control">
                     <div class="circle more">
                         <div class="cran"></div>
                         <div id="slider_more">
                             <div class="puce"></div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </section>
         </section>
         <div id="tuto_form" class="">
@@ -279,8 +280,8 @@
     </div>
     <script type="text/javascript" src="assets/js/lib/zepto.min.js"></script>
     <script type="text/javascript" src="assets/js/lib/snap.svg-min.js"></script>
-    <script type="text/javascript" src="assets/js/dist/app.min.js"></script>
-    <!--<script type="text/javascript" src="assets/js/app.js"></script>
+    <!--<script type="text/javascript" src="assets/js/dist/app.min.js"></script>-->
+    <script type="text/javascript" src="assets/js/app.js"></script>
     <script type="text/javascript" src="assets/js/form.js"></script>
     <script type="text/javascript" src="assets/js/windows.js"></script>
     <script type="text/javascript" src="assets/js/windows_open.js"></script>
@@ -306,7 +307,7 @@
     <script type="text/javascript" src="assets/js/data_outside.js"></script>
     <script type="text/javascript" src="assets/js/data_inside.js"></script>
     <script type="text/javascript" src="assets/js/data_time.js"></script>
-    <script type="text/javascript" src="assets/js/controller.js"></script>-->
+    <script type="text/javascript" src="assets/js/controller.js"></script>
     <script type="text/javascript">
         $(function(){
             app.initialize($('#simulation_container'));

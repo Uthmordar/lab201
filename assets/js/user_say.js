@@ -29,16 +29,16 @@
         },
         initSpeech: function(){
             self.setSay('<p>Touch me</p>');
-            $('#user').on('click', function(){
+            $('#user').on('tap', function(){
                 ctx.say.secondStep();
-                $(this).off('click');
+                $(this).off('tap');
             });
         },
         secondStep: function(){
             self.setSay('<p>You can move me by drag&drop</p><br/><p>Now try to use the controls at screen bottom</p>');
-            $('#controls_panel').on('click', function(){
+            $('#controls_panel').on('tap', function(){
                 ctx.say.setSay('<p>You can alter each intput parameter only by interacting with this bullet.</p><p class="red strong">Now watch the scene and show the rules implications</p>');
-                $(this).off('click');
+                $(this).off('tap');
                 setTimeout(function(){ctx.say.silent()}, 3000);
             });
         }

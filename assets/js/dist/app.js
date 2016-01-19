@@ -163,7 +163,7 @@
         },
         bindEvents: function(){
             // FORM RULES
-            $input.on('click', function(e){
+            /*$input.on('click', function(e){
                 e.preventDefault();
                 self.displayPopIn();
             });
@@ -176,7 +176,7 @@
             $close.on('click', function(e){
                 e.preventDefault();
                 self.hidePopIn();
-            });
+            });*/
             // FORM TUTO
             $tutoYes.on('click', function(e){
                 e.preventDefault();
@@ -948,12 +948,13 @@
 })(app);
 (function(ctx){
     "use strict";
-    var data,$input,mouseX,mouseY,activeUser, posX, posY, sceneX, sceneY;
+    var data,$input,mouseX,mouseY,activeUser, posX, posY, sceneX, sceneY, $movementPlan;
 
     var user={
         // Application Constructor
         initialize: function(data){
             $input=$('#user_input');
+            $movementPlan = $("#movement_plan");
             self.say.initialize(data[0].$el);
             self.setData(data);
             sceneX=ctx.getSceneOffset().x;
@@ -1005,22 +1006,39 @@
             /**
                 manage user movement by drag&drop
             */
-            data[activeUser].$el.on('mousedown', function(e){
-                var $this=$(this);
-                $this.on('mousemove', function(e){
+
+            if ($.os.tablet === true) {
+                $movementPlan.on("click", function(e) {
                     e.preventDefault();
                     posY=e.clientY-sceneY-data[activeUser].height*0.5;
                     posX=e.clientX-sceneX-data[activeUser].width*0.5;
-                    if(posY<320 && posY>212 && posX>-80 && posX<950){
-                        ctx.params.setUserPos(posX, posY);
-                        $(this).css({'top': posY +'px', 'left': posX + 'px'});
-                        ctx.controller.controlOutput();
+                    if(posY>370){
+                        data[activeUser].$el.addClass("first-plan");
+                    } else {
+                        data[activeUser].$el.removeClass("first-plan");
                     }
+                    ctx.params.setUserPos(posX, posY);
+                    data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
+                    ctx.controller.controlOutput();                    
                 });
-                $this.on('mouseup', function(e){
-                    $(this).off('mousemove');
+            } else {
+                data[activeUser].$el.on('click', function(e){
+                    var $this=$(this);
+                    $this.on('mousemove', function(e){
+                        e.preventDefault();
+                        posY=e.clientY-sceneY-data[activeUser].height*0.5;
+                        posX=e.clientX-sceneX-data[activeUser].width*0.5;
+                        if(posY<320 && posY>212 && posX>-80 && posX<950){
+                            ctx.params.setUserPos(posX, posY);
+                            $this.css({'top': posY +'px', 'left': posX + 'px'});
+                            ctx.controller.controlOutput();
+                        }
+                    });
+                    $this.on('click', function(e){
+                        $(this).off('mousemove');
+                    });
                 });
-            });
+            }
         }
     };
     ctx.user=user;
@@ -1057,16 +1075,16 @@
         },
         initSpeech: function(){
             self.setSay('<p>Touch me</p>');
-            $('#user').on('click', function(){
+            $('#user').on('tap', function(){
                 ctx.say.secondStep();
-                $(this).off('click');
+                $(this).off('tap');
             });
         },
         secondStep: function(){
             self.setSay('<p>You can move me by drag&drop</p><br/><p>Now try to use the controls at screen bottom</p>');
-            $('#controls_panel').on('click', function(){
+            $('#controls_panel').on('tap', function(){
                 ctx.say.setSay('<p>You can alter each intput parameter only by interacting with this bullet.</p><p class="red strong">Now watch the scene and show the rules implications</p>');
-                $(this).off('click');
+                $(this).off('tap');
                 setTimeout(function(){ctx.say.silent()}, 3000);
             });
         }

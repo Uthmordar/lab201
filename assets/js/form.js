@@ -19,7 +19,7 @@
         },
         bindEvents: function(){
             // FORM RULES
-            $input.on('click', function(e){
+            /*$input.on('click', function(e){
                 e.preventDefault();
                 self.displayPopIn();
             });
@@ -32,7 +32,7 @@
             $close.on('click', function(e){
                 e.preventDefault();
                 self.hidePopIn();
-            });
+            });*/
             // FORM TUTO
             $tutoYes.on('click', function(e){
                 e.preventDefault();
