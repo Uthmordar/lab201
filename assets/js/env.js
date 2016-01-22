@@ -98,20 +98,30 @@
                 self.setDarkness(val);
                 self.changeDarkness();
             });
-            /* range time */
+            if ($.os !== undefined && $.os.tablet === true) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
+        },
+        controlTablet: function() {
+            $container
+            .click(function (e){
+               self.controlChangeTime(e);
+            });     
+            $containerDarkness
+            .on("touchmove", function (e){
+                console.log(e);
+                self.controlChangeLux(e);
+            });
+        },
+        controlStandard: function() {
             $container
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;self.updateDataTime();})
             .mousemove(function (e){
                 if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
-                    $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
+                   self.controlChangeTime(e);
                 }
             });
             /* range luminosity */            
@@ -120,17 +130,32 @@
             .mouseup(function (e){mdownDarkness=false;})
             .mousemove(function (e){
                 if(mdownDarkness){
-                    mPosDarkness = {x: e.clientX-elPosDarkness.x, y: e.clientY-elPosDarkness.y};
-                    atanDarkness = Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
-                    degDarkness = -atanDarkness/(Math.PI/180) + 180;
-                         
-                    XDarkness = Math.round(radiusDarkness* Math.sin(degDarkness*Math.PI/180));    
-                    YDarkness = Math.round(radiusDarkness*  -Math.cos(degDarkness*Math.PI/180));
-                    $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness });      
-                    $inputDarkness.attr('value', degDarkness * (valMaxDarkness/360)).val(degDarkness * (valMaxDarkness/360));
-                    self.setDarkness(degDarkness * (valMaxDarkness/360)).changeDarkness();
+                    self.controlChangeLux(e);
                 }
             });
+        },
+        controlChangeTime: function(e) {
+            e.preventDefault();
+            mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
+            $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
+        },
+        controlChangeLux: function(e) {
+            e.preventDefault();
+            mPosDarkness = {x: e.clientX-elPosDarkness.x, y: e.clientY-elPosDarkness.y};
+            atanDarkness = Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
+            degDarkness = -atanDarkness/(Math.PI/180) + 180;
+                 
+            XDarkness = Math.round(radiusDarkness * Math.sin(degDarkness*Math.PI/180));    
+            YDarkness = Math.round(radiusDarkness * -Math.cos(degDarkness*Math.PI/180));
+            $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness });      
+            $inputDarkness.attr('value', degDarkness * (valMaxDarkness/360)).val(degDarkness * (valMaxDarkness/360));
+            self.setDarkness(degDarkness * (valMaxDarkness/360)).changeDarkness();
         },
         /**
             move cursor to new val 
