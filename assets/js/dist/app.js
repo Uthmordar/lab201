@@ -804,20 +804,32 @@
                 self.setDarkness(val);
                 self.changeDarkness();
             });
-            /* range time */
+            if ($.os !== undefined && $.os.tablet === true) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
+        },
+        controlTablet: function() {
+            $container
+            .on("touchmove touchstart", function (e){
+                e.preventDefault();
+                self.controlChangeTime(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            });     
+            $containerDarkness
+            .on("touchmove touchstart", function (e){
+                e.preventDefault();
+                self.controlChangeLux(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            });
+        },
+        controlStandard: function() {
             $container
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;self.updateDataTime();})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
-                    $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
+                   self.controlChangeLux(e.clientX, e.clientY);
                 }
             });
             /* range luminosity */            
@@ -825,18 +837,32 @@
             .mousedown(function (e){mdownDarkness=true;})
             .mouseup(function (e){mdownDarkness=false;})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdownDarkness){
-                    mPosDarkness = {x: e.clientX-elPosDarkness.x, y: e.clientY-elPosDarkness.y};
-                    atanDarkness = Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
-                    degDarkness = -atanDarkness/(Math.PI/180) + 180;
-                         
-                    XDarkness = Math.round(radiusDarkness* Math.sin(degDarkness*Math.PI/180));    
-                    YDarkness = Math.round(radiusDarkness*  -Math.cos(degDarkness*Math.PI/180));
-                    $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness });      
-                    $inputDarkness.attr('value', degDarkness * (valMaxDarkness/360)).val(degDarkness * (valMaxDarkness/360));
-                    self.setDarkness(degDarkness * (valMaxDarkness/360)).changeDarkness();
+                    self.controlChangeLux(e.clientX, e.clientY);
                 }
             });
+        },
+        controlChangeTime: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
+            $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
+        },
+        controlChangeLux: function(x, y) {
+            mPosDarkness = {x: x - elPosDarkness.x, y: y - elPosDarkness.y};
+            atanDarkness = Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
+            degDarkness = -atanDarkness/(Math.PI/180) + 180;
+                 
+            XDarkness = Math.round(radiusDarkness * Math.sin(degDarkness*Math.PI/180));    
+            YDarkness = Math.round(radiusDarkness * -Math.cos(degDarkness*Math.PI/180));
+            $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness });      
+            $inputDarkness.attr('value', degDarkness * (valMaxDarkness/360)).val(degDarkness * (valMaxDarkness/360));
+            self.setDarkness(degDarkness * (valMaxDarkness/360)).changeDarkness();
         },
         /**
             move cursor to new val 
@@ -1007,22 +1033,26 @@
                 manage user movement by drag&drop
             */
 
-            if ($.os.tablet === true) {
-                $movementPlan.on("click", function(e) {
+            if ($.os !== undefined && $.os.tablet === true) {
+                $movementPlan.show();
+                $movementPlan.on("touchmove", function(e) {
                     e.preventDefault();
-                    posY=e.clientY-sceneY-data[activeUser].height*0.5;
-                    posX=e.clientX-sceneX-data[activeUser].width*0.5;
-                    if(posY>370){
+                    posY=e.targetTouches[0].clientY - sceneY - data[activeUser].height*0.5;
+                    posX=e.targetTouches[0].clientX - sceneX - data[activeUser].width*0.5;
+                    if(posY>368){
                         data[activeUser].$el.addClass("first-plan");
                     } else {
                         data[activeUser].$el.removeClass("first-plan");
                     }
-                    ctx.params.setUserPos(posX, posY);
-                    data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
-                    ctx.controller.controlOutput();                    
+                    if(posY<430 && posY>212 && posX>-80 && posX<950){
+                        ctx.params.setUserPos(posX, posY);
+                        data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
+                        ctx.controller.controlOutput();
+                    }                
                 });
             } else {
-                data[activeUser].$el.on('click', function(e){
+                $movementPlan.hide();
+                data[activeUser].$el.on('mousedown', function(e){
                     var $this=$(this);
                     $this.on('mousemove', function(e){
                         e.preventDefault();
@@ -1034,7 +1064,7 @@
                             ctx.controller.controlOutput();
                         }
                     });
-                    $this.on('click', function(e){
+                    $this.on('mouseup', function(e){
                         $(this).off('mousemove');
                     });
                 });
@@ -1451,21 +1481,39 @@
                 self.setHygroValue($(this).val()).updateHygro();
             });
             /* range hygro */
+            if ($.os !== undefined && $.os.tablet === true) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
+        },
+        controlStandard: function() {
             $container
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
-                    self.setHygroValue((deg * (diff/360))+valMin).updateHygro();
+                    self.controlChange(e.clientX, e.clientY);
                 }
             });
+        },
+        controlTablet: function() {
+            $container
+            .on("touchmove touchstart", function(e) {
+                e.preventDefault();
+                self.controlChange(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            });
+        },
+        controlChange: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            self.setHygroValue((deg * (diff/360))+valMin).updateHygro();
         },
          /**
             set hygro in data
@@ -1593,21 +1641,39 @@
                 self.setTemperature($(this).val()).updateTemperature();
             });
             /* range temp int */          
+            if ($.os !== undefined && $.os.tablet === true ) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
+        },
+        controlStandard: function() {
             $container
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X=Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y=Math.round(radius* -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
-                    self.setTemperature(deg*(diff/360)+valMin).updateTemperature();
+                    self.controlChange(e.clientX, e.clientY);
                 }
             });
+        },
+        controlTablet: function() {
+            $container
+            .on("touchmove touchstart", function(e) {
+                e.preventDefault();
+                self.controlChange(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            });
+        },
+        controlChange: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X=Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y=Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            self.setTemperature(deg*(diff/360)+valMin).updateTemperature();
         },
         /**
             set temp    
@@ -1697,6 +1763,34 @@
             self.bindEvents();
             self.changeDisplayVal();
         },
+        controlStandard: function() {
+            $container
+            .mousedown(function (e){mdown=true;})
+            .mouseup(function (e){mdown=false;})
+            .mousemove(function (e){
+                if(mdown){
+                    e.preventDefault();
+                    self.controlChange(e.clientX, e.clientY);
+                }
+            });
+        },
+        controlTablet: function() {
+            $container
+            .on("touchmove touchstart", function(e) {
+                e.preventDefault();
+                self.controlChange(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            });
+        },
+        controlChange: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            self.setTemperature(deg * ((valMax-valMin)/360) + valMin).updateTemperature();
+        },
         resetControls: function(){
             sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
         },
@@ -1712,21 +1806,11 @@
                 self.setTemperature($(this).val()).updateTemperature();
             });
             /* range temp ext */
-            $container
-            .mousedown(function (e){mdown=true;})
-            .mouseup(function (e){mdown=false;})
-            .mousemove(function (e){
-                if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
-                    self.setTemperature(deg * ((valMax-valMin)/360) + valMin).updateTemperature();
-                }
-            });
+            if ($.os !== undefined && $.os.tablet === true) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
         },
         /**
             set temp    
@@ -1828,22 +1912,39 @@
                 e.preventDefault();
                 self.setGrillPower($(this).val()).updateGrill();
             });
-            /* range grill */            
+            if ($.os !== undefined && $.os.tablet === true) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
+        },
+        controlStandard: function() {
             $container
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
-                    self.setGrillPower(deg * (valMax/360)).updateGrill();
+                    self.controlChange(e.clientX, e.clientY);
                 }
             });
+        },
+        controlTablet: function() {
+            $container
+            .on("touchmove touchstart", function (e){
+                e.preventDefault();
+                self.controlChange(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            });
+        },
+        controlChange: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            self.setGrillPower(deg * (valMax/360)).updateGrill();
         },
         /**
             move cursor to new val 
@@ -1927,10 +2028,10 @@
         initialize: function(){
             init={w: $("#data_grill .input").width(), h: $("#data_grill .input").height(), f: 2.4};
             
-            this.grill.initialize(init);
-            this.inside.initialize(init);
-            this.outside.initialize(init);
-            this.time.initialize(init);
+            //this.grill.initialize(init);
+            //this.inside.initialize(init);
+            //this.outside.initialize(init);
+            //this.time.initialize(init);
         }
     };
     ctx.data=data;
@@ -1956,12 +2057,14 @@
             tOutput = output.text(23, 46, "70%").attr({fill: '#000', "font-size": "1.8rem"});
         },
         setInput: function(val){
+            return self;
             v=(val/valMax)*40;
             cInput.animate({r: v}, 500);
             tInput.attr({text: parseInt(val)+inputUnit, "font-size": parseFloat(2.4-(1- val/valMax)*0.6)+'rem'});
             return self;
         },
         setOutput: function(val){
+            return self;
             v=(val/valMaxOutput)*40;
             cOutput.animate({r: v}, 500);
             tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
@@ -1991,12 +2094,14 @@
             tOutput = output.text(23, 46, "40%").attr({fill: '#000', "font-size": "1.8rem"});
         },
         setInput: function(val){
+            return self
             v=((15+val)/Math.abs(valMax-valMin))*40;
             cInput.animate({r: v}, 500);
             tInput.attr({text: parseInt(val)+inputUnit, "font-size": parseFloat(2.4-(1- val/valMax)*0.6)+'rem'});
             return self;
         },
         setOutput: function(val){
+            return self
             v=(val/valMaxOutput)*40;
             cOutput.animate({r: v}, 500);
             tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
@@ -2026,12 +2131,14 @@
             tOutput = output.text(23, 46, "70%").attr({fill: '#000', "font-size": "1.8rem"});
         },
         setInput: function(val){
+            return self;
             v=(val/valMax)*40;
             cInput.animate({r: v}, 500);
             tInput.attr({text: parseInt(val)+inputUnit, "font-size": parseFloat(2.4-(1- val/valMax)*0.6)+'rem'});
             return self;
         },
         setOutput: function(val){
+            return self;
             v=(val/valMaxOutput)*40;
             cOutput.animate({r: v}, 500);
             tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
@@ -2064,12 +2171,14 @@
             val : {hour: h, minute: m, timestamp: 0}
         */
         setInput: function(val){
+            return self;
             v=val.timestamp/valMax;
             cInput.animate({r: v*40}, 10);
             tInput.attr({text: val.hour+inputUnit, "font-size": parseFloat(2.4-(1- val.timestamp/valMax)*0.6)+'rem'});
             return self;
         },
         setOutput: function(val){
+            return self;
             v=(val/valMaxOutput)*40;
             cOutput.animate({r: v}, 500);
             tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});

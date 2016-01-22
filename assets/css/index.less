@@ -66,6 +66,60 @@
 	color: @color-red;
 }
 
+#home {
+	position: relative;
+	width: 100%;
+	height: 100vh;
+	min-width: 130rem;
+	background: url(../img/home/Karl-accueil.svg) bottom left no-repeat;
+	z-index: 10000;
+
+	#logo-expressif {
+		position: absolute;
+		top: 6rem;
+		left: 78rem;
+	}
+
+	.close{
+		position: absolute;
+		width: 60px;
+		height: 60px;
+		right: 4rem;
+		top: 4rem;
+		background: url(../img/pictos/croix.svg) center center no-repeat;
+		cursor: pointer;
+	}
+
+	.talk .content{
+		position: absolute;
+		top: 33rem;
+		left: 45rem;
+		max-width: 120rem;
+		padding: 10*@padding;
+		z-index: 40;
+		background: rgba(253,249,248,0.95);
+		border-radius: 45px;
+
+		&:before{
+			content:"";
+			width:20px;
+			height:4px;
+			border:30px solid transparent;
+			border-right: 140px solid rgba(253,249,240,0.9);
+			position:absolute;
+			left:-16rem;
+			top:13.5rem;
+			transform: rotate(30deg);
+			z-index:40;
+		}
+
+		p {
+			font-size: 5rem;
+			line-height: 6.2rem;
+		}
+	}
+}
+
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 //                           APPLICATION SCREEN
@@ -119,32 +173,32 @@
 			opacity:0;
 
 			&#bg_1{
-				background: url(../img/fond/fond-1.svg) center center no-repeat;
+				background: url(../img/fond/fond_1.svg) center center no-repeat;
 				background-size: cover;
 			}
 			&#bg_2{
-				background: url(../img/fond/fond-2.svg) center center no-repeat;
+				background: url(../img/fond/fond_2.svg) center center no-repeat;
 				background-size: cover;
 				opacity:1;
 			}
 			&#bg_3{
-				background: url(../img/fond/fond-3.svg) center center no-repeat;
+				background: url(../img/fond/fond_3.svg) center center no-repeat;
 				background-size: cover;
 			}
 			&#bg_4{
-				background: url(../img/fond/fond-4.svg) center center no-repeat;
+				background: url(../img/fond/fond_4.svg) center center no-repeat;
 				background-size: cover;
 			}
 			&#bg_5{
-				background: url(../img/fond/fond-5.svg) center center no-repeat;
+				background: url(../img/fond/fond_5.svg) center center no-repeat;
 				background-size: cover;
 			}
 			&#bg_6{
-				background: url(../img/fond/fond-6.svg) center center no-repeat;
+				background: url(../img/fond/fond_6.svg) center center no-repeat;
 				background-size: cover;
 			}
 			&#bg_7{
-				background: url(../img/fond/stars.svg) center center repeat, url(../img/fond/fond-7.svg) center center no-repeat;
+				background: url(../img/fond/stars.svg) center center repeat, url(../img/fond/fond_7.svg) center center no-repeat;
 				background-size: cover;
 			}
 			&#darkness{
@@ -514,6 +568,7 @@
 		display: flex;
 		align-items: flex-start;
 		justify-content: center;
+		opacity: 0;
 
 		.control{
 			.output{
@@ -662,6 +717,7 @@
 		border: 2px solid rgba(255, 255, 255, 0.85);
 		border-radius: 10px;
 		z-index: 1000;
+		display: none;
 
 		section.pop_in{
 			position: relative;

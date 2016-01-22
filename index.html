@@ -22,6 +22,18 @@
     <link rel='stylesheet' href="assets/css/index.css" type='text/css' media='all'/>
 </head>
 <body>
+    <section id="home">
+        <div id="logo-expressif">
+            <img src="assets/img/logo_expressif.png" />
+        </div>
+        <div class="close"></div>
+        <section class="talk">
+            <div class="previous"></div>
+            <div class="content">
+            </div>
+            <div class="next"></div>
+        </section>
+    </section>
     <div class="wrapper">
         <section id="app_blur" class="blur">
             <a id="show_choice" href="#"></a>
@@ -270,8 +282,9 @@
     </div>
     <script type="text/javascript" src="assets/js/lib/zepto.min.js"></script>
     <script type="text/javascript" src="assets/js/lib/snap.svg-min.js"></script>
-    <!--<script type="text/javascript" src="assets/js/dist/app.min.js"></script>-->
-    <script type="text/javascript" src="assets/js/app.js"></script>
+    <script type="text/javascript" src="assets/js/dist/app.min.js"></script>
+    <script type="text/javascript" src="assets/js/home.js"></script>
+    <!--<script type="text/javascript" src="assets/js/app.js"></script>
     <script type="text/javascript" src="assets/js/form.js"></script>
     <script type="text/javascript" src="assets/js/windows.js"></script>
     <script type="text/javascript" src="assets/js/windows_open.js"></script>
@@ -297,10 +310,11 @@
     <script type="text/javascript" src="assets/js/data_outside.js"></script>
     <script type="text/javascript" src="assets/js/data_inside.js"></script>
     <script type="text/javascript" src="assets/js/data_time.js"></script>
-    <script type="text/javascript" src="assets/js/controller.js"></script>
+    <script type="text/javascript" src="assets/js/controller.js"></script>-->
     <script type="text/javascript">
         $(function(){
-            app.initialize($('#simulation_container'));
+            home.initialize("#home .talk");
+            //app.initialize($('#simulation_container'));
         });
     </script>
 </body>
