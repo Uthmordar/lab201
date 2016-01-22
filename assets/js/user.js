@@ -65,14 +65,16 @@
                     e.preventDefault();
                     posY=e.targetTouches[0].clientY - sceneY - data[activeUser].height*0.5;
                     posX=e.targetTouches[0].clientX - sceneX - data[activeUser].width*0.5;
-                    if(posY>370){
+                    if(posY>368){
                         data[activeUser].$el.addClass("first-plan");
                     } else {
                         data[activeUser].$el.removeClass("first-plan");
                     }
-                    ctx.params.setUserPos(posX, posY);
-                    data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
-                    ctx.controller.controlOutput();                    
+                    if(posY<430 && posY>212 && posX>-80 && posX<950){
+                        ctx.params.setUserPos(posX, posY);
+                        data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
+                        ctx.controller.controlOutput();
+                    }                
                 });
             } else {
                 $movementPlan.hide();
