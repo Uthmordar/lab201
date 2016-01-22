@@ -60,6 +60,7 @@
             */
 
             if ($.os !== undefined && $.os.tablet === true) {
+                $movementPlan.show();
                 $movementPlan.on("click", function(e) {
                     e.preventDefault();
                     posY=e.clientY-sceneY-data[activeUser].height*0.5;
@@ -74,7 +75,8 @@
                     ctx.controller.controlOutput();                    
                 });
             } else {
-                data[activeUser].$el.on('click', function(e){
+                $movementPlan.hide();
+                data[activeUser].$el.on('mousedown', function(e){
                     var $this=$(this);
                     $this.on('mousemove', function(e){
                         e.preventDefault();
@@ -86,7 +88,7 @@
                             ctx.controller.controlOutput();
                         }
                     });
-                    $this.on('click', function(e){
+                    $this.on('mouseup', function(e){
                         $(this).off('mousemove');
                     });
                 });
