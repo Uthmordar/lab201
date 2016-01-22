@@ -61,10 +61,10 @@
 
             if ($.os !== undefined && $.os.tablet === true) {
                 $movementPlan.show();
-                $movementPlan.on("click", function(e) {
+                $movementPlan.on("touchmove", function(e) {
                     e.preventDefault();
-                    posY=e.clientY-sceneY-data[activeUser].height*0.5;
-                    posX=e.clientX-sceneX-data[activeUser].width*0.5;
+                    posY=e.targetTouches[0].clientY - sceneY - data[activeUser].height*0.5;
+                    posX=e.targetTouches[0].clientX - sceneX - data[activeUser].width*0.5;
                     if(posY>370){
                         data[activeUser].$el.addClass("first-plan");
                     } else {
