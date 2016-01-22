@@ -106,12 +106,12 @@
         },
         controlTablet: function() {
             $container
-            .click(function (e){
+            .on("touchmove touchstart", function (e){
                 e.preventDefault();
-               self.controlChangeTime(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+                self.controlChangeTime(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
             });     
             $containerDarkness
-            .on("touchmove", function (e){
+            .on("touchmove touchstart", function (e){
                 e.preventDefault();
                 self.controlChangeLux(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
             });

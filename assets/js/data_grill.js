@@ -18,12 +18,14 @@
             tOutput = output.text(23, 46, "70%").attr({fill: '#000', "font-size": "1.8rem"});
         },
         setInput: function(val){
+            return self;
             v=(val/valMax)*40;
             cInput.animate({r: v}, 500);
             tInput.attr({text: parseInt(val)+inputUnit, "font-size": parseFloat(2.4-(1- val/valMax)*0.6)+'rem'});
             return self;
         },
         setOutput: function(val){
+            return self;
             v=(val/valMaxOutput)*40;
             cOutput.animate({r: v}, 500);
             tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1183.4px" height="477.6px" viewBox="0 0 1183.4 477.6" style="enable-background:new 0 0 1183.4 477.6;"
+	 xml:space="preserve">
+<style type="text/css">
+<![CDATA[
+	.st0{fill:#E84747;}
+	.st1{fill:#575756;}
+	.st2{font-family:'InterstateMono-Bold';}
+	.st3{font-family:'InterstateMono';}
+	.st4{fill:#FFFFFF;}
+	.st5{fill:none;}
+	.st6{font-size:40;}
+]]>
+</style>
+<path class="st4" d="M1150.7,17.7H145.2c-18.1,0-32.8,13.5-32.8,30.1v175.5L9.2,164.2l100.6,150.2l2.6,1.7v132.4
+	c0,16.6,14.7,30.1,32.8,30.1h1005.5c18.1,0,32.8-13.5,32.8-30.1V47.8C1183.4,31.2,1168.8,17.7,1150.7,17.7z"/>
+<rect x="155" y="88.1" class="st5" width="999.1" height="366"/>
+<text transform="matrix(1 0 0 1 155.0117 117.2773)"><tspan x="0" y="0" class="st1 st3 st6">&quot;EXPRESS</tspan><tspan x="199.1" y="0" class="st0 st2 st6">IF</tspan><tspan x="237.7" y="0" class="st1 st3 st6">&quot; is a fuzzy inference system accessible </tspan><tspan x="0" y="48" class="st1 st3 st6">to the user. So that it can choose their own rules,</tspan><tspan x="0" y="96" class="st1 st3 st6">( of type «If.....Them» ).  </tspan><tspan x="0" y="192" class="st1 st3 st6">And those depending on their environnements and</tspan><tspan x="0" y="240" class="st1 st3 st6">semantics that are offered.  </tspan></text>
+</svg>

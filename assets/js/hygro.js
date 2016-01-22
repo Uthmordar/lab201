@@ -58,7 +58,7 @@
         },
         controlTablet: function() {
             $container
-            .on("touchmove", function(e) {
+            .on("touchmove touchstart", function(e) {
                 e.preventDefault();
                 self.controlChange(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
             });

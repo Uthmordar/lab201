@@ -21,12 +21,14 @@
             val : {hour: h, minute: m, timestamp: 0}
         */
         setInput: function(val){
+            return self;
             v=val.timestamp/valMax;
             cInput.animate({r: v*40}, 10);
             tInput.attr({text: val.hour+inputUnit, "font-size": parseFloat(2.4-(1- val.timestamp/valMax)*0.6)+'rem'});
             return self;
         },
         setOutput: function(val){
+            return self;
             v=(val/valMaxOutput)*40;
             cOutput.animate({r: v}, 500);
             tOutput.attr({text: parseInt(val)+outputUnit, "font-size": parseFloat(2.4-(1-val/valMaxOutput)*0.6)+'rem'});
