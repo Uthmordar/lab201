@@ -50,19 +50,21 @@
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdown){
-                    self.controlChange(e);
+                    self.controlChange(e.clientX, e.clientY);
                 }
             });
         },
         controlTablet: function() {
             $container
-            .click(function(e) {
-                self.controlChange(e);
+            .on("touchmove", function(e) {
+                e.preventDefault();
+                self.controlChange(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
             });
         },
-        controlChange: function(e) {
-            mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
+        controlChange: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
             atan = Math.atan2(mPos.x-radius, mPos.y-radius);
             deg = -atan/(Math.PI/180) + 180;
                  

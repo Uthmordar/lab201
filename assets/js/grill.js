@@ -44,22 +44,39 @@
                 e.preventDefault();
                 self.setGrillPower($(this).val()).updateGrill();
             });
-            /* range grill */            
+            if ($.os !== undefined && $.os.tablet === true) {
+                self.controlTablet();
+            } else {
+                self.controlStandard();
+            }
+        },
+        controlStandard: function() {
             $container
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdown){
-                    mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
-                    atan = Math.atan2(mPos.x-radius, mPos.y-radius);
-                    deg = -atan/(Math.PI/180) + 180;
-                         
-                    X = Math.round(radius* Math.sin(deg*Math.PI/180));    
-                    Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
-                    $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
-                    self.setGrillPower(deg * (valMax/360)).updateGrill();
+                    self.controlChange(e.clientX, e.clientY);
                 }
             });
+        },
+        controlTablet: function() {
+            $container
+            .on("touchmove", function (e){
+                e.preventDefault();
+                self.controlChange(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
+            });
+        },
+        controlChange: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
+            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            deg = -atan/(Math.PI/180) + 180;
+                 
+            X = Math.round(radius* Math.sin(deg*Math.PI/180));    
+            Y = Math.round(radius* -Math.cos(deg*Math.PI/180));
+            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });
+            self.setGrillPower(deg * (valMax/360)).updateGrill();
         },
         /**
             move cursor to new val 

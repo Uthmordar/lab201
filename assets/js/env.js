@@ -107,12 +107,13 @@
         controlTablet: function() {
             $container
             .click(function (e){
-               self.controlChangeTime(e);
+                e.preventDefault();
+               self.controlChangeTime(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
             });     
             $containerDarkness
             .on("touchmove", function (e){
-                console.log(e);
-                self.controlChangeLux(e);
+                e.preventDefault();
+                self.controlChangeLux(e.targetTouches[0].clientX, e.targetTouches[0].clientY);
             });
         },
         controlStandard: function() {
@@ -120,8 +121,9 @@
             .mousedown(function (e){mdown=true;})
             .mouseup(function (e){mdown=false;self.updateDataTime();})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdown){
-                   self.controlChangeTime(e);
+                   self.controlChangeLux(e.clientX, e.clientY);
                 }
             });
             /* range luminosity */            
@@ -129,14 +131,14 @@
             .mousedown(function (e){mdownDarkness=true;})
             .mouseup(function (e){mdownDarkness=false;})
             .mousemove(function (e){
+                e.preventDefault();
                 if(mdownDarkness){
-                    self.controlChangeLux(e);
+                    self.controlChangeLux(e.clientX, e.clientY);
                 }
             });
         },
-        controlChangeTime: function(e) {
-            e.preventDefault();
-            mPos = {x: e.clientX-elPos.x, y: e.clientY-elPos.y};
+        controlChangeTime: function(x, y) {
+            mPos = {x: x - elPos.x, y: y - elPos.y};
             atan = Math.atan2(mPos.x-radius, mPos.y-radius);
             deg = -atan/(Math.PI/180) + 180;
                  
@@ -145,9 +147,8 @@
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
             $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
         },
-        controlChangeLux: function(e) {
-            e.preventDefault();
-            mPosDarkness = {x: e.clientX-elPosDarkness.x, y: e.clientY-elPosDarkness.y};
+        controlChangeLux: function(x, y) {
+            mPosDarkness = {x: x - elPosDarkness.x, y: y - elPosDarkness.y};
             atanDarkness = Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
             degDarkness = -atanDarkness/(Math.PI/180) + 180;
                  
