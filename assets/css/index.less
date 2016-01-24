@@ -76,8 +76,12 @@
 
 	#logo-expressif {
 		position: absolute;
-		top: 6rem;
-		left: 78rem;
+		top: 5rem;
+		left: 73rem;
+
+		img {
+			max-width: 600px;
+		}
 	}
 
 	.close{
@@ -90,32 +94,53 @@
 		cursor: pointer;
 	}
 
-	.talk .content{
-		position: absolute;
-		top: 33rem;
-		left: 45rem;
-		max-width: 120rem;
-		padding: 10*@padding;
-		z-index: 40;
-		background: rgba(253,249,248,0.95);
-		border-radius: 45px;
+	.talk {
+		.arrow {
+			position: absolute;
+			width: 120px;
+			height: 120px;
+			cursor: pointer;
 
-		&:before{
-			content:"";
-			width:20px;
-			height:4px;
-			border:30px solid transparent;
-			border-right: 140px solid rgba(253,249,240,0.9);
-			position:absolute;
-			left:-16rem;
-			top:13.5rem;
-			transform: rotate(30deg);
-			z-index:40;
+			&.previous {
+				top: 20rem;
+				left: 36rem;
+				display: hidden;
+				opacity: 0;
+			}
+
+			&.next {
+				bottom: 21rem;
+				right: 18rem;
+			}
 		}
 
-		p {
-			font-size: 5rem;
-			line-height: 6.2rem;
+		.content{
+			position: absolute;
+			top: 33rem;
+			left: 45rem;
+			max-width: 120rem;
+			padding: 10*@padding;
+			z-index: 40;
+			background: rgba(253,249,248,0.95);
+			border-radius: 45px;
+
+			&:before{
+				content:"";
+				width:20px;
+				height:4px;
+				border:30px solid transparent;
+				border-right: 140px solid rgba(253,249,240,0.9);
+				position:absolute;
+				left:-16rem;
+				top:13.5rem;
+				transform: rotate(30deg);
+				z-index:40;
+			}
+
+			p {
+				font-size: 5rem;
+				line-height: 6.2rem;
+			}
 		}
 	}
 }
