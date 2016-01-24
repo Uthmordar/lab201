@@ -76,6 +76,7 @@
                             window.setTimeout(callback, 1000 / 60);
                         };
             })();
+            $("#controls_panel").css("opacity", 1);
             this.setScene(scene);
             // Initialize data for api/controller 
             this.params.initialize(params);

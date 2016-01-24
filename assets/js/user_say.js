@@ -11,7 +11,7 @@
         },
         setTuto: function(val){
             tuto=val;
-            self.initSpeech();
+            //self.initSpeech();
             return self;
         },
         getTuto: function(){

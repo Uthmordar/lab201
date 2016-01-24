@@ -76,6 +76,7 @@
                             window.setTimeout(callback, 1000 / 60);
                         };
             })();
+            $("#controls_panel").css("opacity", 1);
             this.setScene(scene);
             // Initialize data for api/controller 
             this.params.initialize(params);
@@ -144,6 +145,62 @@
 })(window);
 (function(ctx){
     "use strict";
+    var $scene, $prev, $next, $arrow, current = 0, $this, length;
+
+    var dialog = [
+        "<p>Welcome to our simulator ! Through presentation, you can imagine how your system can help controlled to be smarter with EXPRESS<span class='red strong'>IF</span>.<br/><br/>Let us make a point on our product.</p>",
+        "<p>EXPRESS<span class='red strong'>IF</span> is a fuzzy inference system completed by semantics to easily made control based on 'IF-Then' rules.</p>",
+        "<div class='button_container'><a href='#'>Read more about Fuzzy Inference System and ExpressIF</a></div><div class='button_container'><a href='#' id='start_simulation'>Enter in the simulator</a></div>"
+    ];
+
+    var home = {
+        // Application Constructor
+        initialize: function(scene) {
+            $scene = $(scene);
+            $arrow = $scene.children(".arrow");
+            $prev = $scene.children(".arrow.previous");
+            $next = $scene.children(".arrow.next");
+            length = dialog.length;
+            $scene.children(".content").html(dialog[current]);
+            self.bindEvents();
+        },
+        bindEvents: function() {
+            $scene.siblings(".close").on("touch click", function(e) {
+                self.startSimulation();
+            });
+            $(document).on("touch click", "#start_simulation", function(e) {
+                self.startSimulation();
+            });
+            $arrow.on("click touch", function(e) {
+                e.preventDefault();
+                self.changeTalk($(this));
+            });
+        },
+        startSimulation: function() {
+            $("#home").remove();
+            app.initialize($('#simulation_container'));
+        },
+        changeTalk: function(control) {
+            if (control.hasClass("next")) {
+                current = (current < length - 1) ? current + 1 : current;
+                $prev.css({"opacity": 1});
+            } else {
+                current = (current > 0) ? current - 1 : current;
+                $next.css({"opacity": 1});
+            }
+            $scene.children(".content").html(dialog[current]);
+            if (current == length - 1) {
+                $next.css({"opacity": 0});
+            } else if (current == 0) {
+                $prev.css({"opacity": 0});
+            }
+        }
+    };
+    ctx.home = home;
+    var self = home;
+})(window);
+(function(ctx){
+    "use strict";
     var $input, $popIn, $sceneBlur, $formSubmit, $close, $popInTuto, $tutoYes, $tutoNo;
 
     var form={
@@ -156,10 +213,13 @@
             $formSubmit=data;
 
             $popInTuto=$('#tuto_form');
-            $popInTuto.css({'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
+            //$popInTuto.css({'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
             $tutoYes=$('#tuto_yes');
             $tutoNo=$('#tuto_no, #tuto_form .close');
-            self.bindEvents();
+            //$popInTuto.remove();
+            $sceneBlur.removeClass('blur');
+            ctx.user.say.setTuto(1);
+            //self.bindEvents();
         },
         bindEvents: function(){
             // FORM RULES
@@ -1039,7 +1099,7 @@
                     e.preventDefault();
                     posY=e.targetTouches[0].clientY - sceneY - data[activeUser].height*0.5;
                     posX=e.targetTouches[0].clientX - sceneX - data[activeUser].width*0.5;
-                    if(posY>368){
+                    if(posY>348){
                         data[activeUser].$el.addClass("first-plan");
                     } else {
                         data[activeUser].$el.removeClass("first-plan");
@@ -1087,7 +1147,7 @@
         },
         setTuto: function(val){
             tuto=val;
-            self.initSpeech();
+            //self.initSpeech();
             return self;
         },
         getTuto: function(){
