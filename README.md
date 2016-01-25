@@ -7,7 +7,10 @@
 * run grunt to compile & minify js apps files
 
 ## Config
-à la fin de index.html:
+
+Tuned for 1920px * 1080px
+ 
+At the end of index.html:
 
 	/**
 	 * @string intro slide container
@@ -54,7 +57,7 @@ Format JSON:
     user.time.grill: time spend since user is near grill
     user.time.away: time spend since user is away
 
-Réglages: 
+Parameters (min - max (unit), step stepVal): 
 	
 	time: 0 - 86400 (seconds), step 1
 	Lux environment: 0 - 100 000 (lux), step 1
