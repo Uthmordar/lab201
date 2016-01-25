@@ -28,6 +28,45 @@
             };
             message = JSON.stringify(message);
             app.socket.send(message);
+            if(Math.sqrt(Math.pow(params.user.x-positions.grill.x, 2)+Math.pow(params.user.y-positions.grill.y, 2))<200){
+                ctx.params.setUserGrillTime(params.user.time.grill+1);
+            }else{
+                ctx.params.setUserGrillTime(0);
+            }
+            if(params.hygrometrie.hygro<80){
+                ctx.params.setHygroTime(params.hygrometrie.time.low+1, 0, 0);
+            }else if(params.hygrometrie.hygro<90){
+                ctx.params.setHygroTime(params.hygrometrie.time.medium+1, params.hygrometrie.time.medium+1, 0);
+            }else{
+                ctx.params.setHygroTime(params.hygrometrie.time.high+1, params.hygrometrie.time.high+1, params.hygrometrie.time.high+1);
+            }
+            if(params.grill.power<100){
+                ctx.params.setGrillTime(0, 0, 0);
+            }else if(params.grill.power<1000){
+                ctx.params.setGrillTime(params.grill.time.low+1, 0, 0);
+            }else if(params.grill.power<2000){
+                ctx.params.setGrillTime(params.grill.time.medium+1, params.grill.time.medium+1, 0);
+            }else{
+                ctx.params.setGrillTime(params.grill.time.high+1, params.grill.time.high+1, params.grill.time.high+1);
+            }
+            if(params.user.status==0){
+                ctx.params.setUserAwayTime(params.user.time.away+1);
+            }else{
+                ctx.params.setUserAwayTime(0);
+            }
+        },
+        fromParams: function(params) {
+            ctx.windows.shutter.setState(params.windows.shutter).updateState();
+            /* Output lux */
+            ctx.lamps.plan.setLux(params.luxPlan).updateLux();
+            ctx.lamps.hotte.setLux(params.luxHotte).updateLux();
+            ctx.lamps.table.setLux(params.luxTable).updateLux();
+            ctx.lamps.wall.setLux(params.luxWall).updateLux();
+
+            ctx.heating.setHeatingPower(params.heating).updateHeating();
+            ctx.grill.setGrillPower(params.grill.power).updateGrill().setCursorPos(params.grill.power);
+
+            ctx.ventilation.setDataDebit(params.ventilation).updateVentilation();
         },
         auto: function() {
             params = ctx.params.getParams();
@@ -104,40 +143,6 @@
                 }
             }else{
                  ctx.ventilation.setDataDebit(0).updateVentilation();
-            }
-
-            /** ---------------------------------------------
-                            TEMPORALITY
-                --------------------------------------------- */
-            /* duration near grill */
-            if(Math.sqrt(Math.pow(params.user.x-positions.grill.x, 2)+Math.pow(params.user.y-positions.grill.y, 2))<200){
-                ctx.params.setUserGrillTime(params.user.time.grill+1);
-                //ctx.user.say.setSay('<p><span class="strong red">IF</span> I stay near my grill, THEN it will launch after 3 minutes</p>');
-            }else{
-                ctx.params.setUserGrillTime(0);
-            }
-            /* duration of hygro treshold */
-            if(params.hygrometrie.hygro<80){
-                ctx.params.setHygroTime(params.hygrometrie.time.low+1, 0, 0);
-            }else if(params.hygrometrie.hygro<90){
-                ctx.params.setHygroTime(params.hygrometrie.time.medium+1, params.hygrometrie.time.medium+1, 0);
-            }else{
-                ctx.params.setHygroTime(params.hygrometrie.time.high+1, params.hygrometrie.time.high+1, params.hygrometrie.time.high+1);
-            }
-            /* duration of grill activity */
-            if(params.grill.power<100){
-                ctx.params.setGrillTime(0, 0, 0);
-            }else if(params.grill.power<1000){
-                ctx.params.setGrillTime(params.grill.time.low+1, 0, 0);
-            }else if(params.grill.power<2000){
-                ctx.params.setGrillTime(params.grill.time.medium+1, params.grill.time.medium+1, 0);
-            }else{
-                ctx.params.setGrillTime(params.grill.time.high+1, params.grill.time.high+1, params.grill.time.high+1);
-            }
-            if(params.user.status==0){
-                ctx.params.setUserAwayTime(params.user.time.away+1);
-            }else{
-                ctx.params.setUserAwayTime(0);
             }
         }
     };

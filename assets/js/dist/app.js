@@ -27,6 +27,7 @@
 (function(ctx){
     "use strict";
     /*  MODEL */
+    var auto = false;
     var windows={open:{$el: $('#window_open'), $display: $('#windows_open_output .display'), state:0, initialState: 0},
         shutter:{$el: $('#window_shutter'), $display: $('#windows_shutter_output .display'), state:0, initialState: 0}};
     var envTab=[$('#bg_7'), $('#bg_7'), $('#bg_5'), $('#bg_1'), $('#bg_2'), $('#bg_2'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7'), $('#bg_7')];
@@ -45,7 +46,7 @@
     var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill_output .display')};
 
     var $scene,sceneX,sceneY, sceneWidth, sceneHeight;
-    var params={
+    var params = {
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 50000,
@@ -65,7 +66,7 @@
 
     var app={
         // Application Constructor
-        initialize: function(scene) {
+        initialize: function(scene, defaultParams, isAuto) {
             window.requestAnimFrame = (function(){
                 return  window.requestAnimationFrame       ||
                         window.webkitRequestAnimationFrame ||
@@ -76,6 +77,7 @@
                             window.setTimeout(callback, 1000 / 60);
                         };
             })();
+            auto = isAuto;
             $("#controls_panel").css("opacity", 1);
             this.setScene(scene);
             // Initialize data for api/controller 
@@ -109,6 +111,9 @@
                 self.reInitialize($('#simulation_container'));
             });
         },
+        isAuto: function() {
+            return auto;
+        },
         /**
             return scene;
         */
@@ -125,6 +130,9 @@
             sceneY=scene.offset().top;
             sceneWidth=parseFloat(scene.width());
             sceneHeight=parseFloat(scene.height());
+        },
+        setParams: function(data) {
+            params = data;
         },
         /**
             get scene coord
@@ -155,7 +163,7 @@
 
     var home = {
         // Application Constructor
-        initialize: function(scene, sock) {
+        initialize: function(scene, sock, auto) {
             $scene = $(scene);
             $arrow = $scene.children(".arrow");
             $prev = $scene.children(".arrow.previous");
@@ -163,23 +171,23 @@
             length = dialog.length;
             $scene.children(".content").html(dialog[current]);
             window.app.socket.initialize(sock);
-            self.bindEvents();
+            self.bindEvents(auto);
         },
-        bindEvents: function() {
+        bindEvents: function(auto) {
             $scene.siblings(".close").on("touch click", function(e) {
-                self.startSimulation();
+                self.startSimulation(auto);
             });
             $(document).on("touch click", "#start_simulation", function(e) {
-                self.startSimulation();
+                self.startSimulation(auto);
             });
             $arrow.on("click touch", function(e) {
                 e.preventDefault();
                 self.changeTalk($(this));
             });
         },
-        startSimulation: function() {
+        startSimulation: function(auto) {
             $("#home").remove();
-            app.initialize($('#simulation_container'));
+            app.initialize($('#simulation_container'), auto);
         },
         changeTalk: function(control) {
             if (control.hasClass("next")) {
@@ -228,9 +236,9 @@
         onMessage: function() {
             ws.onmessage = function(e) {
                 data = JSON.parse(e.data);
-                data = 1;
-                if (data.params !== undefined) {
+                if (data.params !== undefined && !window.app.isAuto()) {
                     app.params.setParams(data.params);
+                    app.controller.fromParams(data.params);
                 } else {
                     app.controller.auto();
                 }
@@ -2342,6 +2350,45 @@
             };
             message = JSON.stringify(message);
             app.socket.send(message);
+            if(Math.sqrt(Math.pow(params.user.x-positions.grill.x, 2)+Math.pow(params.user.y-positions.grill.y, 2))<200){
+                ctx.params.setUserGrillTime(params.user.time.grill+1);
+            }else{
+                ctx.params.setUserGrillTime(0);
+            }
+            if(params.hygrometrie.hygro<80){
+                ctx.params.setHygroTime(params.hygrometrie.time.low+1, 0, 0);
+            }else if(params.hygrometrie.hygro<90){
+                ctx.params.setHygroTime(params.hygrometrie.time.medium+1, params.hygrometrie.time.medium+1, 0);
+            }else{
+                ctx.params.setHygroTime(params.hygrometrie.time.high+1, params.hygrometrie.time.high+1, params.hygrometrie.time.high+1);
+            }
+            if(params.grill.power<100){
+                ctx.params.setGrillTime(0, 0, 0);
+            }else if(params.grill.power<1000){
+                ctx.params.setGrillTime(params.grill.time.low+1, 0, 0);
+            }else if(params.grill.power<2000){
+                ctx.params.setGrillTime(params.grill.time.medium+1, params.grill.time.medium+1, 0);
+            }else{
+                ctx.params.setGrillTime(params.grill.time.high+1, params.grill.time.high+1, params.grill.time.high+1);
+            }
+            if(params.user.status==0){
+                ctx.params.setUserAwayTime(params.user.time.away+1);
+            }else{
+                ctx.params.setUserAwayTime(0);
+            }
+        },
+        fromParams: function(params) {
+            ctx.windows.shutter.setState(params.windows.shutter).updateState();
+            /* Output lux */
+            ctx.lamps.plan.setLux(params.luxPlan).updateLux();
+            ctx.lamps.hotte.setLux(params.luxHotte).updateLux();
+            ctx.lamps.table.setLux(params.luxTable).updateLux();
+            ctx.lamps.wall.setLux(params.luxWall).updateLux();
+
+            ctx.heating.setHeatingPower(params.heating).updateHeating();
+            ctx.grill.setGrillPower(params.grill.power).updateGrill().setCursorPos(params.grill.power);
+
+            ctx.ventilation.setDataDebit(params.ventilation).updateVentilation();
         },
         auto: function() {
             params = ctx.params.getParams();
@@ -2418,40 +2465,6 @@
                 }
             }else{
                  ctx.ventilation.setDataDebit(0).updateVentilation();
-            }
-
-            /** ---------------------------------------------
-                            TEMPORALITY
-                --------------------------------------------- */
-            /* duration near grill */
-            if(Math.sqrt(Math.pow(params.user.x-positions.grill.x, 2)+Math.pow(params.user.y-positions.grill.y, 2))<200){
-                ctx.params.setUserGrillTime(params.user.time.grill+1);
-                //ctx.user.say.setSay('<p><span class="strong red">IF</span> I stay near my grill, THEN it will launch after 3 minutes</p>');
-            }else{
-                ctx.params.setUserGrillTime(0);
-            }
-            /* duration of hygro treshold */
-            if(params.hygrometrie.hygro<80){
-                ctx.params.setHygroTime(params.hygrometrie.time.low+1, 0, 0);
-            }else if(params.hygrometrie.hygro<90){
-                ctx.params.setHygroTime(params.hygrometrie.time.medium+1, params.hygrometrie.time.medium+1, 0);
-            }else{
-                ctx.params.setHygroTime(params.hygrometrie.time.high+1, params.hygrometrie.time.high+1, params.hygrometrie.time.high+1);
-            }
-            /* duration of grill activity */
-            if(params.grill.power<100){
-                ctx.params.setGrillTime(0, 0, 0);
-            }else if(params.grill.power<1000){
-                ctx.params.setGrillTime(params.grill.time.low+1, 0, 0);
-            }else if(params.grill.power<2000){
-                ctx.params.setGrillTime(params.grill.time.medium+1, params.grill.time.medium+1, 0);
-            }else{
-                ctx.params.setGrillTime(params.grill.time.high+1, params.grill.time.high+1, params.grill.time.high+1);
-            }
-            if(params.user.status==0){
-                ctx.params.setUserAwayTime(params.user.time.away+1);
-            }else{
-                ctx.params.setUserAwayTime(0);
             }
         }
     };

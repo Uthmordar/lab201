@@ -27,6 +27,7 @@
 (function(ctx){
     "use strict";
     /*  MODEL */
+    var auto = false;
     var windows={open:{$el: $('#window_open'), $display: $('#windows_open_output .display'), state:0, initialState: 0},
         shutter:{$el: $('#window_shutter'), $display: $('#windows_shutter_output .display'), state:0, initialState: 0}};
     var envTab=[$('#bg_7'), $('#bg_7'), $('#bg_5'), $('#bg_1'), $('#bg_2'), $('#bg_2'), $('#bg_2'), $('#bg_3'), $('#bg_4'), $('#bg_5'), $('#bg_6'), $('#bg_7'), $('#bg_7')];
@@ -45,7 +46,7 @@
     var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill_output .display')};
 
     var $scene,sceneX,sceneY, sceneWidth, sceneHeight;
-    var params={
+    var params = {
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 50000,
@@ -65,7 +66,7 @@
 
     var app={
         // Application Constructor
-        initialize: function(scene) {
+        initialize: function(scene, defaultParams, isAuto) {
             window.requestAnimFrame = (function(){
                 return  window.requestAnimationFrame       ||
                         window.webkitRequestAnimationFrame ||
@@ -76,6 +77,7 @@
                             window.setTimeout(callback, 1000 / 60);
                         };
             })();
+            auto = isAuto;
             $("#controls_panel").css("opacity", 1);
             this.setScene(scene);
             // Initialize data for api/controller 
@@ -109,6 +111,9 @@
                 self.reInitialize($('#simulation_container'));
             });
         },
+        isAuto: function() {
+            return auto;
+        },
         /**
             return scene;
         */
@@ -125,6 +130,9 @@
             sceneY=scene.offset().top;
             sceneWidth=parseFloat(scene.width());
             sceneHeight=parseFloat(scene.height());
+        },
+        setParams: function(data) {
+            params = data;
         },
         /**
             get scene coord

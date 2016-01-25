@@ -26,9 +26,9 @@
         onMessage: function() {
             ws.onmessage = function(e) {
                 data = JSON.parse(e.data);
-                data = 1;
-                if (data.params !== undefined) {
+                if (data.params !== undefined && !window.app.isAuto()) {
                     app.params.setParams(data.params);
+                    app.controller.fromParams(data.params);
                 } else {
                     app.controller.auto();
                 }
