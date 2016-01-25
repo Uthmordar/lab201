@@ -95,37 +95,40 @@
 	}
 
 	.talk {
+		position: absolute;
+		top: 27rem;
+		left: 42rem;
+
 		.arrow {
-			position: absolute;
 			width: 120px;
 			height: 120px;
 			cursor: pointer;
 			.transition(opacity; 0.5s; ease-out; 0s);
 
 			&.previous {
-				top: 20rem;
-				left: 36rem;
+				margin-bottom: 2rem;
+				float: left;
 				opacity: 0;
 			}
 
 			&.next {
-				bottom: 21rem;
-				right: 18rem;
+				margin-top: 2rem;
+				float: right;
 			}
 		}
 
 		.content{
-			position: absolute;
-			top: 33rem;
-			left: 45rem;
+			position: relative;
 			max-width: 120rem;
 			padding: 10*@padding;
+			margin: 0 4*@margin;
 			z-index: 40;
 			background: rgba(253,249,248,0.95);
 			border-radius: 45px;
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
+			clear: both;
 
 			&:before{
 				content:"";
