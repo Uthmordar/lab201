@@ -8,6 +8,7 @@
 
 ## Config
 à la fin de index.html:
+
 	/**
 	 * @string intro slide container
 	 * @string websocket address for data exchange
