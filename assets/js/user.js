@@ -65,7 +65,7 @@
                     e.preventDefault();
                     posY=e.targetTouches[0].clientY - sceneY - data[activeUser].height*0.5;
                     posX=e.targetTouches[0].clientX - sceneX - data[activeUser].width*0.5;
-                    if(posY>348){
+                    if(posY>335){
                         data[activeUser].$el.addClass("first-plan");
                     } else {
                         data[activeUser].$el.removeClass("first-plan");

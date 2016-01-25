@@ -10,13 +10,14 @@
 
     var home = {
         // Application Constructor
-        initialize: function(scene) {
+        initialize: function(scene, sock) {
             $scene = $(scene);
             $arrow = $scene.children(".arrow");
             $prev = $scene.children(".arrow.previous");
             $next = $scene.children(".arrow.next");
             length = dialog.length;
             $scene.children(".content").html(dialog[current]);
+            window.app.socket.initialize(sock);
             self.bindEvents();
         },
         bindEvents: function() {

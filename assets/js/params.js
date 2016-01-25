@@ -27,7 +27,10 @@
     var params={
         // Application Constructor
         initialize: function(initParams){
-            params=initParams;
+            params = initParams;
+        },
+        setParams: function(data) {
+            params = data;
         },
         getParams: function(){
             return params;

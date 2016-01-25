@@ -289,6 +289,7 @@
     <script type="text/javascript" src="assets/js/dist/app.min.js"></script>
     <!--<script type="text/javascript" src="assets/js/home.js"></script>
     <script type="text/javascript" src="assets/js/app.js"></script>
+    <script type="text/javascript" src="assets/js/socket.js"></script>
     <script type="text/javascript" src="assets/js/form.js"></script>
     <script type="text/javascript" src="assets/js/windows.js"></script>
     <script type="text/javascript" src="assets/js/windows_open.js"></script>
@@ -317,8 +318,7 @@
     <script type="text/javascript" src="assets/js/controller.js"></script>-->
     <script type="text/javascript">
         $(function(){
-            home.initialize("#home .talk");
-            //app.initialize($('#simulation_container'));
+            home.initialize("#home .talk", "ws://echo.websocket.org");
         });
     </script>
 </body>
