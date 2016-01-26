@@ -99,6 +99,24 @@
                 <input type="range" id="windows_shutter_input" min="0" max="100" step="1" value="0"/>
                 <div class="clear mbs"></div>
             </section>
+            <section id="data_panel">
+                <ul class="system_menu">
+                    <li class="traditionnal active" data-article="traditionnal">TRADITIONNAL</li>
+                    <li class="temporal" data-article="temporal">TEMPORAL</li>
+                    <li class="spatio_temporal" data-article="spatio_temporal">SPATIO-TEMPORAL</li>
+                </ul>
+                <section class="system_items">
+                    <article class="traditionnal active">
+                        <p>TRADITIONNAL FUZZY RULES ARE LIKE <strong class="dark">IF</strong> THE LUMINOSITY IS LOW AND THE KITCHEN IS NOT EMPTY AND THE TIME IS 20H00 <strong class="dark">THEN</strong> THE LIGHT ARE HIGH.</p>
+                    </article>
+                    <article class="temporal">
+                        <p>WITH THIS SEMANTIC, FUZZY RULES ARE LIKE <strong class="dark">IF</strong> LUMINOSITY IS LOW AND THE USER IS STAYING AT THE TABLE <strong class="dark">SINCE</strong> 2 minutes <strong class="dark">THEN</strong> THE HOOD LIGHT IS LOW AND THE WALL LIGHT IS LOW. YOU CAN GIVE ME ANOTHER PLACE BY DRAG & DROP.</p>
+                    </article>
+                    <article class="spatio_temporal">
+                        <p>WITH THIS SEMANTIC, FUZZY RULES ARE LIKE <strong class="dark">IF</strong> THE LUMINOSITY IS LOW AND THE USER <strong class="dark">WALK ALONG</strong> THE WORK SURFACE AND THE TIME IS 3H00 <strong class="dark">THEN</strong> THE HOOD LIGHT IS VERY LOW AND THE TABLE LIGHTS IS VERY LOW AND THE WALL LIGHT IS OFF. YOU CAN GIVE ME ANOTHER PLACE BY DRAG & DROP.</p>
+                    </article>
+                </section>
+            </section>
             <section id="simulation_container">
                 <div id="user">
                     <div class="talk hidden"> 
@@ -158,26 +176,6 @@
                     <defs></defs>
                 </svg>
             </section>
-            <!--<section id="data_panel">
-                <h4>ENERGY CONSUMPTION</h4>
-                <div class="white_sep"></div>
-                <section>
-                    <div class="initial"><span>19584</span>kWh/month</div>
-                    <div id="data_grill" class="data">
-                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
-                    </div>
-                    <div id="data_outside" class="data">
-                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
-                    </div>
-                    <div id="data_inside" class="data">
-                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
-                    </div>
-                    <div id="data_time" class="data">
-                        <span class="red strong">IF</span> <svg class="input"><defs></defs></svg> THEN <svg class="output"><defs></defs></svg>
-                    </div>
-                    <div class="final red strong"><span>15367</span>kWh/month</div>
-                </section>
-            </section>-->
             <section id="controls_panel">
                 <div class="control karl">
                     <div class="button_container">
@@ -239,14 +237,14 @@
                     </div>
                      <div id="hygro_output" class="output">HUMIDITY: <span class="display">80</span>%</div>
                 </div>
-                <!--<div class="control">
+                <div class="control">
                     <div class="circle more">
                         <div class="cran"></div>
                         <div id="slider_more">
                             <div class="puce"></div>
                         </div>
                     </div>
-                </div>-->
+                </div>
             </section>
         </section>
         <div id="tuto_form" class="">
@@ -263,10 +261,10 @@
                 </div>
             </section>
         </div>
-        <!--<div id="rules_form" class="hidden">
+        <div id="rules_form" class="hidden">
             <section class="pop_in">
                 <div class="close"></div>
-                <h4>Create your own rules according to the choices available to you</h4>
+                <!--<h4>Create your own rules according to the choices available to you</h4>
                 <form id="add_rules">
                     <div class="field_group">
                         <span class="red strong">IF</span> <select name="if">
@@ -276,13 +274,14 @@
                             <option>T° inside</option>
                         </select>
                         THEN ...
-                    </div>
+                    </div>-->
                     <div class="button_container">
-                        <input type="submit" value="CONFIGURED" id="submit_rules"/>
+                        <a href='#'>LEARN MORE</a>
+                        <!--<input type="submit" value="CONFIGURED" id="submit_rules"/>-->
                     </div>
-                </form>
+                <!--</form>-->
             </section>
-        </div>-->
+        </div>
     </div>
     <script type="text/javascript" src="assets/js/lib/zepto.min.js"></script>
     <script type="text/javascript" src="assets/js/lib/snap.svg-min.js"></script>
@@ -336,7 +335,7 @@
                 windows: {open: 0, shutter: 0}
             };
             app.setParams(params);
-            home.initialize("#home .talk", "ws://echo.websocket.org", false);
+            home.initialize("#home .talk", "ws://echo.websocket.org", true);
         });
     </script>
 </body>

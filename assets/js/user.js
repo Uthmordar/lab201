@@ -70,10 +70,16 @@
                     } else {
                         data[activeUser].$el.removeClass("first-plan");
                     }
-                    if(posY<430 && posY>212 && posX>-80 && posX<950){
-                        ctx.params.setUserPos(posX, posY);
-                        data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
-                        ctx.controller.controlOutput();
+                    if(posY<430 && posY>212 && posX>-80){
+                        if (posY>305 && posX<980) {
+                            ctx.params.setUserPos(posX, posY);
+                            data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
+                            ctx.controller.controlOutput();
+                        } else if (posX < 900) {
+                            ctx.params.setUserPos(posX, posY);
+                            data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
+                            ctx.controller.controlOutput();
+                        }
                     }                
                 });
             } else {
@@ -84,7 +90,7 @@
                         e.preventDefault();
                         posY=e.clientY-sceneY-data[activeUser].height*0.5;
                         posX=e.clientX-sceneX-data[activeUser].width*0.5;
-                        if(posY<320 && posY>212 && posX>-80 && posX<950){
+                        if(posY<320 && posY>212 && posX>-80 && posX<930){
                             ctx.params.setUserPos(posX, posY);
                             $this.css({'top': posY +'px', 'left': posX + 'px'});
                             ctx.controller.controlOutput();
