@@ -66,7 +66,7 @@
 
     var app={
         // Application Constructor
-        initialize: function(scene, defaultParams, isAuto) {
+        initialize: function(scene, isAuto) {
             window.requestAnimFrame = (function(){
                 return  window.requestAnimationFrame       ||
                         window.webkitRequestAnimationFrame ||
@@ -153,18 +153,19 @@
 })(window);
 (function(ctx){
     "use strict";
-    var $scene, $prev, $next, $arrow, current = 0, $this, length;
+    var $scene, $prev, $next, $arrow, current = 0, $this, length, $home;
 
     var dialog = [
-        "<p>Welcome to our simulator ! Through presentation, you can imagine how your system can help controlled to be smarter with EXPRESS<span class='red strong'>IF</span>.<br/><br/>Let us make a point on our product.</p>",
-        "<p>EXPRESS<span class='red strong'>IF</span> is a fuzzy inference system completed by semantics to easily made control based on 'IF-Then' rules.</p>",
-        "<div class='button_container'><a href='#'>Read more about Fuzzy Inference System and ExpressIF</a></div><div class='button_container'><a href='#' id='start_simulation'>Enter in the simulator</a></div>"
+        "<p>Welcome to our simulator ! Through this presentation, you can imagine how your system can help controlled to be smarter with EXPRESS<span class='red strong'>IF</span>.<br/><br/>Let us make a point on our product.</p>",
+        '<p>EXPRESS<span class="red strong">IF</span> is a fuzzy inference system completed by semantics to easily made control based on "IF-Then" rules.</p>',
+        "<p>Learn more about Express<span class='red strong'>IF</span> or discover our simulator now</p><section class='buttons_container'><div class='button_container'><a href='#'>LEARN</a></div><div class='button_container'><a href='#' id='start_simulation'>DISCOVER</a></div></section>"
     ];
 
     var home = {
         // Application Constructor
         initialize: function(scene, sock, auto) {
             $scene = $(scene);
+            $home = $("#home");
             $arrow = $scene.children(".arrow");
             $prev = $scene.children(".arrow.previous");
             $next = $scene.children(".arrow.next");
@@ -186,7 +187,7 @@
             });
         },
         startSimulation: function(auto) {
-            $("#home").remove();
+            $home.remove();
             app.initialize($('#simulation_container'), auto);
         },
         changeTalk: function(control) {
@@ -244,8 +245,6 @@
                 }
                 if (data.say !== undefined) {
                     ctx.user.say.setSay(data.say);
-                } else {
-                    ctx.user.say.silent();
                 }
             }
         },
@@ -270,17 +269,14 @@
             $formSubmit=data;
 
             $popInTuto=$('#tuto_form');
-            //$popInTuto.css({'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
+            $popInTuto.css({'opacity': 1, 'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
             $tutoYes=$('#tuto_yes');
             $tutoNo=$('#tuto_no, #tuto_form .close');
-            //$popInTuto.remove();
-            $sceneBlur.removeClass('blur');
-            ctx.user.say.setTuto(1);
-            //self.bindEvents();
+            self.bindEvents();
         },
         bindEvents: function(){
             // FORM RULES
-            /*$input.on('click', function(e){
+            $input.on('click', function(e){
                 e.preventDefault();
                 self.displayPopIn();
             });
@@ -293,7 +289,7 @@
             $close.on('click', function(e){
                 e.preventDefault();
                 self.hidePopIn();
-            });*/
+            });
             // FORM TUTO
             $tutoYes.on('click', function(e){
                 e.preventDefault();
@@ -1161,10 +1157,16 @@
                     } else {
                         data[activeUser].$el.removeClass("first-plan");
                     }
-                    if(posY<430 && posY>212 && posX>-80 && posX<950){
-                        ctx.params.setUserPos(posX, posY);
-                        data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
-                        ctx.controller.controlOutput();
+                    if(posY<430 && posY>212 && posX>-80){
+                        if (posY>305 && posX<980) {
+                            ctx.params.setUserPos(posX, posY);
+                            data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
+                            ctx.controller.controlOutput();
+                        } else if (posX < 900) {
+                            ctx.params.setUserPos(posX, posY);
+                            data[activeUser].$el.css({'top': posY +'px', 'left': posX + 'px'});
+                            ctx.controller.controlOutput();
+                        }
                     }                
                 });
             } else {
@@ -1175,7 +1177,7 @@
                         e.preventDefault();
                         posY=e.clientY-sceneY-data[activeUser].height*0.5;
                         posX=e.clientX-sceneX-data[activeUser].width*0.5;
-                        if(posY<320 && posY>212 && posX>-80 && posX<950){
+                        if(posY<320 && posY>212 && posX>-80 && posX<930){
                             ctx.params.setUserPos(posX, posY);
                             $this.css({'top': posY +'px', 'left': posX + 'px'});
                             ctx.controller.controlOutput();
@@ -1198,13 +1200,15 @@
     var say={
         // Application Constructor
         initialize: function(data){
-            $user=data;
-            $say=$user.children('.talk');
+            $user = $(data);
+            $say = $user.children('.talk');
             self.bindEvents();
         },
         setTuto: function(val){
             tuto=val;
-            //self.initSpeech();
+            if (val == 1) {
+                self.initSpeech();
+            }
             return self;
         },
         getTuto: function(){
@@ -1215,36 +1219,21 @@
         },
         setSay: function(talk){
             $say.removeClass('hidden').html(talk);
+            setTimeout(function(){ctx.say.silent()}, 5000);
             return self;
         },
         silent: function(){
             $say.addClass('hidden').html('');
         },
         initSpeech: function(){
-            self.setSay('<p>Use the bottom panel to control parameters into the kitchen to control lights, shutter and hood.</p>');
-            $('#controls_panel').on('tap', function() {
-                ctx.say.silent();
+            self.setSay('<p>You can move me by drag&drop</p><br/><p>Now try to use the controls at screen bottom</p>');
+            $('#controls_panel').on("click tap", function() {
+                self.secondStep();
+                $(this).off("click tap");
             });
-        },
-        sayTraditional: function() {
-            self.setSay("<p>These traditional fuzzy rules are like <span class='strong red'>if</span> the luminosity is low and the kitchent is not empty and the time is 20h00 <span class='strong red'>then</span> the lights are high.</p>");
-            setTimeout(function(){ctx.say.silent()}, 5000);
-        },
-        sayTemporal: function() {
-            self.setSay("<p>With this semantic, fuzzy rules are like <span class='red strong'>if</span> the luminosity is low and the user is staying at the table <span class='strong red'>since</span> 2 minutes <span class='strong red'>then</span> the hood light is low and the wall light is low. You can give me another place by drag&drop.</p>");
-            setTimeout(function(){ctx.say.silent()}, 5000);
-        },
-        saySpatioTemporal: function() {
-            self.setSay("<p>With this semantic, fuzzy rules are like <span class='strong red'>if</span> the luminosity is low the user <span class='red strong'>walk along</span> the work surface and the time is 3h00 <span class='red strong'>then</span> the hood light is very low and the table light is very low and the wall light is off. You can give me another place by drag&drop.");
-            setTimeout(function(){ctx.say.silent()}, 5000);
         },
         secondStep: function(){
-            self.setSay('<p>You can move me by drag&drop</p><br/><p>Now try to use the controls at screen bottom</p>');
-            $('#controls_panel').on('tap', function(){
-                ctx.say.setSay('<p>You can alter each intput parameter only by interacting with this bullet.</p><p class="red strong">Now watch the scene and show the rules implications</p>');
-                $(this).off('tap');
-                setTimeout(function(){ctx.say.silent()}, 3000);
-            });
+            self.setSay('<p>You can alter each intput parameter only by interacting with this bullet.</p><p class="red strong">Now watch the scene and show the rules implications</p>');
         }
     };
     ctx.say=say;
@@ -2152,17 +2141,33 @@
 })(app);
 (function(ctx){
     "use strict";
-    var init;
+    var init, $panel, $controls, $articleParent, $articles, $this;
 
     var data={
         // Application Constructor
         initialize: function(){
-            init={w: $("#data_grill .input").width(), h: $("#data_grill .input").height(), f: 2.4};
+            $panel = $("#data_panel");
+            $controls = $panel.children(".system_menu").children("li");
+            $articleParent = $panel.children(".system_items");
+            $articles = $articleParent.children("article");
+            $panel.css("opacity", 1);
+            //init={w: $("#data_grill .input").width(), h: $("#data_grill .input").height(), f: 2.4};
             
             //this.grill.initialize(init);
             //this.inside.initialize(init);
             //this.outside.initialize(init);
             //this.time.initialize(init);
+            self.bindEvents();
+        },
+        bindEvents: function() {
+            $controls.on("click touch", function(e) {
+                e.preventDefault();
+                $this = $(this);
+                $controls.removeClass("active");
+                $this.addClass("active");
+                $articles.removeClass("active");
+                $articleParent.children("." + $this.attr("data-article")).addClass("active");
+            });
         }
     };
     ctx.data=data;

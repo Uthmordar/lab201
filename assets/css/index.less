@@ -574,23 +574,27 @@
 		padding: @padding;
 		opacity: 0;
 		.transition(opacity, 0.3s, ease-in, 0s);
+		z-index: 200;
 		
 		ul {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
 			list-style: none;
+			margin: 0;
+			padding: 0;
 
 			li {
 				padding: 0.5 * @padding;
-				min-width: 25rem;
+				min-width: 30rem;
 				font-size: 2.4rem;
 				text-align: center;
 				color: @color-white;
 				.transition(background-color, 0.3s, ease-in, 0s);
+				cursor: pointer;
 
 				&.traditionnal {
-					border: 2px solid @color-traditionnal;
+					border: 3px solid @color-traditionnal;
 
 					&.active {
 						background-color: @color-traditionnal;
@@ -602,7 +606,7 @@
 				}
 
 				&.temporal {
-					border: 2px solid @color-temporal;
+					border: 3px solid @color-temporal;
 
 					&.active {
 						background-color: @color-temporal;
@@ -614,7 +618,7 @@
 				}
 
 				&.spatio_temporal {
-					border: 2px solid @color-spatio;
+					border: 3px solid @color-spatio;
 
 					&.active {
 						background-color: @color-spatio;
@@ -627,52 +631,44 @@
 			}
 		}
 
-		h4{
-			color: #FFF;
-			font-size: 2.8rem;
-			text-align: center;
-		}
+		.system_items {
+			position: relative;
+			width: 96rem;
+			margin: 1rem 0;
 
-		.white_sep{
-			height: 2px;
-			width: 60px;
-			background: #FFF;
-			margin: @margin auto;
-		}
+			article {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				padding: 0.5rem 1rem;
+				opacity: 0;
+				.transition(opacity, 0.3s, ease-in, 0s);
 
-		section{
-			padding: 2*@padding 4*@padding;
+				p {
+					font-size: 2rem;
+					line-height: 3rem;
+					color: @color-white;
+					width: 100%;
 
-			.initial{
-				color: #FFF;
-				font-size: 2.4rem;
-				height: 7rem;
-				line-height: 3rem;
-				text-align: center;
-				background: url(../img/pictos/arrow_white.png) center 35px no-repeat;
-			}
+					.dark {
+						color: @color-dark;
+					}
+				}
+				&.active{
+					opacity: 1;
+				}
+				&.traditionnal {
+					background-color: @color-traditionnal;
+				}
 
-			div.data{
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				font-size: 2.2rem;
-				text-align: center;
-				margin-bottom: @margin;
-			}
+				&.temporal {
+					background-color: @color-temporal;
+				}
 
-			svg{
-				margin: 0 @margin;
-				width: 80px;
-				height: 80px;
-			}
-
-			.final{
-				font-size: 2.6rem;
-				height: 7rem;
-				line-height: 10rem;
-				text-align: center;
-				background: url(../img/pictos/arrow_red.png) center 0px no-repeat;
+				&.spatio_temporal {
+					background-color: @color-spatio;
+				}
 			}
 		}
 	}
@@ -838,7 +834,7 @@
 		border: 2px solid rgba(255, 255, 255, 0.85);
 		border-radius: 10px;
 		z-index: 1000;
-		display: none;
+		opacity: 0;
 
 		section.pop_in{
 			position: relative;

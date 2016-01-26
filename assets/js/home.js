@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var $scene, $prev, $next, $arrow, current = 0, $this, length;
+    var $scene, $prev, $next, $arrow, current = 0, $this, length, $home;
 
     var dialog = [
         "<p>Welcome to our simulator ! Through this presentation, you can imagine how your system can help controlled to be smarter with EXPRESS<span class='red strong'>IF</span>.<br/><br/>Let us make a point on our product.</p>",
@@ -12,6 +12,7 @@
         // Application Constructor
         initialize: function(scene, sock, auto) {
             $scene = $(scene);
+            $home = $("#home");
             $arrow = $scene.children(".arrow");
             $prev = $scene.children(".arrow.previous");
             $next = $scene.children(".arrow.next");
@@ -33,7 +34,7 @@
             });
         },
         startSimulation: function(auto) {
-            $("#home").remove();
+            $home.remove();
             app.initialize($('#simulation_container'), auto);
         },
         changeTalk: function(control) {

@@ -34,8 +34,6 @@
                 }
                 if (data.say !== undefined) {
                     ctx.user.say.setSay(data.say);
-                } else {
-                    ctx.user.say.silent();
                 }
             }
         },
