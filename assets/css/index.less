@@ -14,10 +14,16 @@
 @font-size-default: 1.5rem;
 @bg-body-color: lighten(#9FA1A3, 20%);
 
+@color-white: #FFF;
+@color-dark: #000;
 @color-black : #1d1d1b;
 @color-red: #b91212;
 @color-red-dark: #ba242a;
 @color-red-light: #bf0712;
+
+@color-traditionnal: #B35F6C;
+@color-temporal: #70C2B2;
+@color-spatio: #FABD6D;
 
 @color-rose: #EB5B5C;
 @color-time: #502951;
@@ -125,9 +131,6 @@
 			z-index: 40;
 			background: rgba(253,249,248,0.95);
 			border-radius: 45px;
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
 			clear: both;
 
 			&:before{
@@ -148,30 +151,36 @@
 				line-height: 6.2rem;
 			}
 
-			.button_container{
-				border: 2px solid @color-red-dark;
-				padding: 1*@padding;
-				margin: 4*@margin;
-				width: 40rem;
+			.buttons_container {
+				display: flex;
+				align-items: center;
+				justify-content: space-around;
+				margin: 0 10rem;
 
-				a{
-					border: none;
-					width: 100%;
-					color: @color-red-dark;
-					padding: 0.5 * @padding;
-					font-size: 4.4rem;
-					background: none;
-					cursor: pointer;
-					outline: none;
-				}
-				&:hover{
-					input{
-						color: #FFF;
+				.button_container{
+					border: 2px solid @color-red-dark;
+					padding: 2.5*@padding;
+					margin: 2*@margin;
+
+					a{
+						border: none;
+						width: 100%;
+						color: @color-red-dark;
+						padding: 0.5 * @padding;
+						font-size: 4.4rem;
+						background: none;
+						cursor: pointer;
+						outline: none;
+					}
+					&:hover{
+						input{
+							color: #FFF;
+							background: @color-red-dark;
+						}
+					}
+					&:active{
 						background: @color-red-dark;
 					}
-				}
-				&:active{
-					background: @color-red-dark;
 				}
 			}
 		}
@@ -315,8 +324,8 @@
 		background-size: contain;
 		width: 120rem;
 		height: 60rem;
-		margin: 7rem auto 0;
-		left: -10rem;
+		margin: 12rem auto 0;
+		/*left: -10rem;*/
 
 		#movement_plan {
 			position: absolute;
@@ -559,11 +568,64 @@
 	// --------------------------------------------------------
 	#data_panel{
 		position: absolute;
-		width: 35rem;
-		right: 0rem;
-		top: 8rem;
+		width: 96rem;
+		top: 1rem;
+		left: 48rem;
 		padding: @padding;
-		background: rgba(235,91,92, 0.1);
+		opacity: 0;
+		.transition(opacity, 0.3s, ease-in, 0s);
+		
+		ul {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			list-style: none;
+
+			li {
+				padding: 0.5 * @padding;
+				min-width: 25rem;
+				font-size: 2.4rem;
+				text-align: center;
+				color: @color-white;
+				.transition(background-color, 0.3s, ease-in, 0s);
+
+				&.traditionnal {
+					border: 2px solid @color-traditionnal;
+
+					&.active {
+						background-color: @color-traditionnal;
+					}
+
+					&:hover {
+						background-color: @color-traditionnal;
+					}
+				}
+
+				&.temporal {
+					border: 2px solid @color-temporal;
+
+					&.active {
+						background-color: @color-temporal;
+					}
+
+					&:hover {
+						background-color: @color-temporal;
+					}
+				}
+
+				&.spatio_temporal {
+					border: 2px solid @color-spatio;
+
+					&.active {
+						background-color: @color-spatio;
+					}
+
+					&:hover {
+						background-color: @color-spatio;
+					}
+				}
+			}
+		}
 
 		h4{
 			color: #FFF;
@@ -911,6 +973,32 @@
 					&:active{
 						background: @color-red-dark;
 					}
+				}
+			}
+
+			.button_container{
+				border: 2px solid @color-red-dark;
+				padding: 2.5*@padding;
+				margin: 2*@margin;
+
+				a{
+					border: none;
+					width: 100%;
+					color: @color-red-dark;
+					padding: 0.5 * @padding;
+					font-size: 4.4rem;
+					background: none;
+					cursor: pointer;
+					outline: none;
+				}
+				&:hover{
+					input{
+						color: #FFF;
+						background: @color-red-dark;
+					}
+				}
+				&:active{
+					background: @color-red-dark;
 				}
 			}
 		}

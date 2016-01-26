@@ -66,7 +66,7 @@
 
     var app={
         // Application Constructor
-        initialize: function(scene, defaultParams, isAuto) {
+        initialize: function(scene, isAuto) {
             window.requestAnimFrame = (function(){
                 return  window.requestAnimationFrame       ||
                         window.webkitRequestAnimationFrame ||

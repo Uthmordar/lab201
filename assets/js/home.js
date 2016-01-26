@@ -3,9 +3,9 @@
     var $scene, $prev, $next, $arrow, current = 0, $this, length;
 
     var dialog = [
-        "<p>Welcome to our simulator ! Through presentation, you can imagine how your system can help controlled to be smarter with EXPRESS<span class='red strong'>IF</span>.<br/><br/>Let us make a point on our product.</p>",
-        "<p>EXPRESS<span class='red strong'>IF</span> is a fuzzy inference system completed by semantics to easily made control based on 'IF-Then' rules.</p>",
-        "<div class='button_container'><a href='#'>Read more about Fuzzy Inference System and ExpressIF</a></div><div class='button_container'><a href='#' id='start_simulation'>Enter in the simulator</a></div>"
+        "<p>Welcome to our simulator ! Through this presentation, you can imagine how your system can help controlled to be smarter with EXPRESS<span class='red strong'>IF</span>.<br/><br/>Let us make a point on our product.</p>",
+        '<p>EXPRESS<span class="red strong">IF</span> is a fuzzy inference system completed by semantics to easily made control based on "IF-Then" rules.</p>',
+        "<p>Learn more about Express<span class='red strong'>IF</span> or discover our simulator now</p><section class='buttons_container'><div class='button_container'><a href='#'>LEARN</a></div><div class='button_container'><a href='#' id='start_simulation'>DISCOVER</a></div></section>"
     ];
 
     var home = {

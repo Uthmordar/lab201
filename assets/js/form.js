@@ -12,17 +12,17 @@
             $formSubmit=data;
 
             $popInTuto=$('#tuto_form');
-            //$popInTuto.css({'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
+            $popInTuto.css({'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
             $tutoYes=$('#tuto_yes');
             $tutoNo=$('#tuto_no, #tuto_form .close');
-            //$popInTuto.remove();
+            $popInTuto.remove();
             $sceneBlur.removeClass('blur');
             ctx.user.say.setTuto(1);
-            //self.bindEvents();
+            self.bindEvents();
         },
         bindEvents: function(){
             // FORM RULES
-            /*$input.on('click', function(e){
+            $input.on('click', function(e){
                 e.preventDefault();
                 self.displayPopIn();
             });
@@ -35,7 +35,7 @@
             $close.on('click', function(e){
                 e.preventDefault();
                 self.hidePopIn();
-            });*/
+            });
             // FORM TUTO
             $tutoYes.on('click', function(e){
                 e.preventDefault();
