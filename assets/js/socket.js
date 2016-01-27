@@ -1,6 +1,6 @@
 (function(ctx){
     "use strict";
-    var ws, data;
+    var ws, data, open = false;
 
     var socket = {
         // Application Constructor
@@ -15,11 +15,13 @@
         },
         onOpen: function() {
             ws.onopen = function() {
+                open = true;
                 console.log("Socket open");
             }
         },
         onClose: function() {
             ws.onclose = function(e) {
+                open = false;
                 console.log("Socket close");
             }
         },
@@ -38,7 +40,9 @@
             }
         },
         send: function(msg) {
-            ws.send(msg);
+            if (open) {
+                ws.send(msg);
+            }
         }
     }
     ctx.socket = socket;

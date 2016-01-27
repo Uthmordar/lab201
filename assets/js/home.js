@@ -10,23 +10,22 @@
 
     var home = {
         // Application Constructor
-        initialize: function(scene, sock, auto) {
-            $scene = $(scene);
+        initialize: function() {
+            $scene = $("#home .talk");
             $home = $("#home");
             $arrow = $scene.children(".arrow");
             $prev = $scene.children(".arrow.previous");
             $next = $scene.children(".arrow.next");
             length = dialog.length;
             $scene.children(".content").html(dialog[current]);
-            window.app.socket.initialize(sock);
-            self.bindEvents(auto);
+            self.bindEvents();
         },
-        bindEvents: function(auto) {
+        bindEvents: function() {
             $scene.siblings(".close").on("touch click", function(e) {
-                self.startSimulation(auto);
+                self.startSimulation();
             });
             $(document).on("touch click", "#start_simulation", function(e) {
-                self.startSimulation(auto);
+                self.startSimulation();
             });
             $arrow.on("click touch", function(e) {
                 e.preventDefault();
@@ -35,7 +34,7 @@
         },
         startSimulation: function(auto) {
             $home.remove();
-            app.initialize($('#simulation_container'), auto);
+            app.run();
         },
         changeTalk: function(control) {
             if (control.hasClass("next")) {

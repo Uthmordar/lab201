@@ -63,10 +63,11 @@
         heating: 0,
         windows: {open: 0, shutter: 0}
     };
+    var config;
 
     var app={
         // Application Constructor
-        initialize: function(scene, isAuto) {
+        initialize: function(scene, configData) {
             window.requestAnimFrame = (function(){
                 return  window.requestAnimationFrame       ||
                         window.webkitRequestAnimationFrame ||
@@ -77,9 +78,16 @@
                             window.setTimeout(callback, 1000 / 60);
                         };
             })();
-            auto = isAuto;
+            config = configData;
+            $scene = scene;
+            this.setParams(config.params);
+            this.socket.initialize(config.socket);
+            auto = config.simulationEnabled;
+            home.initialize();
+        },
+        run: function() {
             $("#controls_panel").css("opacity", 1);
-            this.setScene(scene);
+            this.setScene($scene);
             // Initialize data for api/controller 
             this.params.initialize(params);
             // Initialize all input/output && set data
@@ -125,7 +133,6 @@
             scene: scene selector
         */
         setScene: function(scene){
-            $scene=scene;
             sceneX=scene.offset().left;
             sceneY=scene.offset().top;
             sceneWidth=parseFloat(scene.width());
@@ -166,23 +173,22 @@
 
     var home = {
         // Application Constructor
-        initialize: function(scene, sock, auto) {
-            $scene = $(scene);
+        initialize: function() {
+            $scene = $("#home .talk");
             $home = $("#home");
             $arrow = $scene.children(".arrow");
             $prev = $scene.children(".arrow.previous");
             $next = $scene.children(".arrow.next");
             length = dialog.length;
             $scene.children(".content").html(dialog[current]);
-            window.app.socket.initialize(sock);
-            self.bindEvents(auto);
+            self.bindEvents();
         },
-        bindEvents: function(auto) {
+        bindEvents: function() {
             $scene.siblings(".close").on("touch click", function(e) {
-                self.startSimulation(auto);
+                self.startSimulation();
             });
             $(document).on("touch click", "#start_simulation", function(e) {
-                self.startSimulation(auto);
+                self.startSimulation();
             });
             $arrow.on("click touch", function(e) {
                 e.preventDefault();
@@ -191,7 +197,7 @@
         },
         startSimulation: function(auto) {
             $home.remove();
-            app.initialize($('#simulation_container'), auto);
+            app.run();
         },
         changeTalk: function(control) {
             if (control.hasClass("next")) {
@@ -214,7 +220,7 @@
 })(window);
 (function(ctx){
     "use strict";
-    var ws, data;
+    var ws, data, open = false;
 
     var socket = {
         // Application Constructor
@@ -229,11 +235,13 @@
         },
         onOpen: function() {
             ws.onopen = function() {
+                open = true;
                 console.log("Socket open");
             }
         },
         onClose: function() {
             ws.onclose = function(e) {
+                open = false;
                 console.log("Socket close");
             }
         },
@@ -252,7 +260,9 @@
             }
         },
         send: function(msg) {
-            ws.send(msg);
+            if (open) {
+                ws.send(msg);
+            }
         }
     }
     ctx.socket = socket;

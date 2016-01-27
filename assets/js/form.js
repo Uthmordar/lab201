@@ -4,12 +4,11 @@
 
     var form={
         // Application Constructor
-        initialize: function(data){
+        initialize: function(){
             $input=$('.circle.more');
             $popIn=$('#rules_form');
             $sceneBlur=$('#app_blur');
             $close=$popIn.children('.pop_in').children('.close');
-            $formSubmit=data;
 
             $popInTuto=$('#tuto_form');
             $popInTuto.css({'opacity': 1, 'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
@@ -24,10 +23,10 @@
                 self.displayPopIn();
             });
 
-            $formSubmit.on('click', function(e){
+            /*$formSubmit.on('click', function(e){
                 e.preventDefault();
                 self.hidePopIn();
-            });
+            });*/
 
             $close.on('click', function(e){
                 e.preventDefault();

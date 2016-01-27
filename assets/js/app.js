@@ -63,10 +63,11 @@
         heating: 0,
         windows: {open: 0, shutter: 0}
     };
+    var config;
 
     var app={
         // Application Constructor
-        initialize: function(scene, isAuto) {
+        initialize: function(scene, configData) {
             window.requestAnimFrame = (function(){
                 return  window.requestAnimationFrame       ||
                         window.webkitRequestAnimationFrame ||
@@ -77,13 +78,20 @@
                             window.setTimeout(callback, 1000 / 60);
                         };
             })();
-            auto = isAuto;
+            config = configData;
+            $scene = scene;
+            this.setParams(config.params);
+            this.socket.initialize(config.socket);
+            auto = config.simulationEnabled;
+            home.initialize();
+        },
+        run: function() {
             $("#controls_panel").css("opacity", 1);
-            this.setScene(scene);
+            this.setScene($scene);
             // Initialize data for api/controller 
             this.params.initialize(params);
             // Initialize all input/output && set data
-            this.form.initialize($('#submit_rules'));
+            this.form.initialize();
             this.heating.initialize(heating);
             this.windows.initialize(windows);
             this.lamps.initialize(lamps);
@@ -125,7 +133,6 @@
             scene: scene selector
         */
         setScene: function(scene){
-            $scene=scene;
             sceneX=scene.offset().left;
             sceneY=scene.offset().top;
             sceneWidth=parseFloat(scene.width());
