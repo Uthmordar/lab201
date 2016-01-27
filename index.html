@@ -32,6 +32,7 @@
                 <img src="assets/img/home/arrow_left.svg"/>
             </div>
             <div class="content">
+                <p>Welcome to our simulator ! Through this presentation, you can imagine how your system can help controlled to be smarter with EXPRESS<span class='red strong'>IF</span>.<br/><br/>Let us make a point on our product.</p>
             </div>
             <div class="arrow next">
                 <img src="assets/img/home/arrow_right.svg"/>
@@ -317,25 +318,10 @@
     <script type="text/javascript" src="assets/js/controller.js"></script>-->
     <script type="text/javascript">
         $(function(){
-            var params = {
-                windowOpen: 0,
-                time: {hour: 12, minute: 0, timestamp: 43200},
-                luxEnv: 50000,
-                hygrometrie: {hygro:80, time: {low: 0, medium: 0, high: 0}},
-                user: {x: 0, y:0, status: 1, time: {grill:0, away: 0}},
-                grill: {power: 0, time: {low: 0, medium: 0, high: 0}},
-                luxHotte: 0,
-                luxPlan: 0,
-                luxTable: 0,
-                luxWall: 0,
-                ventilation: 0,
-                tempExt: 15,
-                tempInt: 18,
-                heating: 0,
-                windows: {open: 0, shutter: 0}
-            };
-            app.setParams(params);
-            home.initialize("#home .talk", "ws://echo.websocket.org", true);
+            $.getJSON("/config.json", function(config) {
+                app.setParams(config.params);
+                home.initialize("#home .talk", config.socket, config.simulationEnabled);
+            });
         });
     </script>
 </body>

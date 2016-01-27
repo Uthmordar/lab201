@@ -20,7 +20,7 @@
             $bgDarkness=$('#darkness');
             $displayDarkness=$('#luminosity_output .display');
             $clock=$('#timer');
-            valDarkness=$inputDarkness.val();
+            valDarkness=ctx.getParams().luxEnv;
             valMax=parseInt($inputTime.attr('max'));
             valMaxDarkness=parseInt($inputDarkness.attr('max'));
             // init sun & moon
@@ -36,7 +36,7 @@
             // init time
             time=ctx.params.getParams().time;
             start=Math.floor(time.timestamp/(60*60*2));
-            $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+            $container=$('.circle.time'), $slider=$('#slider_time'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=360 * (time.timestamp / 86400), elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             self.setData(data);
             // init range env
             X=Math.round(radius* Math.sin(deg*Math.PI/180));    
@@ -44,11 +44,12 @@
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
             $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
             // init range darkness
-            $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness=180, elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
+            $containerDarkness=$('.circle.luminosity'), $sliderDarkness=$('#slider_luminosity'), sliderW2Darkness=$sliderDarkness.width()/2, sliderH2Darkness=$sliderDarkness.height()/2, radiusDarkness=70, degDarkness= 360 * (valDarkness / valMaxDarkness), elPDarkness=$containerDarkness.offset(), elPosDarkness={ x: elPDarkness.left, y: elPDarkness.top}, XDarkness=0, YDarkness=0, mdownDarkness=false, mPosDarkness={x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness=Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
             XDarkness = Math.round(radiusDarkness* Math.sin(degDarkness*Math.PI/180));    
             YDarkness = Math.round(radiusDarkness*  -Math.cos(degDarkness*Math.PI/180));
             $sliderDarkness.css({ left: XDarkness+radiusDarkness-sliderW2Darkness, top: YDarkness+radiusDarkness-sliderH2Darkness});      
             $inputDarkness.attr('value', degDarkness * (valMaxDarkness/360));
+            self.changeDarkness();
             self.bindEvents();
             requestAnimFrame(self.timeProgress);
             self.timeProgress();
