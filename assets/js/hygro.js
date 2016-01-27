@@ -3,25 +3,27 @@
     var data, count, $input, s, viewHumiLow, viewHumiHigh, sceneWidth, sceneHeight,
     valMax, valMin, diff, $container, $slider, sliderW2, sliderH2, radius, deg, elP, elPos, X, Y, mdown, mPos, atan;
 
-    var hygro={
+    var hygro = {
         // Application Constructor
         initialize: function(data){
-            $input=$('#hygro_input');
-            valMax=parseInt($input.attr('max'));
-            valMin=parseInt($input.attr('min'));
-            diff=Math.abs(valMax-valMin);
-            data.t=parseInt($input.val());
+            $input = $('#hygro_input');
+            valMax = parseInt($input.attr('max'));
+            valMin = parseInt($input.attr('min'));
+            diff = Math.abs(valMax-valMin);
+            data.t = parseInt($input.val());
+            data.hygro = data.initialHygro = ctx.getParams().hygrometrie.hygro;
             self.setData(data);
-            $container=$('.circle.humidity'), $slider=$('#slider_humidity'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=120, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+            $container = $('.circle.humidity'), $slider=$('#slider_humidity'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg = ((data.hygro - valMin) / (valMax - valMin)) * 360, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+            console.log(deg);
             s=Snap('#humidity');
-            sceneWidth=app.getSceneWidth();
-            sceneHeight=app.getSceneHeight();
-            viewHumiLow=s.group(s.image('assets/img/scene/humi_1.svg', -sceneWidth*0.05, -sceneHeight*0.2, 370, 370), s.image('assets/img/scene/humi_2.svg', sceneWidth*0.2, sceneHeight*0.5, 300, 300), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.7, sceneHeight*0.4, 350, 350)).attr({opacity: 0});
-            viewHumiHigh=s.group(s.image('assets/img/scene/humi_1.svg', 0, sceneHeight*0.25, 500, 500), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.35, 0, 500, 500), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.4, sceneHeight*0.45, 450, 450)).attr({opacity: 0});
-            X=Math.round(radius* Math.sin(deg*Math.PI/180));    
-            Y=Math.round(radius*  -Math.cos(deg*Math.PI/180));
-            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });  
-            self.setHygroValue((deg * ((valMax-valMin)/360))+valMin).updateHygro();
+            sceneWidth = app.getSceneWidth();
+            sceneHeight = app.getSceneHeight();
+            viewHumiLow = s.group(s.image('assets/img/scene/humi_1.svg', -sceneWidth * 0.05, -sceneHeight*0.2, 370, 370), s.image('assets/img/scene/humi_2.svg', sceneWidth*0.2, sceneHeight*0.5, 300, 300), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.7, sceneHeight*0.4, 350, 350)).attr({opacity: 0});
+            viewHumiHigh = s.group(s.image('assets/img/scene/humi_1.svg', 0, sceneHeight * 0.25, 500, 500), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.35, 0, 500, 500), s.image('assets/img/scene/humi_1.svg', sceneWidth*0.4, sceneHeight*0.45, 450, 450)).attr({opacity: 0});
+            X=Math.round(radius * Math.sin(deg*Math.PI/180));    
+            Y=Math.round(radius *  -Math.cos(deg*Math.PI/180));
+            $slider.css({left: X + radius - sliderW2, top: Y + radius - sliderH2 });  
+            self.setHygroValue((deg * ((valMax - valMin)/360)) + valMin).updateHygro();
             self.bindEvents();
         },
         resetControls: function(){

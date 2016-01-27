@@ -46,7 +46,8 @@
     var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill_output .display')};
 
     var $scene,sceneX,sceneY, sceneWidth, sceneHeight;
-    var params = {
+    var params, config;
+    /*var params = {
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
         luxEnv: 60000,
@@ -62,8 +63,7 @@
         tempInt: 18,
         heating: 0,
         windows: {open: 0, shutter: 0}
-    };
-    var config;
+    };*/
 
     var app={
         // Application Constructor
@@ -116,7 +116,7 @@
         bindEvents: function(){
             $(window).on('resize', function(e){
                 // stop previous timeProgress to increase performance
-                self.reInitialize($('#simulation_container'));
+                self.reInitialize($($scene));
             });
         },
         isAuto: function() {

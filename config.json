@@ -8,7 +8,7 @@
     	},
         "luxEnv": 45000,
         "hygrometrie": {
-        	"hygro":80,
+        	"hygro": 80,
         	"time": {
         		"low": 0,
         		"medium": 0,
