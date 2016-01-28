@@ -318,7 +318,7 @@
     <script type="text/javascript" src="assets/js/controller.js"></script>-->
     <script type="text/javascript">
         $(function(){
-            $.getJSON("/config.json", function(config) {
+            $.getJSON("config.json", function(config) {
                 app.initialize($('#simulation_container'), config);
             });
         });
