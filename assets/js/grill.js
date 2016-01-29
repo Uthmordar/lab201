@@ -145,7 +145,7 @@
             plaque.animate({opacity: data.power/valMax}, 500);
         },
         updateDatavis: function(){
-            ctx.data.grill.setInput(data.power).setOutput(70+ Math.random() * 30);
+            //ctx.data.grill.setInput(data.power).setOutput(70+ Math.random() * 30);
         }
     };
     ctx.grill=grill;

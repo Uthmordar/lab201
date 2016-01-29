@@ -10,16 +10,17 @@
             $input=$('#temp_ext_input');
             valMax=parseInt($input.attr('max'));
             valMin=parseInt($input.attr('min'));
-            data.t=parseInt($input.val());
+            data.t=parseInt(window.app.getParams().tempExt);
+            if (data.t > valMax) {
+                data.t = valMax;
+            } else if (data.t < valMin) {
+                data.t = valMin;
+            }
             self.setData(data);
-            s=Snap("#thermo_masque");
-            h=35;
-            jauge=s.rect(0,0,10,h*(data.t-valMin)/(valMax-valMin));
-            jauge.attr({
-                fill: "#FFF"
-            });
+            self.initThermoSVG("#thermo_masque");
+            self.viewTemperature();
 
-            $container=$('.circle.meteorology'), $slider=$('#slider_meteorology'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=180, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+            $container=$('.circle.meteorology'), $slider=$('#slider_meteorology'), sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, radius=70, deg=((data.t - valMin) / (valMax - valMin)) * 360, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
             X = Math.round(radius* Math.sin(deg*Math.PI/180));    
             Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
             $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
@@ -57,6 +58,14 @@
         },
         resetControls: function(){
             sliderW2=$slider.width()/2, sliderH2=$slider.height()/2, elP=$container.offset(), elPos={ x: elP.left, y: elP.top}, X=0, Y=0, mdown=false, mPos={x: elPos.x, y: elPos.y}, atan=Math.atan2(mPos.x-radius, mPos.y-radius);
+        },
+        initThermoSVG: function(selecteur) {
+            s=Snap(selecteur);
+            h=35;
+            jauge=s.rect(0, 0, 10, h * (data.t - valMin)/(valMax - valMin));
+            jauge.attr({
+                fill: "#FFF"
+            });
         },
         getData: function(){
             return data;
@@ -124,7 +133,7 @@
             jauge.animate({height: 35 - h*(data.t-valMin)/(valMax-valMin)}, 300);
         },
         updateDatavis: function(){
-            window.app.data.outside.setInput(data.t).setOutput(70+ Math.random() * 30);
+            //window.app.data.outside.setInput(data.t).setOutput(70+ Math.random() * 30);
         }
     };
     ctx.ext=ext;

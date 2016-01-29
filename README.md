@@ -10,16 +10,59 @@
 
 Tuned for 1920px * 1080px
  
-At the end of index.html:
+You could configure the application by editing config.json at the root of the folder for the inputs:
 
-	/**
-	 * @string intro slide container
-	 * @string websocket address for data exchange
-	 * @bool if set to true, app will use default simulation rather than websocket data
-	*/
- 	home.initialize("#home .talk", "ws://echo.websocket.org", false);
+	{
+		"params": {
+			"windowOpen": 0,
+			"time": {
+				"hour": 12,
+				"minute": 0,
+				**"timestamp": 43200**
+			},
+			**"luxEnv": 45000,**
+			"hygrometrie": {
+				**"hygro": 80,**
+				"time": {
+					"low": 0,
+					"medium": 0,
+					"high": 0
+				}
+			},
+			"user": {
+				"x": 0,
+				"y":0,
+				"status": 1,
+				"time": {
+					"grill":0,
+					"away": 0
+				}
+			},
+			"grill": {
+				"power": 0,
+				"time": {
+					"low": 0,
+					"medium": 0,
+					"high": 0
+				}
+			},
+			"luxHotte": 0,
+			"luxPlan": 0,
+			"luxTable": 0,
+			"luxWall": 0,
+			"ventilation": 0,
+			**"tempExt": 3,**
+			**"tempInt": 13,**
+			"heating": 0,
+			"windows": {
+				"open": 0,
+				"shutter": 0
+			}
+		},
+		**"socket": "ws://echo.websocket.org",** // websocket for json string params exchange
+		**"simulationEnabled": true** // if set to true, application will use default simulation rather than websocket output 
+	}
 
- 	params => default state for input and output
 
 
 ## params

@@ -2,18 +2,18 @@
     "use strict";
     var $input, $popIn, $sceneBlur, $formSubmit, $close, $popInTuto, $tutoYes, $tutoNo;
 
-    var form={
+    var form = {
         // Application Constructor
         initialize: function(){
-            $input=$('.circle.more');
-            $popIn=$('#rules_form');
-            $sceneBlur=$('#app_blur');
-            $close=$popIn.children('.pop_in').children('.close');
+            $input = $('.circle.more');
+            $popIn = $('#rules_form');
+            $sceneBlur = $('#app_blur');
+            $close = $popIn.children('.pop_in').children('.close');
 
-            $popInTuto=$('#tuto_form');
-            $popInTuto.css({'opacity': 1, 'left': window.innerWidth*0.5-$popInTuto.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popInTuto.height()*0.5 + 'px'});
-            $tutoYes=$('#tuto_yes');
-            $tutoNo=$('#tuto_no, #tuto_form .close');
+            $popInTuto = $('#tuto_form');
+            $popInTuto.css({'opacity': 1, 'left': window.innerWidth * 0.5 - $popInTuto.width() * 0.5 + 'px', 'top': window.innerHeight * 0.5 - $popInTuto.height() * 0.5 + 'px'});
+            $tutoYes = $('#tuto_yes');
+            $tutoNo = $('#tuto_no, #tuto_form .close');
             self.bindEvents();
         },
         bindEvents: function(){
@@ -49,7 +49,7 @@
         },
         displayPopIn: function(){
             $popIn.removeClass('hidden');
-            $popIn.css({'left': window.innerWidth*0.5-$popIn.width()*0.5 +'px', 'top': window.innerHeight*0.5-$popIn.height()*0.5 + 'px'});
+            $popIn.css({'left': window.innerWidth * 0.5 - $popIn.width() * 0.5 + 'px', 'top': window.innerHeight * 0.5 - $popIn.height() * 0.5 + 'px'});
             $sceneBlur.addClass('blur');
         },
         hidePopIn: function(){
@@ -57,6 +57,6 @@
             $sceneBlur.removeClass('blur');
         }
     };
-    ctx.form=form;
-    var self=form;
+    ctx.form = form;
+    var self = form;
 })(app);

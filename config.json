@@ -37,8 +37,8 @@
         "luxTable": 0,
         "luxWall": 0,
         "ventilation": 0,
-        "tempExt": 15,
-        "tempInt": 18,
+        "tempExt": 3,
+        "tempInt": 13,
         "heating": 0,
         "windows": {
         	"open": 0,

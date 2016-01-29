@@ -23,6 +23,11 @@
             valDarkness = ctx.getParams().luxEnv;
             valMax = parseInt($inputTime.attr('max'));
             valMaxDarkness = parseInt($inputDarkness.attr('max'));
+            if (valDarkness > valMaxDarkness) {
+                valDarkness = valMaxDarkness;
+            } else if (valDarkness < 0) {
+                valDarkness = 0;
+            }
             // init sun & moon
             $sun = $('#sun');
             $moon = $('#moon');
@@ -35,16 +40,18 @@
             vecteurNuage = 0;
             // init time
             time = ctx.params.getParams().time;
-            start = Math.floor(time.timestamp/(60*60*2));
-            $container = $('.circle.time'), $slider = $('#slider_time'), sliderW2 = $slider.width()/2, sliderH2 = $slider.height()/2, radius = 70, deg = 360 * (time.timestamp / 86400), elP = $container.offset(), elPos = { x: elP.left, y: elP.top}, X = 0, Y = 0, mdown = false, mPos = {x: elPos.x, y: elPos.y}, atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            start = Math.floor(43200/(60*60*2));
+            end = Math.floor(time.timestamp/(60*60*2));
+            $container = $('.circle.time'), $slider = $('#slider_time'), sliderW2 = $slider.width()/2, sliderH2 = $slider.height()/2, radius = 70, deg = 360 * (time.timestamp / 86400), elP = $container.offset(), elPos = { x: elP.left, y: elP.top}, X = 0, Y = 0, mdown = false, mPos = {x: elPos.x, y: elPos.y}, atan = Math.atan2(mPos.x - radius, mPos.y - radius);
             self.setData(data);
+            self.changeTime(start, end);
             // init range env
             X = Math.round(radius* Math.sin(deg*Math.PI/180));    
             Y = Math.round(radius*  -Math.cos(deg*Math.PI/180));
-            $slider.css({ left: X+radius-sliderW2, top: Y+radius-sliderH2 });      
-            $inputTime.attr('value', deg * (valMax/360)).val(deg*(valMax/360));
+            $slider.css({ left: X + radius - sliderW2, top: Y + radius - sliderH2 });      
+            $inputTime.attr('value', deg * (valMax/360)).val(deg * (valMax/360));
             // init range darkness
-            $containerDarkness = $('.circle.luminosity'), $sliderDarkness = $('#slider_luminosity'), sliderW2Darkness = $sliderDarkness.width()/2, sliderH2Darkness = $sliderDarkness.height()/2, radiusDarkness = 70, degDarkness =  360 * (valDarkness / valMaxDarkness), elPDarkness = $containerDarkness.offset(), elPosDarkness = { x: elPDarkness.left, y: elPDarkness.top}, XDarkness = 0, YDarkness = 0, mdownDarkness = false, mPosDarkness = {x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness = Math.atan2(mPosDarkness.x-radiusDarkness, mPosDarkness.y-radiusDarkness);
+            $containerDarkness = $('.circle.luminosity'), $sliderDarkness = $('#slider_luminosity'), sliderW2Darkness = $sliderDarkness.width()/2, sliderH2Darkness = $sliderDarkness.height()/2, radiusDarkness = 70, degDarkness =  360 * (valDarkness / valMaxDarkness), elPDarkness = $containerDarkness.offset(), elPosDarkness = { x: elPDarkness.left, y: elPDarkness.top}, XDarkness = 0, YDarkness = 0, mdownDarkness = false, mPosDarkness = {x: elPosDarkness.x, y: elPosDarkness.y}, atanDarkness = Math.atan2(mPosDarkness.x - radiusDarkness, mPosDarkness.y - radiusDarkness);
             XDarkness = Math.round(radiusDarkness * Math.sin(degDarkness*Math.PI/180));    
             YDarkness = Math.round(radiusDarkness * -Math.cos(degDarkness*Math.PI/180));
             $sliderDarkness.css({ left: XDarkness + radiusDarkness - sliderW2Darkness, top: YDarkness + radiusDarkness - sliderH2Darkness});      
@@ -82,8 +89,8 @@
             hour = Math.floor(val/(60 * 60));
             minute = Math.floor((val - (hour * 60 * 60))/60);
             ctx.params.setTime(hour, minute, val);
-            time.hour = (hour<10)? "0" + hour : hour;
-            time.minute = (minute<10)? "0" + minute : minute;
+            time.hour = (hour < 10)? "0" + hour : hour;
+            time.minute = (minute < 10)? "0" + minute : minute;
             time.timestamp = parseInt(val);
         },
         bindEvents: function(){
@@ -140,7 +147,7 @@
         },
         controlChangeTime: function(x, y) {
             mPos = {x: x - elPos.x, y: y - elPos.y};
-            atan = Math.atan2(mPos.x-radius, mPos.y-radius);
+            atan = Math.atan2(mPos.x - radius, mPos.y - radius);
             deg = -atan/(Math.PI/180) + 180;
                  
             X = Math.round(radius * Math.sin(deg * Math.PI/180));    
@@ -208,9 +215,11 @@
             stageEnd: final stage;
         */
         changeTime: function(stageInit, stageEnd){
-            data[stageInit].css('opacity', 0);
-            data[stageEnd].css('opacity', 1);
-            start = stageEnd;
+            if (data[stageInit] && data[stageEnd]) {
+                data[stageInit].css('opacity', 0);
+                data[stageEnd].css('opacity', 1);
+                start = stageEnd;
+            }
         },
         /**
             change numbers displays in clock
@@ -225,9 +234,11 @@
         changeDarkness: function(){
             if(valDarkness > 25000){
                 $bgDarkness.css('opacity', 0);
-            }else if(valDarkness > 5000){
+            } else if (valDarkness > 15000) {
+                $bgDarkness.css('opacity', 0.15);
+            }else if (valDarkness > 7000) {
                 $bgDarkness.css('opacity', 0.4);
-            }else{
+            } else {
                 $bgDarkness.css('opacity', 0.9);
             }
             self.changeDarknessDisplayVal();
