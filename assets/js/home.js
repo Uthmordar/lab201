@@ -10,12 +10,15 @@
 
     var home = {
         // Application Constructor
-        initialize: function() {
+        initialize: function(output) {
             $scene = $("#home .talk");
             $home = $("#home");
             $arrow = $scene.children(".arrow");
             $prev = $scene.children(".arrow.previous");
             $next = $scene.children(".arrow.next");
+            if (Array.isArray(output)) {
+                dialog = output;
+            }
             length = dialog.length;
             $scene.children(".content").html(dialog[current]);
             self.bindEvents();

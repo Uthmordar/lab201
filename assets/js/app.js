@@ -83,7 +83,7 @@
             this.setParams(config.params);
             this.socket.initialize(config.socket);
             auto = config.simulationEnabled;
-            home.initialize();
+            home.initialize(configData.home.dialog);
         },
         run: function() {
             $("#controls_panel").css("opacity", 1);
