@@ -961,11 +961,11 @@
         controlStandard: function() {
             $container
             .mousedown(function (e){mdown = true;})
-            .mouseup(function (e){mdown = false;self.updateDataTime();})
+            .mouseup(function (e){mdown = false;/*self.updateDataTime();*/})
             .mousemove(function (e){
                 e.preventDefault();
                 if(mdown){
-                   self.controlChangeLux(e.clientX, e.clientY);
+                   self.controlChangeTime(e.clientX, e.clientY);
                 }
             });
             /* range luminosity */            
