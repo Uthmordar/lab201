@@ -32,7 +32,7 @@
         },
         initSpeech: function(){
             self.setSay('<p>You can move me by drag&drop</p><br/><p>Now try to use the controls at screen bottom</p>');
-            $('#controls_panel').on("click tap", function() {
+            $('#controls_panel, div.puce').on("click tap", function() {
                 self.secondStep();
                 $(this).off("click tap");
             });
