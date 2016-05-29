@@ -46,7 +46,7 @@
     var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill_output .display')};
 
     var $scene,sceneX,sceneY, sceneWidth, sceneHeight;
-    var params, config;
+    var params, config, isTablet = false;
     /*var params = {
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
@@ -83,10 +83,11 @@
             this.setParams(config.params);
             this.socket.initialize(config.socket);
             auto = config.simulationEnabled;
+            isTablet = ($.os !== undefined && ($.os.tablet === true || $.os.phone === true));
             home.initialize(configData.home.dialog);
         },
         run: function() {
-            $("#controls_panel").css("opacity", 1);
+            $("#controls_panel, #sun, #moon").css("opacity", 1);
             this.setScene($scene);
             // Initialize data for api/controller 
             this.params.initialize(params);
@@ -121,6 +122,9 @@
         },
         isAuto: function() {
             return auto;
+        },
+        isTablet: function() {
+            return isTablet;
         },
         /**
             return scene;

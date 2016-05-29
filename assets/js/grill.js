@@ -44,7 +44,7 @@
                 e.preventDefault();
                 self.setGrillPower($(this).val()).updateGrill();
             });
-            if ($.os !== undefined && $.os.tablet === true) {
+            if (ctx.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();

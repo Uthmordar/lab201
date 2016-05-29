@@ -46,7 +46,7 @@
                 self.setTemperature($(this).val()).updateTemperature();
             });
             /* range temp int */          
-            if ($.os !== undefined && $.os.tablet === true ) {
+            if (window.app.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();

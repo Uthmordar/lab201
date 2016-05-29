@@ -46,7 +46,7 @@
                 self.setHygroValue($(this).val()).updateHygro();
             });
             /* range hygro */
-            if ($.os !== undefined && $.os.tablet === true) {
+            if (ctx.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();

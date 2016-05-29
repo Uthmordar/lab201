@@ -93,7 +93,8 @@ Format JSON:
 	        luxTable: {x: 0, y: 0},
 	        luxWall: {x: 0, y: 0},
 	        grill: {x: 0, y: 0}
-        }
+        },
+        say: "some text", // what karl will say, only in data returned by ExpressIf socket.
     };
 
     user.status : 0 (away), 1 (here)
@@ -117,3 +118,19 @@ Parameters (min - max (unit), step stepVal):
 	shutter: 0 - 100 (%), step 1
 
 	Position => elements position, use them with user.x and user.y to know distance between them
+
+
+
+test:
+ 
+	chrome
+
+	http://uthmordar.github.io/lab201
+
+	appuyer sur f12 pour ouvrir la console du navigateur ou ctrl + maj + i ou clic droit inspecter l’élément
+
+	ensuite cliquer sur le symbole téléphone tablette en haut à gauche du panneau console ou alors CTRL + SHIFT + M
+
+	dans le haut de l’écran choisir responsive dans le menu déroulant puis entrer 1920 x 1080, recharger la page avec f5
+
+	le sous-écran sera équivalent à ce que verrait un utilisateur tablette à la résolution donnée, les interactions aussi. Le point noir correspond à un doigt et non à un clic souris, c’est pourquoi certaines interactions ont évolués pour faciliter la vie de l’utilisateur. Il devient possible de déplacer les éléments uniquement en touchant une zone accessible plutôt qu’en glissant le doigt sur tout le mouvement voulu, même si cela marche encore.

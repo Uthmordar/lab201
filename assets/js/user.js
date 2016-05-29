@@ -59,7 +59,7 @@
                 manage user movement by drag&drop
             */
 
-            if ($.os !== undefined && $.os.tablet === true) {
+            if (window.app.isTablet()) {
                 $movementPlan.show();
                 $movementPlan.on("touchmove", function(e) {
                     e.preventDefault();

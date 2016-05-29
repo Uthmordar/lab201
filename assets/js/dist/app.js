@@ -46,7 +46,7 @@
     var grill={$el: $('#grill'), power:0, initialPower:0, posX: 0, posY: 0, $display: $('#grill_output .display')};
 
     var $scene,sceneX,sceneY, sceneWidth, sceneHeight;
-    var params, config;
+    var params, config, isTablet = false;
     /*var params = {
         windowOpen: 0,
         time: {hour: 12, minute: 0, timestamp: 43200},
@@ -83,10 +83,11 @@
             this.setParams(config.params);
             this.socket.initialize(config.socket);
             auto = config.simulationEnabled;
+            isTablet = ($.os !== undefined && ($.os.tablet === true || $.os.phone === true));
             home.initialize(configData.home.dialog);
         },
         run: function() {
-            $("#controls_panel").css("opacity", 1);
+            $("#controls_panel, #sun, #moon").css("opacity", 1);
             this.setScene($scene);
             // Initialize data for api/controller 
             this.params.initialize(params);
@@ -121,6 +122,9 @@
         },
         isAuto: function() {
             return auto;
+        },
+        isTablet: function() {
+            return isTablet;
         },
         /**
             return scene;
@@ -942,7 +946,7 @@
                 self.setDarkness(val);
                 self.changeDarkness();
             });
-            if ($.os !==  undefined && $.os.tablet === true) {
+            if (ctx.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();
@@ -1175,7 +1179,7 @@
                 manage user movement by drag&drop
             */
 
-            if ($.os !== undefined && $.os.tablet === true) {
+            if (window.app.isTablet()) {
                 $movementPlan.show();
                 $movementPlan.on("touchmove", function(e) {
                     e.preventDefault();
@@ -1256,7 +1260,7 @@
         },
         initSpeech: function(){
             self.setSay('<p>You can move me by drag&drop</p><br/><p>Now try to use the controls at screen bottom</p>');
-            $('#controls_panel').on("click tap", function() {
+            $('#controls_panel, div.control, div.puce').on("click tap", function() {
                 self.secondStep();
                 $(this).off("click tap");
             });
@@ -1637,7 +1641,7 @@
                 self.setHygroValue($(this).val()).updateHygro();
             });
             /* range hygro */
-            if ($.os !== undefined && $.os.tablet === true) {
+            if (ctx.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();
@@ -1804,7 +1808,7 @@
                 self.setTemperature($(this).val()).updateTemperature();
             });
             /* range temp int */          
-            if ($.os !== undefined && $.os.tablet === true ) {
+            if (window.app.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();
@@ -1978,7 +1982,7 @@
                 self.setTemperature($(this).val()).updateTemperature();
             });
             /* range temp ext */
-            if ($.os !== undefined && $.os.tablet === true) {
+            if (window.app.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();
@@ -2084,7 +2088,7 @@
                 e.preventDefault();
                 self.setGrillPower($(this).val()).updateGrill();
             });
-            if ($.os !== undefined && $.os.tablet === true) {
+            if (ctx.isTablet()) {
                 self.controlTablet();
             } else {
                 self.controlStandard();
